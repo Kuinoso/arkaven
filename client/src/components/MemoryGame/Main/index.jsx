@@ -11,8 +11,21 @@ export default function Main() {
     const [disabled, setDisabled] = useState(false);
 
     useEffect(() => {
-        setCards(initializeDeck())
+        setCards(initializeDeck());
     }, []);
+
+    useEffect(() => {
+        preloadImages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, cards);
+
+    const preloadImages = () => {
+        // eslint-disable-next-line array-callback-return
+        cards.map(card => {
+            const src = require(`../../../images/${card.type}.png`).default;
+            new Image().src = src;
+        });
+    };
 
     const sameCardClicked = (id) => flipped.includes(id);
 
