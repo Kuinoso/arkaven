@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Card from '../Card';
 import { useStyles } from './styles.js';
 import got from '../../../images/got.png';
 import stark from '../../../images/st.png';
@@ -10,68 +11,22 @@ import arryn from '../../../images/ty.png';
 
 export default function Main() {
     const classes = useStyles();
+    const [flipped, setFlipped] = useState([]);
 
-    const cardArray = [
-        {
-            name: 'stark',
-            img: stark
-        },
-        {
-            name: 'stark',
-            img: stark
-        },
-        {
-            name: 'lannister',
-            img: lannister
-        },
-        {
-            name: 'lannister',
-            img: lannister
-        },
-        {
-            name: 'baratheon',
-            img: baratheon
-        },
-        {
-            name: 'baratheon',
-            img: baratheon
-        },
-        {
-            name: 'targaryen',
-            img: targaryen
-        },
-        {
-            name: 'targaryen',
-            img: targaryen
-        },
-        {
-            name: 'greyjoy',
-            img: greyjoy
-        },
-        {
-            name: 'greyjoy',
-            img: greyjoy
-        },
-        {
-            name: 'arryn',
-            img: arryn
-        },
-        {
-            name: 'arryn',
-            img: arryn
-        }
-    ];
-
-    const createBoard = () => {
-        return cardArray.map((item, id) => <img src={got} id={id} alt='back'/>)
-    };
+    const handleClick = (id) => setFlipped([...flipped, id]);
 
     return (
         <div>
-            <h3>Score:<span></span></h3>
-            <div className={classes.grid}>
-                {createBoard()}
-            </div>
+            <h2>Can you remember all the cards?</h2>
+            <Card
+                id={1}
+                width={100}
+                height={100}
+                back={got}
+                front={greyjoy}
+                flipped={flipped.includes(1)}
+                handleClick={() => handleClick(1)}
+            />
         </div>
     )
-}
+};
