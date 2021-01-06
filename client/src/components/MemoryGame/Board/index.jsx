@@ -2,7 +2,7 @@ import React from 'react';
 import Card from '../Card';
 import { useStyles } from './styles';
 
-export default function Board({ cards, flipped, handleClick }) {
+export default function Board({ cards, flipped, handleClick, disabled, solved }) {
     const classes = useStyles();
 
     return (
@@ -15,7 +15,9 @@ export default function Board({ cards, flipped, handleClick }) {
                     width={card.width}
                     height={card.height}
                     flipped={flipped.includes(card.id)}
-                    handleClick={() => handleClick(card.id)}
+                    handleClick={handleClick}
+                    disabled={disabled || solved.includes(card.id)}
+                    solved={solved.includes(card.id)}
                 />)
             }
         </div>
