@@ -1,9 +1,8 @@
 import React from 'react';
 import { useStyles } from './styles.js';
 
-export default function Card({ handleClick, id, flipped, back, front, height, width }) {
+export default function Card({ handleClick, id, type, flipped, height, width }) {
     const classes = useStyles();
-    console.log(front, back);
 
     return (
         <div
@@ -15,7 +14,7 @@ export default function Card({ handleClick, id, flipped, back, front, height, wi
                 <img
                     style={{ height, width }}
                     className={flipped ? classes.front : classes.back}
-                    src={flipped ? front : back}
+                    src={flipped ? require(`../../../images/${type}.png`).default : require('../../../images/got.png').default}
                     alt='card'
                 />
             </div>
