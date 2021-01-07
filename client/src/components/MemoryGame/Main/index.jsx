@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Board from '../Board';
 import initializeDeck from '../deck';
 import { useStyles } from './styles.js';
+import Button from '@material-ui/core/Button';
 
 export default function Main() {
     const classes = useStyles();
@@ -9,6 +10,8 @@ export default function Main() {
     const [flipped, setFlipped] = useState([]);
     const [solved, setSolved] = useState([]);
     const [disabled, setDisabled] = useState(false);
+    const [finished, setFinished] = useState(false);
+    const [clicks, setClicks] = useState(1);
 
     useEffect(() => {
         setCards(initializeDeck());
@@ -16,8 +19,8 @@ export default function Main() {
 
     useEffect(() => {
         preloadImages();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, cards);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cards.join(",")]);
 
     const preloadImages = () => {
         // eslint-disable-next-line array-callback-return
@@ -32,7 +35,7 @@ export default function Main() {
     const isMatched = (id) => {
         const clickedCard = cards.find(card => card.id === id);
         const flippedCard = cards.find(card => flipped[0] === card.id);
-        return clickedCard.type === flippedCard.type 
+        return clickedCard.type === flippedCard.type
     };
 
     const resetCards = () => {
@@ -42,24 +45,36 @@ export default function Main() {
 
     const handleClick = (id) => {
         setDisabled(true);
+        setClicks(clicks + 1);
         if (flipped.length === 0) {
             setFlipped([id]);
             setDisabled(false);
-        }else {
+        } else {
             if (sameCardClicked(id)) return;
             setFlipped([...flipped, id]);
             if (isMatched(id)) {
+                if (solved.length === 10) {
+                    console.log(`your solved the game in ${Math.floor(clicks / 2)} attempts`, clicks);
+                    setFinished(true);
+                };
                 setSolved([...solved, flipped[0], id]);
                 resetCards();
             } else {
-                setTimeout(resetCards, 2000)
+                setTimeout(resetCards, 1200)
             };
         };
     };
 
+    const playAgain = () => {
+        setSolved([]);
+        setCards(initializeDeck());
+        setFinished(false);
+        setClicks(1);
+    };
+
     return (
         <div>
-            <h2>Can you remember all the cards?</h2>
+            <h2>Memory Game: Game Of Thrones Edition!</h2>
             <Board
                 cards={cards}
                 flipped={flipped}
@@ -67,6 +82,11 @@ export default function Main() {
                 disabled={disabled}
                 solved={solved}
             />
+            {finished &&
+                <Button variant="contained" color="primary" onClick={playAgain}>
+                    Play Again
+                </Button>
+            }
         </div>
     )
 };
