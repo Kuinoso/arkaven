@@ -11,9 +11,15 @@ export const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-evenly',
         textAlign: 'center',
     },
+    firstContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
     secondContainer: {
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        width: 'min-content',
+        margin: 'auto'
     },
     button: {
         width: 200,

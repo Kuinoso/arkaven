@@ -21,21 +21,27 @@ export default function Main() {
 
     useEffect(() => {
         setCards(initializeDeck());
-        myRef1.current.load();
-        myRef2.current.load();
+        preloadMedia();
     }, []);
 
     useEffect(() => {
-        preloadImages();
+        preloadDeckImages();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cards.join(",")]);
 
-    const preloadImages = () => {
+    const preloadDeckImages = () => {
         // eslint-disable-next-line array-callback-return
         cards.map(card => {
             const src = require(`../../../images/${card.type}.png`).default;
             new Image().src = src;
         });
+    };
+
+    const preloadMedia = () => {
+        myRef1.current.load();
+        myRef2.current.load();
+        const src = require('../../../images/throne.jpeg').default;
+        new Image().src = src;
     };
 
     const sameCardClicked = (id) => flipped.includes(id);
@@ -100,7 +106,7 @@ export default function Main() {
 
     return (
         <div className={classes.container}>
-            <div className={classes.secondContainer}>
+            <div className={classes.firstContainer}>
                 <h1>Game Of Thrones Memory Game</h1>
                 <h3>Find all the house sigil pairs and become the ruler of Westeros!</h3>
             </div>
