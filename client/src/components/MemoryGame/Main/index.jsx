@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Board from '../Board';
 import initializeDeck from '../deck';
+import Swal from 'sweetalert2';
 import { useStyles } from './styles.js';
 import Button from '@material-ui/core/Button';
+import throne from '../../../images/throne.jpeg';
+import matchSound from '../../../sounds/match.mp3';
+import victorySound from '../../../sounds/victory.mp3'
 
 export default function Main() {
     const classes = useStyles();
+    const myRef1 = useRef();
+    const myRef2 = useRef();
     const [cards, setCards] = useState([]);
     const [flipped, setFlipped] = useState([]);
     const [solved, setSolved] = useState([]);
@@ -15,6 +21,8 @@ export default function Main() {
 
     useEffect(() => {
         setCards(initializeDeck());
+        myRef1.current.load();
+        myRef2.current.load();
     }, []);
 
     useEffect(() => {
@@ -53,14 +61,32 @@ export default function Main() {
             if (sameCardClicked(id)) return;
             setFlipped([...flipped, id]);
             if (isMatched(id)) {
-                if (solved.length === 10) {
-                    console.log(`your solved the game in ${Math.floor(clicks / 2)} attempts`, clicks);
-                    setFinished(true);
-                };
                 setSolved([...solved, flipped[0], id]);
                 resetCards();
+                if (solved.length === 10) {
+                    myRef2.current.volume = 0.2;
+                    myRef2.current.play();
+                    Swal.fire({
+                        title: `You won with ${Math.floor(clicks / 2)} attempts`,
+                        text: 'Now YOU are the rightful heir to the iron throne!',
+                        imageUrl: throne,
+                        imageWidth: 400,
+                        imageHeight: 200,
+                        imageAlt: 'Throne image',
+                    }).then(() => {
+                        setFinished(true);
+                        myRef2.current.pause();
+                        myRef2.current.currentTime = 0;
+                    });
+                } else {
+                    myRef1.current.volume = 0.3;
+                    myRef1.current.pause();
+                    myRef1.current.currentTime = 0;
+                    myRef1.current.play();
+                };
+
             } else {
-                setTimeout(resetCards, 1200)
+                setTimeout(resetCards, 1200);
             };
         };
     };
@@ -73,20 +99,41 @@ export default function Main() {
     };
 
     return (
-        <div>
-            <h2>Memory Game: Game Of Thrones Edition!</h2>
-            <Board
-                cards={cards}
-                flipped={flipped}
-                handleClick={handleClick}
-                disabled={disabled}
-                solved={solved}
-            />
-            {finished &&
-                <Button variant="contained" color="primary" onClick={playAgain}>
-                    Play Again
+        <div className={classes.container}>
+            <div className={classes.secondContainer}>
+                <h1>Game Of Thrones Memory Game</h1>
+                <h3>Find all the house sigil pairs and become the ruler of Westeros!</h3>
+            </div>
+            <div className={classes.secondContainer}>
+                <Board
+                    cards={cards}
+                    flipped={flipped}
+                    handleClick={handleClick}
+                    disabled={disabled}
+                    solved={solved}
+                />
+                {finished &&
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={playAgain}
+                        className={classes.button}
+                    >
+                        Play Again
                 </Button>
-            }
+                }
+            </div>
+
+            <audio
+                ref={myRef1}
+                src={matchSound}
+                loop={false}
+            />
+            <audio
+                ref={myRef2}
+                src={victorySound}
+                loop={false}
+            />
         </div>
     )
 };

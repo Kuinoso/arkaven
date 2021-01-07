@@ -5,6 +5,9 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexWrap: 'wrap',
         height: 300,
-        width: 400
-    }
+        width: 400,
+        margin: 'auto',
+        marginTop: 10,
+        marginBottom: 10,
+    },
 }));

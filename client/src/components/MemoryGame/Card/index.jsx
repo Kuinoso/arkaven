@@ -6,7 +6,7 @@ export default function Card({ handleClick, id, type, flipped, height, width, di
 
     return (
         <div
-            className={flipped ? classes.flipContainerFlipped : classes.flipContainer}
+            className={classes.card}
             style={{ width, height }}
             onClick={() => disabled ? null : handleClick(id)}
         >
