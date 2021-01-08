@@ -1,0 +1,12 @@
+import { makeStyles } from '@material-ui/core/styles';
+
+export const useStyles = makeStyles((theme) => ({
+    snakeDot: {
+        position: 'absolute',
+        width: '2%',
+        height: '2%',
+        backgroundColor: 'black',
+        border: '1px solid white',
+        zIndex: 2, 
+    },
+}));
