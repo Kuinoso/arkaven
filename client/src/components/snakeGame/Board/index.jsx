@@ -154,9 +154,12 @@ const useInterval = (callback, delay) => {
 }, [snakeDots]);
 
     return (
-        <div className={classes.container}>
-            <Snake snakeDots={snakeDots} />
-            <Food dot={food} />
+        <div>
+            <h3>Score: {snakeDots.length - 2}</h3>
+            <div className={classes.container}>
+                <Snake snakeDots={snakeDots} />
+                <Food dot={food} />
+            </div>
         </div>
     )
 };
