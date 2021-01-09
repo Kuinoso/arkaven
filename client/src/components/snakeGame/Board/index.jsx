@@ -1,6 +1,7 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState , useEffect, useRef } from 'react';
 import Snake from '../Snake';
 import Food from '../Food';
+import Swal from 'sweetalert2';
 import { useStyles } from './styles.js';
 
 const getRandomCoordinates = () => {
@@ -15,7 +16,8 @@ const getRandomCoordinates = () => {
 export default function Board() {
     const classes = useStyles();
     const [food, setFood] = useState(getRandomCoordinates());
-    const [speed, setSpeed] = useState(200);
+    const [start, setStart] = useState(true);
+    const [speed, setSpeed] = useState(150);
     const [direction, setDirection] = useState('RIGHT');
     const [snakeDots, setSnakeDots] = useState([
         [0, 0],
@@ -46,6 +48,7 @@ export default function Board() {
     };
 
     const moveSnake = () => {
+        if(start === true) {
         let dots = [...snakeDots];
         let head = dots[dots.length - 1];
 
@@ -69,10 +72,86 @@ export default function Board() {
         dots.shift();
         setSnakeDots(dots);
     };
+    };
 
+
+const useInterval = (callback, delay) => {
+    const savedCallback = useRef();
+  
+    // Remember the latest callback.
     useEffect(() => {
-        setInterval(moveSnake, 500);
-    }, []);
+      savedCallback.current = callback;
+    }, [callback]);
+  
+    // Set up the interval.
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
+      if (delay !== null) {
+        let id = setInterval(tick, delay);
+        return () => clearInterval(id);
+      }
+    }, [delay]);
+  };
+
+  useInterval(moveSnake, speed);
+
+  const enlargeSnake = () => {
+      let newSnake = [...snakeDots];
+      newSnake.unshift([]);
+      setSnakeDots(newSnake);
+  };
+
+  const checkIfEat = () => {
+      let head = snakeDots[snakeDots.length - 1];
+      let foodItem = food;
+      if(head[0] === foodItem[0] && head[1] === foodItem[1]) {
+            setFood(getRandomCoordinates());
+            enlargeSnake();
+            if(speed > 50) {
+                setSpeed(speed - 2);
+            };
+      };
+  };
+
+  const onGameOver = () => {
+    setStart(false)
+    setSpeed(150);
+    setDirection('RIGHT');
+    setSnakeDots([
+        [0, 0],
+        [2, 0]
+      ]);
+    Swal.fire(`Your score was ${snakeDots.length - 2}`)
+      .then(() => {
+          setStart(true);
+      });
+  };
+
+  const checkIfOutOfBorders = () => {
+      let head = snakeDots[snakeDots.length - 1];
+      if (head[0] >= 100 || head[1] >= 100 || head[0] < 0 || head[1] < 0) {
+          onGameOver();
+      };
+  };
+  
+  const checkIfCollapsed = () => {
+      let snake = [...snakeDots];
+      let head = snake[snake.length - 1];
+      snake.pop();
+      snake.forEach(dot => {
+          if(head[0] === dot[0] && head[1] === dot[1]) {
+              onGameOver();
+          };
+      });
+  };
+
+  useEffect(() => {
+    checkIfOutOfBorders();
+    checkIfCollapsed();
+    checkIfEat();
+}, [snakeDots]);
 
     return (
         <div className={classes.container}>
