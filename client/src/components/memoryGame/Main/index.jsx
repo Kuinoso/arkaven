@@ -3,10 +3,9 @@ import Board from '../Board';
 import initializeDeck from '../deck';
 import Swal from 'sweetalert2';
 import { useStyles } from './styles.js';
-import Button from '@material-ui/core/Button';
 import throne from '../../../images/throne.jpeg';
 import matchSound from '../../../sounds/match.mp3';
-import victorySound from '../../../sounds/victory.mp3'
+import gotTheme from '../../../sounds/got.mp3';
 
 export default function Main() {
     const classes = useStyles();
@@ -18,6 +17,7 @@ export default function Main() {
     const [disabled, setDisabled] = useState(false);
     const [finished, setFinished] = useState(false);
     const [clicks, setClicks] = useState(1);
+    const [started, setStarted] = useState(false);
 
     useEffect(() => {
         setCards(initializeDeck());
@@ -70,7 +70,7 @@ export default function Main() {
                 setSolved([...solved, flipped[0], id]);
                 resetCards();
                 if (solved.length === 10) {
-                    myRef2.current.volume = 0.2;
+                    myRef2.current.volume = 0.3;
                     myRef2.current.play();
                     Swal.fire({
                         title: `You won with ${Math.floor(clicks / 2)} attempts`,
@@ -97,6 +97,10 @@ export default function Main() {
         };
     };
 
+    const startGame = () => {
+        setStarted(true);
+    };
+
     const playAgain = () => {
         setSolved([]);
         setCards(initializeDeck());
@@ -106,30 +110,33 @@ export default function Main() {
 
     return (
         <div className={classes.container}>
-            <div className={classes.firstContainer}>
-                <h1>Game Of Thrones Memory Game</h1>
-                <h3>Find all the house sigil pairs and become the ruler of Westeros!</h3>
-            </div>
-            <div className={classes.secondContainer}>
-                <Board
-                    cards={cards}
-                    flipped={flipped}
-                    handleClick={handleClick}
-                    disabled={disabled}
-                    solved={solved}
-                />
-                {finished &&
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={playAgain}
-                        className={classes.button}
-                    >
-                        Play Again
-                </Button>
-                }
-            </div>
-
+            {started ?
+                <div>
+                    <h3>Attempts: {Math.floor(clicks / 2)}</h3>
+                    <div className={classes.secondContainer}>
+                        <Board
+                            cards={cards}
+                            flipped={flipped}
+                            handleClick={handleClick}
+                            disabled={disabled}
+                            solved={solved}
+                        />
+                        {finished &&
+                            <button onClick={playAgain} className={classes.button}>
+                                Play Again
+                    </button>
+                        }
+                    </div>
+                </div>
+                :
+                <div className={classes.firstContainer}>
+                    <h1>Game Of Thrones Memory Game</h1>
+                    <h3>Find all the house sigil pairs and become the ruler of Westeros!</h3>
+                    <button onClick={startGame}>
+                        START
+                </button>
+                </div>
+            }
             <audio
                 ref={myRef1}
                 src={matchSound}
@@ -137,7 +144,7 @@ export default function Main() {
             />
             <audio
                 ref={myRef2}
-                src={victorySound}
+                src={gotTheme}
                 loop={false}
             />
         </div>

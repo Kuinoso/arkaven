@@ -4,10 +4,12 @@ export const useStyles = makeStyles((theme) => ({
     board: {
         display: 'flex',
         flexWrap: 'wrap',
-        height: 300,
-        width: 400,
+        height: 350,
+        width: 450,
         margin: 'auto',
         marginTop: 10,
         marginBottom: 10,
+        padding: 20,
+        justifyContent: 'center'
     },
 }));

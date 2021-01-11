@@ -5,8 +5,8 @@ export const useStyles = makeStyles((theme) => ({
         position: 'absolute',
         width: '2%',
         height: '2%',
-        backgroundColor: 'black',
-        border: '1px solid white',
+        backgroundColor: 'white',
         zIndex: 2, 
+        borderRadius: '50%',    
     },
 }));
