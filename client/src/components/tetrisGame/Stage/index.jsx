@@ -5,7 +5,7 @@ export default function Stage({ stage }) {
 
     return (
         <div>
-            <Cell />
+            {stage.map(row => row.map((cell, i) => <Cell key={i} type={cell[0]}/>))}
         </div>
     )
 };
