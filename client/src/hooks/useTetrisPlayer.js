@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { STAGE_WIDTH } from '../components/tetrisGame/gameHelpers';
-import { TETROMINOS ,randomTetromino } from '../components/tetrisGame/tetrominos';
+import { TETROMINOS, randomTetromino } from '../components/tetrisGame/tetrominos';
 
 export const useTetrisPlayer = () => {
     const [player, setPlayer] = useState({
@@ -14,8 +14,8 @@ export const useTetrisPlayer = () => {
             ...prev,
             pos: { x: (prev.pos.x += x), y: (prev.pos.y += y) },
             collided,
-        }));
-    };
+        }))
+    }
 
     const resetPlayer = useCallback(() => {
         setPlayer({
