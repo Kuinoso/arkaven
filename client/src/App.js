@@ -3,14 +3,14 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Route } from 'react-router-dom';import './App.css';
 import MemoryGame from './components/memoryGame/Main';
 import SnakeGame from './components/snakeGame/Main';
-import BreakOutGame from './components/breakOutGame/Main';
+import TetrisGame from './components/tetrisGame/Main';
 
 function App() {
   return (
     <Router>
       <Route exact path="/memoryGame" render={() => <MemoryGame />} />
       <Route exact path="/snakeGame" render={() => <SnakeGame />} />
-      <Route exact path="/breakOutGame" render={() => <BreakOutGame />} />
+      <Route exact path="/tetrisGame" render={() => <TetrisGame />} />
     </Router>
   );
 }
