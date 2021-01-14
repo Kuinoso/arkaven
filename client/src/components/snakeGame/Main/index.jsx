@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useInterval } from '../../../hooks/useInterval';
 import Snake from '../Snake';
 import Food from '../Food';
 import Swal from 'sweetalert2';
@@ -101,25 +102,6 @@ export default function Main() {
             dots.shift();
             setSnakeDots(dots);
         };
-    };
-
-
-    const useInterval = (callback, delay) => {
-        const savedCallback = useRef();
-
-        useEffect(() => {
-            savedCallback.current = callback;
-        }, [callback]);
-
-        useEffect(() => {
-            function tick() {
-                savedCallback.current();
-            }
-            if (delay !== null) {
-                let id = setInterval(tick, delay);
-                return () => clearInterval(id);
-            }
-        }, [delay]);
     };
 
     useInterval(moveSnake, speed);
