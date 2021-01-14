@@ -1,5 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
-    
+    container: {
+        display: 'grid',
+        gridGap: 1,
+        border: '2px solid #333',
+        width: '100%',
+        maxWidth: '25vw',
+        background: '#111',
+    },
 }));
