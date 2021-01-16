@@ -12,8 +12,8 @@ import { useStyles } from './styles.js';
 
 export default function Main() {
     const classes = useStyles();
-    const [player, updatePlayerPos, resetPlayer] = useTetrisPlayer();
-    const [stage, setStage] = useTetrisStage(player);
+    const [player, updatePlayerPos, resetPlayer, playerRotate] = useTetrisPlayer();
+    const [stage, setStage] = useTetrisStage(player, resetPlayer);
 
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
@@ -35,6 +35,7 @@ export default function Main() {
             updatePlayerPos({ x: 0, y: 1, collided: false });
         } else {
             if (player.pos.y < 1) {
+                console.log("GAME OVER!!!");
                 setGameOver(true);
                 setDropTime(null);
             };
@@ -55,6 +56,8 @@ export default function Main() {
                 movePlayer(1);
             } else if (keyCode === 40) {
                 dropPlayer();
+            } else if (keyCode === 38) {
+                playerRotate(stage, 1);
             };
         };
     };
