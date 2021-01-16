@@ -7,13 +7,16 @@ import { createStage, checkCollision } from '../gameHelpers';
 
 import { useTetrisPlayer } from '../../../hooks/useTetrisPlayer';
 import { useTetrisStage } from '../../../hooks/useTetrisStage';
+import { useTetrisStatus } from '../../../hooks/useTetrisStatus';
+import { useInterval } from '../../../hooks/useInterval';
 
 import { useStyles } from './styles.js';
 
 export default function Main() {
     const classes = useStyles();
     const [player, updatePlayerPos, resetPlayer, playerRotate] = useTetrisPlayer();
-    const [stage, setStage] = useTetrisStage(player, resetPlayer);
+    const [stage, setStage, rowsCleared] = useTetrisStage(player, resetPlayer);
+    const [score, setScore, rows, setRows, level, setLevel] = useTetrisStatus(rowsCleared);
 
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
@@ -26,11 +29,27 @@ export default function Main() {
 
     const startGame = () => {
         setStage(createStage());
+
+        setDropTime(1000);
+
         resetPlayer();
+
         setGameOver(false);
+
+        setScore(0);
+
+        setRows(0);
+
+        setLevel(0);
     };
 
     const drop = () => {
+        if (rows > (level - 1) * 10) {
+            setLevel(prev => prev + 1);
+
+            setDropTime(1000 - (level * 70));
+        };
+
         if (!checkCollision(player, stage, { x: 0, y: 1 })) {
             updatePlayerPos({ x: 0, y: 1, collided: false });
         } else {
@@ -44,7 +63,17 @@ export default function Main() {
         };
     };
 
+    const keyUp = ({ keyCode }) => {
+        if (!gameOver) {
+            if (keyCode === 40) {
+                setDropTime(1000 - (level * 70));
+            };
+        };
+    };
+
     const dropPlayer = () => {
+        setDropTime(null);
+
         drop();
     };
 
@@ -62,8 +91,18 @@ export default function Main() {
         };
     };
 
+    useInterval(() => {
+        drop();
+    }, dropTime);
+
     return (
-        <div className={classes.wrapper} role='button' tabIndex='0' onKeyDown={e => move(e)}>
+        <div
+            className={classes.wrapper}
+            role='button'
+            tabIndex='0'
+            onKeyDown={e => move(e)}
+            onKeyUp={keyUp}
+        >
             <div className={classes.container}>
                 <Stage stage={stage} />
                 <div className={classes.leftDiv}>
@@ -71,9 +110,9 @@ export default function Main() {
                         <Display gameOver={gameOver} text='Game Over' />
                         :
                         <div>
-                            <Display text='Score' />
-                            <Display text='Rows' />
-                            <Display text='Level' />
+                            <Display text={`Score: ${score}`} />
+                            <Display text={`Rows: ${rows}`} />
+                            <Display text={`Level: ${level}`} />
                         </div>
                     }
                     <button className={classes.button} onClick={startGame}>
