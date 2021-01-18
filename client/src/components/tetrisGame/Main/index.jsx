@@ -16,10 +16,10 @@ export default function Main() {
     const classes = useStyles();
     const [player, updatePlayerPos, resetPlayer, playerRotate] = useTetrisPlayer();
     const [stage, setStage, rowsCleared] = useTetrisStage(player, resetPlayer);
-    const [score, setScore, rows, setRows, level, setLevel] = useTetrisStatus(rowsCleared);
+    const [score, setScore, rows, setRows, dropTime, setDropTime] = useTetrisStatus(rowsCleared);
 
-    const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
+    const [started, setStarted] = useState(false);
 
     const movePlayer = dir => {
         if (!checkCollision(player, stage, { x: dir, y: 0 })) {
@@ -28,6 +28,8 @@ export default function Main() {
     };
 
     const startGame = () => {
+        setStarted(true);
+
         setStage(createStage());
 
         setDropTime(1000);
@@ -39,17 +41,9 @@ export default function Main() {
         setScore(0);
 
         setRows(0);
-
-        setLevel(0);
     };
 
     const drop = () => {
-        if (rows > (level - 1) * 10) {
-            setLevel(prev => prev + 1);
-
-            setDropTime(1000 - (level * 70));
-        };
-
         if (!checkCollision(player, stage, { x: 0, y: 1 })) {
             updatePlayerPos({ x: 0, y: 1, collided: false });
         } else {
@@ -66,7 +60,7 @@ export default function Main() {
     const keyUp = ({ keyCode }) => {
         if (!gameOver) {
             if (keyCode === 40) {
-                setDropTime(1000 - (level * 70));
+                setDropTime(1000 - (score / 4));
             };
         };
     };
@@ -103,23 +97,34 @@ export default function Main() {
             onKeyDown={e => move(e)}
             onKeyUp={keyUp}
         >
-            <div className={classes.container}>
-                <Stage stage={stage} />
-                <div className={classes.leftDiv}>
-                    {gameOver ?
-                        <Display gameOver={gameOver} text='Game Over' />
-                        :
-                        <div>
-                            <Display text={`Score: ${score}`} />
-                            <Display text={`Rows: ${rows}`} />
-                            <Display text={`Level: ${level}`} />
-                        </div>
-                    }
+            {started ?
+                <div className={classes.container}>
+                    <Stage stage={stage} />
+                    <div className={classes.leftDiv}>
+                        {gameOver ?
+                            <div>
+                                <Display gameOver={gameOver} text='Game Over' />
+                                <button className={classes.button} onClick={startGame}>
+                                    Play Again
+                                </button>
+                            </div>
+                            :
+                            <div>
+                                <Display text={`Score: ${score}`} />
+                                <Display text={`Rows: ${rows}`} />
+                            </div>
+                        }
+                    </div>
+                </div>
+                :
+                <div>
+                    <h1>Tetris Game</h1>
+                    <h3>The king of classic games! What are you waiting for?</h3>
                     <button className={classes.button} onClick={startGame}>
                         Start Game
-                </button>
+                    </button>
                 </div>
-            </div>
+            }
         </div>
     );
 };
