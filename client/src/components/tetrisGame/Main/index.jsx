@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import Stage from '../Stage';
 import Display from '../Display';
@@ -10,13 +10,25 @@ import { useTetrisStage } from '../../../hooks/useTetrisStage';
 import { useTetrisStatus } from '../../../hooks/useTetrisStatus';
 import { useInterval } from '../../../hooks/useInterval';
 
+import overSound from '../../../sounds/over.mp3';
+import rotateSound from '../../../sounds/rotate.mp3';
+import collisionSound from '../../../sounds/collision.mp3';
+import clearedSound from '../../../sounds/cleared.mp3';
+import os from '../../../sounds/tetrisOs.mp3';
+
 import { useStyles } from './styles.js';
 
 export default function Main() {
     const classes = useStyles();
+
+    const ref1 = useRef();
+    const ref2 = useRef();
+    const ref3 = useRef();
+    const ref4 = useRef();
+
     const [player, updatePlayerPos, resetPlayer, playerRotate] = useTetrisPlayer();
     const [stage, setStage, rowsCleared] = useTetrisStage(player, resetPlayer);
-    const [score, setScore, rows, setRows, dropTime, setDropTime] = useTetrisStatus(rowsCleared);
+    const [score, setScore, rows, setRows, dropTime, setDropTime, ref5] = useTetrisStatus(rowsCleared);
 
     const [gameOver, setGameOver] = useState(false);
     const [started, setStarted] = useState(false);
@@ -28,6 +40,9 @@ export default function Main() {
     };
 
     const startGame = () => {
+        ref2.current.volume = 0.05;
+        ref2.current.play();
+
         setStarted(true);
 
         setStage(createStage());
@@ -48,10 +63,19 @@ export default function Main() {
             updatePlayerPos({ x: 0, y: 1, collided: false });
         } else {
             if (player.pos.y < 1) {
-                console.log("GAME OVER!!!");
+                ref2.current.currentTime = 0;
+                ref2.current.pause();
+
+                ref1.current.volume = 0.3;
+                ref1.current.play();
+
                 setGameOver(true);
+
                 setDropTime(null);
             };
+
+            ref4.current.volume = 0.3;
+            ref4.current.play();
 
             updatePlayerPos({ x: 0, y: 0, collided: true });
         };
@@ -80,6 +104,10 @@ export default function Main() {
             } else if (keyCode === 40) {
                 dropPlayer();
             } else if (keyCode === 38) {
+                ref3.current.volume = 0.3;
+                ref3.current.currentTime = 0;
+                ref3.current.play();
+
                 playerRotate(stage, 1);
             };
         };
@@ -97,34 +125,56 @@ export default function Main() {
             onKeyDown={e => move(e)}
             onKeyUp={keyUp}
         >
-            {started ?
-                <div className={classes.container}>
-                    <Stage stage={stage} />
-                    <div className={classes.leftDiv}>
-                        {gameOver ?
-                            <div>
-                                <Display gameOver={gameOver} text='Game Over' />
-                                <button className={classes.button} onClick={startGame}>
-                                    Play Again
-                                </button>
-                            </div>
-                            :
-                            <div>
-                                <Display text={`Score: ${score}`} />
-                                <Display text={`Rows: ${rows}`} />
-                            </div>
-                        }
-                    </div>
-                </div>
-                :
-                <div>
-                    <h1>Tetris Game</h1>
-                    <h3>The king of classic games! What are you waiting for?</h3>
+            <div className={classes.container}>
+                <Stage stage={stage} />
+                <div className={classes.leftDiv}>
+                    {!gameOver && started &&
+                        <div>
+                            <Display text={`Score: ${score}`} />
+                            <Display text={`Rows: ${rows}`} />
+                        </div>
+                    }
+                    {!started &&
+                        <div>
+                            <h1>Tetris Game</h1>
+                            <h3>The king of classic games!</h3>
+                        </div>
+                    }
+                    {gameOver &&
+                        <div>
+                            <Display gameOver={gameOver} text='Game Over' />
+                        </div>
+                    }
                     <button className={classes.button} onClick={startGame}>
-                        Start Game
+                        {gameOver ? 'Play Again' : started ? 'Start Again' : 'Start Game'}
                     </button>
                 </div>
-            }
+            </div>
+            <audio
+                ref={ref1}
+                src={overSound}
+                loop={false}
+            />
+            <audio
+                ref={ref2}
+                src={os}
+                loop={true}
+            />
+            <audio
+                ref={ref3}
+                src={rotateSound}
+                loop={false}
+            />
+            <audio
+                ref={ref4}
+                src={collisionSound}
+                loop={false}
+            />
+            <audio
+                ref={ref5}
+                src={clearedSound}
+                loop={false}
+            />
         </div>
     );
 };
