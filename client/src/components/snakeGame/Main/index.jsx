@@ -1,11 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
+
 import { useInterval } from '../../../hooks/useInterval';
+
 import Snake from '../Snake';
 import Food from '../Food';
+
 import Swal from 'sweetalert2';
+
 import bite from '../../../sounds/bite.mp3';
 import lose from '../../../sounds/loose.mp3';
 import os from '../../../sounds/osSnake.mp3';
+
 import { useStyles } from './styles.js';
 
 const getRandomCoordinates = () => {
