@@ -4,6 +4,7 @@ import { useInterval } from '../../../hooks/useInterval';
 
 import Snake from '../Snake';
 import Food from '../Food';
+import Display from '../../Display';
 
 import Swal from 'sweetalert2';
 
@@ -26,10 +27,13 @@ const colors = ['#FF00FF', '#FF0099', '#33FF00', '#00FFFF', '#FF6600', '#0062FF'
 
 export default function Main() {
     const classes = useStyles();
+
     const myRef1 = useRef();
     const myRef2 = useRef();
     const myRef3 = useRef();
+
     const [started, setStarted] = useState(false);
+    const [gameOver, setGameOver] = useState(false);
     const [randomColor, setRandomColor] = useState('');
     const [snakeColor, setSnakeColor] = useState('');
     const [food, setFood] = useState(getRandomCoordinates());
@@ -43,23 +47,18 @@ export default function Main() {
 
     const getRandomColor = () => {
         let color = colors[Math.floor(Math.random() * colors.length)];
-        if(color !== randomColor) {
-            console.log(color, randomColor);
+
+        if (color !== randomColor) {
             setRandomColor(color);
+
             return;
         };
-        getRandomColor();
-    };
 
-    const loadMedia = () => {
-        myRef1.current.load();
-        myRef2.current.load();
-        myRef3.current.load();
+        getRandomColor();
     };
 
     useEffect(() => {
         document.onkeydown = onKeyDown;
-        loadMedia();
         getRandomColor();
     }, []);
 
@@ -104,7 +103,9 @@ export default function Main() {
             };
 
             dots.push(head);
+
             dots.shift();
+
             setSnakeDots(dots);
         };
     };
@@ -113,50 +114,54 @@ export default function Main() {
 
     const enlargeSnake = () => {
         let newSnake = [...snakeDots];
+
         newSnake.unshift([]);
+
         setSnakeDots(newSnake);
     };
 
     const checkIfEat = () => {
         let head = snakeDots[snakeDots.length - 1];
         let foodItem = food;
+
         if (head[0] === foodItem[0] && head[1] === foodItem[1]) {
             myRef1.current.volume = 0.1;
             myRef1.current.play();
+
             setSnakeColor(randomColor);
+
             getRandomColor();
+
             setFood(getRandomCoordinates());
+
             enlargeSnake();
-            if (speed > 60) {
+
+            if (speed > 30) {
                 setSpeed(speed - 3);
             };
         };
     };
 
     const onGameOver = () => {
+        setGameOver(true);
+
+        setStarted(false);
+
+        setSnakeColor('white');
+
+        setSpeed(0);
+
         myRef3.current.currentTime = 0;
         myRef3.current.pause();
         myRef2.current.volume = 0.1;
         myRef2.current.play();
-        setSnakeColor('white');
-        setStart(false)
-        setSpeed(150);
-        setDirection('RIGHT');
-        setSnakeDots([
-            [0, 0],
-            [2, 0]
-        ]);
-        getRandomColor();
-        Swal.fire(`Your score was ${snakeDots.length - 2}`)
-            .then(() => {
-                setStart(true);
-                myRef3.current.volume = 0.05;
-                myRef3.current.play();
-            });
+
+        Swal.fire(`Your score was ${snakeDots.length - 2}`);
     };
 
     const checkIfOutOfBorders = () => {
         let head = snakeDots[snakeDots.length - 1];
+
         if (head[0] >= 100 || head[1] >= 100 || head[0] < 0 || head[1] < 0) {
             onGameOver();
         };
@@ -165,7 +170,9 @@ export default function Main() {
     const checkIfCollapsed = () => {
         let snake = [...snakeDots];
         let head = snake[snake.length - 1];
+
         snake.pop();
+
         snake.forEach(dot => {
             if (head[0] === dot[0] && head[1] === dot[1]) {
                 onGameOver();
@@ -174,36 +181,54 @@ export default function Main() {
     };
 
     const startGame = () => {
-        setStarted(true);
         myRef3.current.volume = 0.05;
         myRef3.current.play();
+
+        setSpeed(150);
+
+        setDirection('RIGHT');
+
+        setSnakeDots([
+            [0, 0],
+            [2, 0]
+        ]);
+
+        getRandomColor();
+
+        setGameOver(false);
+
+        setStarted(true);
     };
 
     useEffect(() => {
         checkIfOutOfBorders();
+
         checkIfCollapsed();
+
         checkIfEat();
     }, [snakeDots]);
 
     return (
-        <div>
-            {started ?
+        <div className={classes.container}>
+            <div className={classes.board}>
+                <Snake snakeDots={snakeDots} color={snakeColor} />
+                <Food dot={food} color={randomColor} />
+            </div>
+            <div className={classes.leftDiv}>
                 <div>
-                    <h3 className={classes.score}>Score: {snakeDots.length - 2}</h3>
-                    <div className={classes.container}>
-                        <Snake snakeDots={snakeDots} color={snakeColor}/>
-                        <Food dot={food} color={randomColor}/>
+                    <h1>Snake Game</h1>
+                    <h3>Are you ready for the challenge?</h3>
+                </div>
+                <Display text={`Score: ${snakeDots.length - 2}`} />
+                {gameOver &&
+                    <div>
+                        <Display gameOver={gameOver} text='Game Over' />
                     </div>
-                </div>
-                :
-                <div>
-                    <h1>Neon Snake Game</h1>
-                    <h3>This snake is hungry! Are you ready for the challenge?</h3>
-                    <button onClick={startGame}>
-                        START
+                }
+                <button className={classes.button} onClick={startGame}>
+                    {gameOver ? 'Play Again' : started ? 'Start Again' : 'Start Game'}
                 </button>
-                </div>
-            }
+            </div>
             <audio
                 ref={myRef1}
                 src={bite}

@@ -3,26 +3,24 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles((theme) => ({
     container: {
         display: 'flex',
-        alignItems: 'flex-start',
-        padding: 40,
+        alignItems: 'center',
         margin: '0 auto',
-        maxWidth: 900,
+        width: 'min-content',
     },
     board: {
         background: "#AD9D8F",
         width: "max-content",
         height: "max-content",
-        margin: "auto",
+        margin: '100px 50px 50px 50px',
         padding: 5,
         borderRadius: 5,
-        marginTop: 50,
-        position: "relative",
     },
     leftDiv: {
         width: '100%',
         maxWidth: 200,
         display: 'block',
         padding: '0 20px',
+        margin: '100px 50px 50px 50px',
     },
     button: {
         boxSizing: 'border-box',

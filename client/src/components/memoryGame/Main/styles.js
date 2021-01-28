@@ -2,28 +2,32 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
     container: {
-        width: 600,
-        height: 'min-content',
-        margin: 'auto',
-        marginTop: 100,
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-evenly',
-        textAlign: 'center',
-    },
-    firstContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    secondContainer: {
-        display: 'flex',
-        flexDirection: 'column',
+        alignItems: 'center',
+        margin: '0 auto',
         width: 'min-content',
-        margin: 'auto'
+        height: 'min-content',
+    },
+    leftDiv: {
+        width: '100%',
+        maxWidth: 200,
+        display: 'block',
+        padding: '0 20px',
+        margin: '140px 50px 50px 50px',
     },
     button: {
-        width: 200,
-        margin: 'auto',
-        marginTop: 50
+        boxSizing: 'border-box',
+        marginBottom: 20,
+        padding: '27px 0',
+        minHeight: 30,
+        width: 170,
+        borderRadius: 20,
+        border: 'none',
+        color: 'white',
+        background: '#333',
+        fontFamily: 'Pixel, Arial, Helvetica, sans-serif',
+        fontSize: '1.2rem',
+        outline: 'none',
+        cursor: 'pointer',
     },
 }));
