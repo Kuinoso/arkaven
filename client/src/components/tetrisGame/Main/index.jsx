@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 
 import Stage from '../Stage';
-import Display from '../Display';
+import Display from '../../Display';
 
 import { createStage, checkCollision } from '../gameHelpers';
 
@@ -128,16 +128,14 @@ export default function Main() {
             <div className={classes.container}>
                 <Stage stage={stage} />
                 <div className={classes.leftDiv}>
-                    {!gameOver && started &&
+                    <div>
+                        <h1>Tetris Game</h1>
+                        <h3>The king of classic games!</h3>
+                    </div>
+                    {started &&
                         <div>
                             <Display text={`Score: ${score}`} />
                             <Display text={`Rows: ${rows}`} />
-                        </div>
-                    }
-                    {!started &&
-                        <div>
-                            <h1>Tetris Game</h1>
-                            <h3>The king of classic games!</h3>
                         </div>
                     }
                     {gameOver &&
