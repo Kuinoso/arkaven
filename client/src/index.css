@@ -1,11 +1,8 @@
 body {
   margin: 0;
   color: white;
-  width: 100vw;
-  height: 100vh;
   background: url('./images/stars.jpeg') #000;
   background-size: cover;
-  overflow: hidden;
 }
 
 @font-face {
