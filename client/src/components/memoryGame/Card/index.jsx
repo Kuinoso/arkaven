@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { useStyles } from './styles.js';
 
 export default function Card({ handleClick, id, type, flipped, height, width, disabled, solved }) {
@@ -19,5 +20,5 @@ export default function Card({ handleClick, id, type, flipped, height, width, di
                 />
             </div>
         </div>
-    )
+    );
 };

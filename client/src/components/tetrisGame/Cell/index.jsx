@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { TETROMINOS } from '../tetrominos';
+
 import { useStyles } from './styles.js';
 
 export default function Cell({ type }) {
@@ -15,5 +17,5 @@ export default function Cell({ type }) {
     return (
         <div className={classes.container} type={type} style={style}>
         </div>
-    )
+    );
 };

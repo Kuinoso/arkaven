@@ -59,6 +59,7 @@ export default function Main() {
 
     useEffect(() => {
         document.onkeydown = onKeyDown;
+
         getRandomColor();
     }, []);
 
@@ -245,5 +246,5 @@ export default function Main() {
                 loop={true}
             />
         </div>
-    )
+    );
 };

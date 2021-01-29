@@ -117,10 +117,6 @@ export default function Main() {
         };
     };
 
-    const startGame = () => {
-        setStarted(true);
-    };
-
     const playAgain = () => {
         setSolved([]);
 
@@ -166,5 +162,5 @@ export default function Main() {
                 loop={false}
             />
         </div>
-    )
+    );
 };

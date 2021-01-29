@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { useStyles } from './styles.js';
 
 export default function Snake({ snakeDots , color}) {
@@ -15,5 +16,5 @@ export default function Snake({ snakeDots , color}) {
                 return <div className={classes.snakeDot} key={i} style={style}></div>
             })}
         </div>
-    )
+    );
 };

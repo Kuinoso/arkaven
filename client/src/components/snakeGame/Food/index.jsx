@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { useStyles } from './styles.js';
 
 export default function Food({ dot , color}) {
@@ -13,5 +14,5 @@ export default function Food({ dot , color}) {
         <div className={classes.snakeFood} style={style}>
 
         </div>
-    )
+    );
 };
