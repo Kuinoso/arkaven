@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 
+import Navbar from './components/Navbar';
 import MemoryGame from './components/memoryGame/Main';
 import SnakeGame from './components/snakeGame/Main';
 import TetrisGame from './components/tetrisGame/Main';
@@ -11,6 +12,7 @@ import Game2048 from './components/2048Game/Main';
 function App() {
   return (
     <Router>
+      <Route path="/" render={() => <Navbar />} />
       <Route exact path="/memoryGame" render={() => <MemoryGame />} />
       <Route exact path="/snakeGame" render={() => <SnakeGame />} />
       <Route exact path="/tetrisGame" render={() => <TetrisGame />} />

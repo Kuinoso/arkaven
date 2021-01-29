@@ -33,6 +33,12 @@ export default function Main() {
     const [gameOver, setGameOver] = useState(false);
     const [started, setStarted] = useState(false);
 
+    window.addEventListener("keydown", function(e) {
+        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+            e.preventDefault();
+        }
+    }, false);
+
     const movePlayer = dir => {
         if (!checkCollision(player, stage, { x: dir, y: 0 })) {
             updatePlayerPos({ x: dir, y: 0 });

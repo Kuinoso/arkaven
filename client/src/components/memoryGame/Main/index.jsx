@@ -25,7 +25,6 @@ export default function Main() {
     const [disabled, setDisabled] = useState(false);
     const [gameOver, setFinished] = useState(false);
     const [clicks, setClicks] = useState(1);
-    const [started, setStarted] = useState(false);
 
     useEffect(() => {
         setCards(initializeDeck());
@@ -148,7 +147,7 @@ export default function Main() {
                     </div>
                 }
                 <button className={classes.button} onClick={playAgain}>
-                    {gameOver ? 'Play Again' : started ? 'Start Again' : 'Start Game'}
+                    {gameOver ? 'Play Again' : 'Start Again'}
                 </button>
             </div>
             <audio

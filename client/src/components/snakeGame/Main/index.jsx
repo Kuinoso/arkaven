@@ -45,6 +45,12 @@ export default function Main() {
         [2, 0]
     ]);
 
+    window.addEventListener("keydown", function(e) {
+        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+            e.preventDefault();
+        }
+    }, false);
+
     const getRandomColor = () => {
         let color = colors[Math.floor(Math.random() * colors.length)];
 
@@ -138,7 +144,7 @@ export default function Main() {
             enlargeSnake();
 
             if (speed > 30) {
-                setSpeed(speed - 3);
+                setSpeed(speed - 2);
             };
         };
     };
