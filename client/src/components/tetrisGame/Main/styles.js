@@ -7,6 +7,7 @@ export const useStyles = makeStyles((theme) => ({
         padding: 40,
         margin: '0 auto',
         maxWidth: 900,
+        height: 905,
     },
     leftDiv: {
         width: '100%',

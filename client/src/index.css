@@ -3,6 +3,8 @@ body {
   color: white;
   background: url('./images/stars.jpeg') #000;
   background-size: cover;
+  position: relative;
+  min-height: 100vh;
 }
 
 @font-face {

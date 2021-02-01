@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import MemoryGame from './components/memoryGame/Main';
 import SnakeGame from './components/snakeGame/Main';
 import TetrisGame from './components/tetrisGame/Main';
@@ -17,6 +18,7 @@ function App() {
       <Route exact path="/snakeGame" render={() => <SnakeGame />} />
       <Route exact path="/tetrisGame" render={() => <TetrisGame />} />
       <Route exact path="/2048Game" render={() => <Game2048 />} />
+      <Route path="/" render={() => <Footer />} />
     </Router>
   );
 }
