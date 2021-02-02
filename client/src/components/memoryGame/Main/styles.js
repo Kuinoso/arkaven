@@ -30,4 +30,11 @@ export const useStyles = makeStyles((theme) => ({
         outline: 'none',
         cursor: 'pointer',
     },
+    title: {
+        width: 185,
+    },
+    text: {
+        fontFamily: 'Open Sans, sans-serif',
+        fontSize: '0.95rem',
+    },
 }));

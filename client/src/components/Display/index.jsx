@@ -6,7 +6,7 @@ export default function Display({ gameOver, text }) {
     const classes = useStyles(); 
     
     const style = {
-        color: gameOver ? 'red' : '#999',
+        color: gameOver ? 'red' : '#31C70E',
     };
 
     return (

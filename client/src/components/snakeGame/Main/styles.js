@@ -12,7 +12,7 @@ export const useStyles = makeStyles((theme) => ({
         margin: '50px auto',
         width: 600,
         height: 600,
-        border: '2px solid white',
+        border: '12px solid white',
         backgroundColor: 'black'
     },
     score: {
@@ -39,5 +39,12 @@ export const useStyles = makeStyles((theme) => ({
         fontSize: '1.2rem',
         outline: 'none',
         cursor: 'pointer',
+    },
+    title: {
+        width: 130,
+    },
+    text: {
+        fontFamily: 'Open Sans, sans-serif',
+        fontSize: '0.95rem',
     },
 }));

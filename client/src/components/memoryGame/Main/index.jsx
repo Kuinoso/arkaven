@@ -13,6 +13,8 @@ import throne from '../../../images/throne.jpeg';
 import matchSound from '../../../sounds/match.mp3';
 import gotTheme from '../../../sounds/got.mp3';
 
+import tMemory from '../../../images/memoryT.png';
+
 export default function Main() {
     const classes = useStyles();
 
@@ -137,8 +139,11 @@ export default function Main() {
             />
             <div className={classes.leftDiv}>
                 <div>
-                    <h1>GOT Memory Game</h1>
-                    <h3>Find all the house sigil pairs and become the ruler of Westeros!</h3>
+                    <img src={tMemory} alt='memory' className={classes.title}/>
+                    <h3 className={classes.text}>
+                        Find all the house sigil pairs and become the ruler of Westeros!
+                        The best score is the lowest.
+                        </h3>
                 </div>
                 <Display text={`Score: ${Math.floor(clicks / 2)}`} />
                 {gameOver &&

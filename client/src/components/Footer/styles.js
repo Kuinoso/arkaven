@@ -28,7 +28,8 @@ export const useStyles = makeStyles((theme) => ({
     },
     text: {
         alignSelf: 'center',
-        fontSize: '0.8rem'
+        fontSize: '0.8rem',
+        fontFamily: 'Open Sans, sans-serif',
     },
     gitLogo: {
         cursor: 'pointer',

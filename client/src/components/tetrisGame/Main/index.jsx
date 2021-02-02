@@ -16,6 +16,8 @@ import collisionSound from '../../../sounds/collision.mp3';
 import clearedSound from '../../../sounds/cleared.mp3';
 import os from '../../../sounds/tetrisOs.mp3';
 
+import tTetris from '../../../images/tetrisT.png';
+
 import { useStyles } from './styles.js';
 
 export default function Main() {
@@ -135,8 +137,14 @@ export default function Main() {
                 <Stage stage={stage} />
                 <div className={classes.leftDiv}>
                     <div>
-                        <h1>Tetris Game</h1>
-                        <h3>The king of classic games!</h3>
+                        <img src={tTetris} alt='tetris' className={classes.title}/>
+                        <h3 className={classes.text}>
+                            Make full horizontal lines with the different 
+                            tetrominos that fall into the game area. 
+                            Full lines will then disappear and provide points.
+                            Use the left and right arrow keys to move the tetromino, use the 
+                            down arrow key for the tetrimino to fall faster and the up arrow key to rotate the tetromino. 
+                        </h3>
                     </div>
                     {started &&
                         <div>

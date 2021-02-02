@@ -14,6 +14,7 @@ export const useStyles = makeStyles((theme) => ({
         maxWidth: 200,
         display: 'block',
         padding: '0 20px',
+        marginLeft: 70,
     },
     button: {
         boxSizing: 'border-box',
@@ -29,5 +30,13 @@ export const useStyles = makeStyles((theme) => ({
         fontSize: '1.2rem',
         outline: 'none',
         cursor: 'pointer',
+    },
+    title: {
+        width: 150,
+        marginTop: 50,
+    },
+    text: {
+        fontFamily: 'Open Sans, sans-serif',
+        fontSize: '0.95rem',
     },
 }));

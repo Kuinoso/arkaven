@@ -5,6 +5,8 @@ import cloneDeep from "lodash.clonedeep";
 import Block from '../Block';
 import Display from '../../Display';
 
+import t2048 from '../../../images/2048T.png';
+
 import { useEvent } from "../gameHelpers";
 
 import { useStyles } from './styles.js';
@@ -26,8 +28,8 @@ export default function Main() {
     const [gameOver, setGameOver] = useState(false);
     const [score, setScore] = useState(0);
 
-    window.addEventListener("keydown", function(e) {
-        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+    window.addEventListener("keydown", function (e) {
+        if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
             e.preventDefault();
         }
     }, false);
@@ -386,8 +388,12 @@ export default function Main() {
             </div>
             <div className={classes.leftDiv}>
                 <div>
-                    <h1>2048 Game</h1>
-                    <h3>It is not as easy as it sounds!</h3>
+                    <img src={t2048} alt='2048' className={classes.title} />
+                    <h3 className={classes.text}>
+                        Use your arrow keys to move the tiles.
+                        Tiles with the same number merge into one when they touch.
+                        Add them up to reach 2048!
+                    </h3>
                 </div>
                 <Display text={`Score: ${score}`} />
                 {gameOver &&

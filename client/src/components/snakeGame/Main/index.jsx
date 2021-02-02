@@ -12,6 +12,8 @@ import bite from '../../../sounds/bite.mp3';
 import lose from '../../../sounds/loose.mp3';
 import os from '../../../sounds/osSnake.mp3';
 
+import tSnake from '../../../images/snakeT.png';
+
 import { useStyles } from './styles.js';
 
 const getRandomCoordinates = () => {
@@ -223,8 +225,11 @@ export default function Main() {
             </div>
             <div className={classes.leftDiv}>
                 <div>
-                    <h1>Snake Game</h1>
-                    <h3>Are you ready for the challenge?</h3>
+                    <img src={tSnake} alt='snake' className={classes.title}/>
+                    <h3 className={classes.text}>
+                        Use the arrow keys to move the snake, when the snake eats food you earn points and the snake grows.
+                        Dont hit the walls or the body of the snake. The snake can not go backwards.
+                    </h3>
                 </div>
                 <Display text={`Score: ${snakeDots.length - 2}`} />
                 {gameOver &&
