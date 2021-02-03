@@ -1,46 +1,38 @@
 const express = require('express');
 const router = express.Router();
 
-const GameControls = require('../controllers/Game');
+const GameControls = require('../controllers/game');
+const ScoreControls = require('../controllers/score');
+const UserControls = require('../controllers/user');
+
+//Game routes
+router.get('/allGames', GameControls.all);
 
 router.get('/game/:id', GameControls.find);
 
-router.get('/allGames', GameControls.all);
-
 router.post('/newGame', GameControls.create);
-// const BlogPost = require('../models/blogPost');
 
-//Routes
-// router.get('/api', (req, res) => {
-//     BlogPost.find({})
-//         .then((data) => {
-//             res.json(data);
-//         })
-//         .catch((error) => {
-//             console.log('Error: ', error);
-//         });
-// });
+router.put('/editGame/:id', GameControls.edit);
 
-// router.get('/api/name', (req, res) => {
-//     const data = {
-//         username: 'Merlin',
-//         age: 200,
-//     };
-//     res.json(data);
-// });
+router.delete('/deleteGame/:id', GameControls.delete);
 
-// router.post('/api/save', (req, res) => {
-//     const newBlogPost = new BlogPost(req.body);
+//User routes
+router.get('/allUsers', UserControls.all);
 
-//     newBlogPost.save((error) => {
-//         if (error) {
-//             console.log(error);
-//         } else {
-//             res.json({
-//                 msg: 'Data saved!',
-//             });
-//         };
-//     });
-// });
+router.get('/user/:id', UserControls.find);
+
+router.post('/newUser', UserControls.create);
+
+router.put('/editUser/:id', UserControls.edit);
+
+router.delete('/deleteUser/:id', UserControls.delete);
+
+
+//Score routes
+router.get('/userScores/:id', ScoreControls.getUserScores);
+
+router.get('/gameScores/:id', ScoreControls.getGameScores);
+
+router.post('/newScore', ScoreControls.create);
 
 module.exports = router;

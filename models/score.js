@@ -7,10 +7,10 @@ let ScoreSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
-    // game: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Game',
-    // },
+    game: {
+        type: Schema.Types.ObjectId,
+        ref: 'Game',
+    },
 });
 
 module.exports = mongoose.model('Score', ScoreSchema);
