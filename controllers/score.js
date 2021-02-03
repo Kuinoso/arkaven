@@ -6,6 +6,7 @@ const ScoreController = {
 
         res.json(found);
     },
+
     getUserScores: async (req, res) => {
         const userScores = await ScoreModel.find({
             user: req.params.id
@@ -13,6 +14,7 @@ const ScoreController = {
 
         res.json(userScores);
     },
+
     getGameScores: async (req, res) => {
         const gameScores = await ScoreModel.find({
             game: req.params.id
@@ -20,11 +22,13 @@ const ScoreController = {
 
         res.json(gameScores);
     },
+
     all: async (req, res) => {
         const allScores = await ScoreModel.find();
 
         res.json(allScores);
     },
+
     create: async (req, res) => {
         let newScore = new ScoreModel(req.body);
         let savedScore = await newScore.save();

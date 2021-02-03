@@ -10,6 +10,7 @@ import MemoryGame from './components/memoryGame/Main';
 import SnakeGame from './components/snakeGame/Main';
 import TetrisGame from './components/tetrisGame/Main';
 import Game2048 from './components/2048Game/Main';
+import ImageTest from './components/imageTest';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Route exact path="/snakeGame" render={() => <SnakeGame />} />
       <Route exact path="/tetrisGame" render={() => <TetrisGame />} />
       <Route exact path="/2048Game" render={() => <Game2048 />} />
+      <Route exact path="/test" render={() => <ImageTest />} />
       <Route path="/" render={() => <Footer />} />
     </Router>
   );

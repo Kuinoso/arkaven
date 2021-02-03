@@ -1,17 +1,17 @@
+require('dotenv/config');
+
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 // eslint-disable-next-line no-unused-vars
 const path = require('path');
 
+const routes = require('./routes/api');
+
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-const MONGODB_URI = 'mongodb+srv://kuinoso:.m0ng0db.@arkaven.gmizn.mongodb.net/arkaven?retryWrites=true&w=majority';
-
-const routes = require('./routes/api');
-
-mongoose.connect(MONGODB_URI || 'mongodb://localhost/arkaven', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/arkaven', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
