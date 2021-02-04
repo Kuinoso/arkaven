@@ -3,6 +3,7 @@ require('dotenv/config');
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 // eslint-disable-next-line no-unused-vars
 const path = require('path');
 
@@ -22,9 +23,8 @@ mongoose.connection.on('connected', () => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-// HTTP request logger
 app.use(morgan('tiny'));
+app.use(cookieParser());
 
 app.use('/api', routes);
 

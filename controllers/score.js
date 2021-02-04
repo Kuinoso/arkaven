@@ -1,12 +1,6 @@
 const ScoreModel = require('../models/score');
 
 const ScoreController = {
-    find: async (req, res) => {
-        const found = await ScoreModel.findById(req.params.id);
-
-        res.json(found);
-    },
-
     getUserScores: async (req, res) => {
         const userScores = await ScoreModel.find({
             user: req.params.id
@@ -21,12 +15,6 @@ const ScoreController = {
         });
 
         res.json(gameScores);
-    },
-
-    all: async (req, res) => {
-        const allScores = await ScoreModel.find();
-
-        res.json(allScores);
     },
 
     create: async (req, res) => {

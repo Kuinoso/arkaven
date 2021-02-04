@@ -39,7 +39,7 @@ export default function Main() {
     const [randomColor, setRandomColor] = useState('');
     const [snakeColor, setSnakeColor] = useState('');
     const [food, setFood] = useState(getRandomCoordinates());
-    const [start, setStart] = useState(true);
+    const [start] = useState(true);
     const [speed, setSpeed] = useState(150);
     const [direction, setDirection] = useState('RIGHT');
     const [snakeDots, setSnakeDots] = useState([

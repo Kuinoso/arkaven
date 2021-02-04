@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+
 import axios from 'axios';
+
+import Swal from 'sweetalert2';
 
 export default function ImageTest() {
     const [form, setForm] = useState({
@@ -53,32 +56,52 @@ export default function ImageTest() {
             .then(res => {
                 const user = {
                     ...form,
-                    img: res.data.secure_url,
+                    img: res.data.url,
                 };
 
                 axios.post('/api/newUser', user)
-                    .then(res => {
+                    .then((res) => {
                         setUploading(false);
+
+                        Swal.fire('success!');
+
+                        console.log(res.data);
                     })
                     .catch(err => {
-                        console.log(err)
+                        console.log(err);
+
+                        Swal.fire(err.response.data.errorMessage);
+
+                        setUploading(false);
                     });
             })
             .catch(err => {
-                console.log(err)
+                console.log(err);
             });
     };
 
     const handleClick = (e) => {
         e.preventDefault();
 
-        axios.get('/api/allUsers')
-            .then(res => {
-                setPics(res.data);
+        const data = {
+            email: form.email,
+            password: form.password,
+        };
+
+        axios.post('/api/login', data)
+            .then((res) => {
+                console.log(res.data);
             })
             .catch(err => {
-                console.log(err)
+                console.log(err);
             });
+    };
+
+
+    const logout = (e) => {
+        e.preventDefault();
+
+        axios.get('/api/logout')
     };
 
     return (
@@ -141,12 +164,13 @@ export default function ImageTest() {
             {imageUploaded.loaded &&
                 <img src={imageUploaded.image} alt='profile pic' style={{ width: 100 }} />
             }
-            <button onClick={handleClick}>test</button>
+            <button onClick={handleClick}>login</button>
+            <button onClick={logout}>logout</button>
             <br></br>
             {pics.map((item, i) =>
                 <div key={i}>
                     <h4>{item.name}</h4>
-                    <img src={item.img} alt={item.name} style={{ width: 200 }}/>
+                    <img src={item.img} alt={item.name} style={{ width: 200 }} />
                 </div>
             )}
         </div>
