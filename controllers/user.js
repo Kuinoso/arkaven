@@ -15,17 +15,8 @@ const UserController = {
     },
 
     create: async (req, res) => {
-        fs.renameSync(req.file.path, req.file.path + '.' + req.file.mimetype.split('/')[1])
-        let pic = req.file.filename + '.' + req.file.mimetype.split('/')[1];
-        let json = JSON.parse(req.body.json); 
-        const user = {
-            name: json.name,
-            email: json.email,
-            password: json.password,
-            img: pic,
-        };
-        console.log(json);
-        let newUser = new UserModel(user);
+        console.log(req.body);
+        let newUser = new UserModel(req.body);
         let savedUser = await newUser.save();
 
         res.json(savedUser);
