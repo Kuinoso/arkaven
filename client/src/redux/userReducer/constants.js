@@ -1,0 +1,1 @@
+// export const GET_CHARACTER_INFO = 'GET_CHARACTER_INFO';
