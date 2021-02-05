@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
+import SignUp from '../SignUp';
 
 import logo from '../../images/logo.png';
 
@@ -13,11 +15,27 @@ export default function Navbar() {
     const classes = useStyles();
     const location = useLocation();
 
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     const userButtons = () => {
         return (
             <div className={classes.userButtons}>
                 <Button color="inherit" className={classes.navButton}>Login</Button>
-                <Button color="inherit" className={classes.navButton}>Sign Up</Button>
+                <Button
+                    color="inherit"
+                    className={classes.navButton}
+                    onClick={handleOpen}
+                >
+                    Sign Up
+                </Button>
             </div>
         );
     };
@@ -57,6 +75,10 @@ export default function Navbar() {
                     }
                 </Toolbar>
             </AppBar>
+            <SignUp
+                open={open}
+                handleClose={handleClose}
+            />
         </div>
     );
 };

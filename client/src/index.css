@@ -5,6 +5,7 @@ body {
   background-size: cover;
   position: relative;
   min-height: 100vh;
+  font-family: 'Open Sans', sans-serif;
 }
 
 @font-face {
