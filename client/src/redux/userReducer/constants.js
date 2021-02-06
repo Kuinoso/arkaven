@@ -1,1 +1,2 @@
-// export const GET_CHARACTER_INFO = 'GET_CHARACTER_INFO';
+export const LOG_IN = 'LOG_IN';
+export const LOG_OUT = 'LOG_OUT';

@@ -38,7 +38,7 @@ export const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         width: '100%',
         '&:hover': {
-            background: "#B414F5",
+            background: "#A52CEE",
          },
     },
     logo: {

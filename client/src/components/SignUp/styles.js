@@ -14,7 +14,7 @@ export const useStyles = makeStyles((theme) => ({
     rightDiv: {
         width: 350,
         position: 'relative',
-        backgroundColor: 'black',
+        backgroundColor: 'white',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -24,13 +24,25 @@ export const useStyles = makeStyles((theme) => ({
         width: '100%',
         height: '100%',
         objectFit: 'cover',
-        opacity: '0.8',
+        opacity: '0.9',
     },
     button: {
         position: 'relative',
+        cursor: 'pointer',
         backgroundColor: 'black',
-        width: 250,
-        height: 250,
+        width: 200,
+        height: 200,
+        margin: 'auto',
+        borderRadius: '50%',
+        '&:hover': {
+            boxShadow: '1px 0px 5px 8px rgba(180,20,245,0.37);',
+        },
+    },
+    buttonOff: {
+        position: 'relative',
+        backgroundColor: 'black',
+        width: 200,
+        height: 200,
         margin: 'auto',
         borderRadius: '50%',
     },
@@ -39,7 +51,14 @@ export const useStyles = makeStyles((theme) => ({
         width: '100%',
         height: '100%',
         objectFit: 'cover',
-        opacity: '0.8',
+        borderRadius: '50%',
+    },
+    load: {
+        position: 'relative',
+        backgroundColor: 'black',
+        width: 200,
+        height: 200,
+        margin: 'auto',
         borderRadius: '50%',
     },
     fieldsContainer: {
@@ -67,13 +86,25 @@ export const useStyles = makeStyles((theme) => ({
         marginTop: 20,
     },
     textField: {
-        width: 280,
         '& label.Mui-focused': {
-            color: '#B414F5',
+            color: '#A52CEE',
         },
         '& .MuiInput-underline:after': {
-            borderBottomColor: '#B414F5',
+            borderBottomColor: '#A52CEE',
         },
+    },
+    textDiv: {
+        width: 280,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    error: {
+        color: 'red',
+        fontSize: '0.7rem',
+        alignSelf: 'start',
+        marginLeft: 33,
+        marginTop: 3,
     },
     header: {
         margin: 0,
@@ -86,7 +117,7 @@ export const useStyles = makeStyles((theme) => ({
         color: '#0645AD',
         cursor: 'pointer',
         '&:hover': {
-            color: '#B414F5',
+            color: '#A52CEE',
         },
     },
     image: {
@@ -110,7 +141,7 @@ export const useStyles = makeStyles((theme) => ({
         top: 120,
         right: 110,
         '&:hover': {
-            color: '#B414F5',
+            color: '#A52CEE',
         },
     },
 }));

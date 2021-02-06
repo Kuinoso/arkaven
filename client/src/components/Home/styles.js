@@ -16,7 +16,7 @@ export const useStyles = makeStyles((theme) => ({
         border: '0.5px solid #424242',
         borderRadius: 5,
         '&:hover': {
-            borderColor: '#B414F5',
+            borderColor: '#A52CEE',
         },
     },
     title: {
