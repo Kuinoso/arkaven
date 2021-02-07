@@ -8,13 +8,11 @@ import Swal from 'sweetalert2';
 
 import TextField from '@material-ui/core/TextField';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import Button from '@material-ui/core/Button';
 
 import { logIn } from '../../redux/userReducer/actions';
 
 import background from '../../images/retro.jpg';
-import glow from '../../images/glow.png';
-import offGlow from '../../images/glowOff.jpg';
-import load from '../../images/load.gif';
 
 import { useStyles } from './styles.js';
 
@@ -251,23 +249,18 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                             <span className={classes.error}>Passwords do not match</span>
                         }
                     </div>
+                    <Button
+                        variant="contained"
+                        disabled={!validateForm()}
+                        className={classes.login}
+                        onClick={handleSubmit}
+                    >
+                        Join
+                    </Button>
                 </div>
             </div>
             <div className={classes.rightDiv}>
                 <img src={background} alt='background' className={classes.background} />
-                {loading ?
-                    <div className={classes.load}>
-                        <img src={load} alt='glow' className={classes.buttonImage} />
-                    </div>
-                    :
-                    <div className={validateForm() ? classes.button : classes.buttonOff}>
-                        {validateForm() ?
-                            <img src={glow} alt='join' className={classes.buttonImage} onClick={handleSubmit} />
-                            :
-                            <img src={offGlow} alt='join disabled' className={classes.buttonImage} />
-                        }
-                    </div>
-                }
             </div>
         </div>
     );

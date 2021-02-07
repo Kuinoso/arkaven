@@ -4,7 +4,20 @@ const UserModel = require('../models/user');
 
 const bcrypt = require('bcryptjs');
 
+const crypto = require('crypto');
+
 const jwt = require('jsonwebtoken');
+
+const resetTemplate = require('../templates/resetPassword');
+
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
+
+const transporter = nodemailer.createTransport(sendgridTransport({
+    auth: {
+        api_key: process.env.SENDGRID_KEY,
+    },
+}));
 
 const UserController = {
     all: async (req, res) => {
@@ -90,6 +103,47 @@ const UserController = {
                 expires: new Date(0)
             })
             .send();
+    },
+
+    resetPassword: (req, res) => {
+        crypto.randomBytes(32, (err, buffer) => {
+            if (err) {
+                console.log(err);
+
+                return;
+            };
+
+            const token = buffer.toString('hex');
+
+            UserModel.findOne({email: req.body.email})
+                .then(user => {
+                    if (!user) {
+                        res.status(422).json({
+                            errorMessage: 'This email is not registered'
+                        });
+
+                        return;
+                    };
+
+                    user.resetToken = token;
+                    user.expireToken = Date.now() + 3600000;
+
+                    user.save()
+                        .then(() => {
+                            console.log('hola123')
+                            transporter.sendMail({
+                                to: user.email,
+                                from: 'noreply.arkaven@gmail.com',
+                                subject: 'Reset your password',
+                                html: resetTemplate(`http://localhost:3000/reset/${token}`),
+                            });
+
+                            res.json({message: 'Email sent'})
+                        })
+                        .catch(err => console.log(err));
+                })
+                .catch(err => console.log(err));
+        });
     },
 
     edit: async (req, res) => {

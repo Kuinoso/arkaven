@@ -6,6 +6,8 @@ let UserSchema = new Schema({
     email: String,
     passwordHash: String,
     img: String,
+    resetToken: String,
+    expireToken: Date,
 });
 
 module.exports = mongoose.model('User', UserSchema);

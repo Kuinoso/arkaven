@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles((theme) => ({
     container: {
         width: 700,
-        height: 600,
+        height: 650,
         margin: 'auto',
         marginTop: 100,
         backgroundColor: 'white',
@@ -26,46 +26,20 @@ export const useStyles = makeStyles((theme) => ({
         objectFit: 'cover',
         opacity: '0.9',
     },
-    button: {
-        position: 'relative',
-        cursor: 'pointer',
-        backgroundColor: 'black',
-        width: 200,
-        height: 200,
-        margin: 'auto',
-        borderRadius: '50%',
+    login: {
+        backgroundColor: '#A52CEE',
+        color: 'white',
+        fontWeight: 'bolder',
+        marginTop: 20,
         '&:hover': {
-            boxShadow: '1px 0px 5px 8px rgba(180,20,245,0.37);',
+            backgroundColor: '#bb4efc'
         },
-    },
-    buttonOff: {
-        position: 'relative',
-        backgroundColor: 'black',
-        width: 200,
-        height: 200,
-        margin: 'auto',
-        borderRadius: '50%',
-    },
-    buttonImage: {
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        borderRadius: '50%',
-    },
-    load: {
-        position: 'relative',
-        backgroundColor: 'black',
-        width: 200,
-        height: 200,
-        margin: 'auto',
-        borderRadius: '50%',
     },
     fieldsContainer: {
         display: 'flex',
         flexDirection: 'column',
         width: 350,
-        height: 300,
+        height: 350,
         justifyContent: 'space-around',
         alignItems: 'center',
     },

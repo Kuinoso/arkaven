@@ -7,6 +7,7 @@ import axios from 'axios';
 
 import SignUp from '../SignUp';
 import Login from '../Login';
+import ResetPassword from '../ResetPassword';
 
 import logo from '../../images/logo.png';
 
@@ -121,6 +122,13 @@ export default function Navbar() {
 
         if (type === 'join') {
             return <SignUp
+                changeModal={setModal}
+                openModal={handleOpen}
+                closeModal={handleClose}
+            />
+        };
+        if (type === 'reset') {
+            return <ResetPassword
                 changeModal={setModal}
                 openModal={handleOpen}
                 closeModal={handleClose}

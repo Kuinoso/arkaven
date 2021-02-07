@@ -21,6 +21,8 @@ router.post('/newUser', UserControls.create);
 
 router.post('/login', UserControls.login);
 
+router.post('/resetPassword', UserControls.resetPassword);
+
 router.put('/editUser/:id', auth, UserControls.edit);
 
 router.delete('/deleteUser/:id', auth, UserControls.delete);

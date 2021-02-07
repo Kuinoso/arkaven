@@ -7,17 +7,15 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 import { logIn } from '../../redux/userReducer/actions';
 
 import background from '../../images/retro.jpg';
-import glow from '../../images/glow2.png';
-import offGlow from '../../images/glow2Off.jpg';
-import load from '../../images/load.gif';
 
 import { useStyles } from './styles.js';
 
-export default function SignUp({ changeModal, openModal, closeModal }) {
+export default function Login({ changeModal, openModal, closeModal }) {
     const classes = useStyles();
     const dispatch = useDispatch();
 
@@ -104,23 +102,25 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                             <span className={classes.error}>Please complete all fields</span>
                         }
                     </div>
+                    <span
+                        className={classes.subLink}
+                        onClick={() => changeModal('reset')}
+                        style={{ fontSize: '0.75rem' }}
+                    >
+                        Forgot your password?
+                    </span>
+                    <Button
+                        variant="contained"
+                        disabled={!validateForm()}
+                        className={classes.login}
+                        onClick={handleClick}
+                    >
+                        Log In
+                    </Button>
                 </div>
             </div>
             <div className={classes.rightDiv}>
                 <img src={background} alt='background' className={classes.background} />
-                {loading ?
-                    <div className={classes.load}>
-                        <img src={load} alt='glow' className={classes.buttonImage} />
-                    </div>
-                    :
-                    <div className={validateForm() ? classes.button : classes.buttonOff}>
-                        {validateForm() ?
-                            <img src={glow} alt='glow' className={classes.buttonImage} onClick={handleClick} />
-                            :
-                            <img src={offGlow} alt='log in disabled' className={classes.buttonImage} onClick={() => setError(true)} />
-                        }
-                    </div>
-                }
             </div>
         </div>
     );
