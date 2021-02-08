@@ -14,10 +14,10 @@ export const useStyles = makeStyles((theme) => ({
     rightDiv: {
         width: 350,
         position: 'relative',
-        backgroundColor: 'white',
+        backgroundColor: 'black',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
     },
     background: {
         position: 'absolute',
@@ -41,13 +41,13 @@ export const useStyles = makeStyles((theme) => ({
         height: 320,
         justifyContent: 'space-around',
         alignItems: 'center',
-        marginTop: 20,
+        marginTop: 50,
     },
     headerContainer: {
         display: 'flex',
         flexDirection: 'column',
         width: 280,
-        padding: '110px 35px 0 35px',
+        padding: '90px 35px 0 35px',
         textAlign: 'center',
     },
     textField: {
@@ -89,5 +89,14 @@ export const useStyles = makeStyles((theme) => ({
     loading: {
         color: '#A52CEE',
         marginTop: 20,
+    },
+    textWrapper: {
+        zIndex: 10,
+        margin: '70px 0'
+    },
+    title: {
+        textAlign: 'center',
+        color: 'black',
+        fontSize: '1.6rem',
     },
 }));

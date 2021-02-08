@@ -124,10 +124,11 @@ export const useStyles = makeStyles((theme) => ({
     },
     textWrapper: {
         zIndex: 10,
-        margin: '50px 0'
+        margin: '70px 0'
     },
     title: {
         textAlign: 'center',
-        color: 'black'
+        color: 'black',
+        fontSize: '1.6rem',
     },
 }));

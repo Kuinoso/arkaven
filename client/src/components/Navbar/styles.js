@@ -36,10 +36,12 @@ export const useStyles = makeStyles((theme) => ({
         fontSize: '1rem',
         alignSelf: 'center',
         textAlign: 'center',
-        width: '100%',
+        margin: '0 5px',
+        border: '4px solid black',
+        borderRadius: 10,
         '&:hover': {
-            background: "#A52CEE",
-         },
+            borderColor: '#A52CEE'
+        },
     },
     logo: {
         width: 250,

@@ -22,13 +22,16 @@ export const useStyles = makeStyles((theme) => ({
         minHeight: 30,
         width: 170,
         borderRadius: 20,
-        border: 'none',
         color: 'white',
-        background: '#333',
+        background: 'black',
         fontFamily: 'Pixel, Arial, Helvetica, sans-serif',
         fontSize: '1.2rem',
         outline: 'none',
         cursor: 'pointer',
+        border: '4px solid #333',
+        '&:hover': {
+            borderColor: 'gray'
+        },
     },
     title: {
         width: 185,

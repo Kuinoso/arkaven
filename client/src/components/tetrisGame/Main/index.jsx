@@ -35,8 +35,8 @@ export default function Main() {
     const [gameOver, setGameOver] = useState(false);
     const [started, setStarted] = useState(false);
 
-    window.addEventListener("keydown", function(e) {
-        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+    window.addEventListener("keydown", function (e) {
+        if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
             e.preventDefault();
         }
     }, false);
@@ -137,21 +137,19 @@ export default function Main() {
                 <Stage stage={stage} />
                 <div className={classes.leftDiv}>
                     <div>
-                        <img src={tTetris} alt='tetris' className={classes.title}/>
+                        <img src={tTetris} alt='tetris' className={classes.title} />
                         <h3 className={classes.text}>
-                            Make full horizontal lines with the different 
-                            tetrominos that fall into the game area. 
+                            Make full horizontal lines with the different
+                            tetrominos that fall into the game area.
                             Full lines will then disappear and provide points.
-                            Use the left and right arrow keys to move the tetromino, use the 
-                            down arrow key for the tetrimino to fall faster and the up arrow key to rotate the tetromino. 
+                            Use the left and right arrow keys to move the tetromino, use the
+                            down arrow key for the tetrimino to fall faster and the up arrow key to rotate the tetromino.
                         </h3>
                     </div>
-                    {started &&
-                        <div>
-                            <Display text={`Score: ${score}`} />
-                            <Display text={`Rows: ${rows}`} />
-                        </div>
-                    }
+                    <div>
+                        <Display text={`Score: ${score}`} />
+                        <Display text={`Rows: ${rows}`} />
+                    </div>
                     {gameOver &&
                         <div>
                             <Display gameOver={gameOver} text='Game Over' />

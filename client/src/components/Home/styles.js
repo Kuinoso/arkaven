@@ -8,19 +8,23 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         width: 'min-content',
         margin: 'auto',
-        marginTop: 150,
+        marginTop: 300,
     },
     image: {
-        width: 200,
-        margin: '5px 50px',
-        border: '0.5px solid #424242',
-        borderRadius: 5,
+        height: 50,
+        backgroundColor: 'black',
+        padding: 10,
+        border: '5px solid #A52CEE',
+        borderRadius: 20,
+        margin: '0 20px',
         '&:hover': {
-            borderColor: '#A52CEE',
+            border: '5px solid #c566ff',
+            backgroundColor: '#333'
         },
     },
     title: {
         fontFamily: 'Pixel, Arial, Helvetica, sans-serif',
         textAlign: 'center',
     },
+
 }));

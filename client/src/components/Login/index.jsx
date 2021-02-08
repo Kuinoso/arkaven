@@ -12,7 +12,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { logIn } from '../../redux/userReducer/actions';
 
-import background from '../../images/retro.jpg';
+import back from '../../videos/back.mp4';
 
 import { useStyles } from './styles.js';
 
@@ -125,7 +125,15 @@ export default function Login({ changeModal, openModal, closeModal }) {
                 </div>
             </div>
             <div className={classes.rightDiv}>
-                <img src={background} alt='background' className={classes.background} />
+                <video className={classes.background} autoPlay loop muted>
+                    <source src={back} type="video/mp4" />
+                </video>
+                <div className={classes.textWrapper}>
+                    <h1 className={classes.title}>PLAY THE CLASSICS</h1>
+                </div>
+                <div className={classes.textWrapper}>
+                    <h1 className={classes.title}>RULE THE ARCADE</h1>
+                </div>
             </div>
         </div>
     );

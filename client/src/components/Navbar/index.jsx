@@ -56,7 +56,6 @@ export default function Navbar() {
                 return (
                     <div className={classes.userButtons}>
                         <Button
-                            color="inherit"
                             className={classes.navButton}
                             onClick={logout}
                         >
@@ -68,7 +67,6 @@ export default function Navbar() {
                 return (
                     <div className={classes.userButtons}>
                         <Button
-                            color="inherit"
                             className={classes.navButton}
                             onClick={() => {
                                 setModal('login');
@@ -78,7 +76,6 @@ export default function Navbar() {
                             Log In
                     </Button>
                         <Button
-                            color="inherit"
                             className={classes.navButton}
                             onClick={() => {
                                 setModal('join');
@@ -104,7 +101,7 @@ export default function Navbar() {
                     <div className={classes.gameButtons}>
                         {filteredParams.map((item, i) =>
                             <Link to={item} key={i}>
-                                <Button color="inherit" className={classes.navButton}>{item.split('G')[0]}</Button>
+                                <Button className={classes.navButton}>{item.split('G')[0]}</Button>
                             </Link>
                         )}
                     </div>
