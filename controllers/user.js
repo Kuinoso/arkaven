@@ -106,7 +106,7 @@ const UserController = {
     },
 
     resetPassword: (req, res) => {
-        crypto.randomBytes(32, (err, buffer) => {
+        crypto.randomBytes(32, async (err, buffer) => {
             if (err) {
                 console.log(err);
 
@@ -115,35 +115,56 @@ const UserController = {
 
             const token = buffer.toString('hex');
 
-            UserModel.findOne({email: req.body.email})
-                .then(user => {
-                    if (!user) {
-                        res.status(422).json({
-                            errorMessage: 'This email is not registered'
-                        });
+            const user = await UserModel.findOne({ email: req.body.email });
 
-                        return;
-                    };
+            if (!user) {
+                res.status(422).json({
+                    errorMessage: 'This email is not registered'
+                });
 
-                    user.resetToken = token;
-                    user.expireToken = Date.now() + 3600000;
+                return;
+            };
 
-                    user.save()
-                        .then(() => {
-                            console.log('hola123')
-                            transporter.sendMail({
-                                to: user.email,
-                                from: 'noreply.arkaven@gmail.com',
-                                subject: 'Reset your password',
-                                html: resetTemplate(`http://localhost:3000/reset/${token}`),
-                            });
+            user.resetToken = token;
+            user.expireToken = Date.now() + 3600000;
 
-                            res.json({message: 'Email sent'})
-                        })
-                        .catch(err => console.log(err));
-                })
-                .catch(err => console.log(err));
+            await user.save();
+
+            transporter.sendMail({
+                to: user.email,
+                from: 'noreply.arkaven@gmail.com',
+                subject: 'Reset your password',
+                html: resetTemplate(`http://localhost:3000/reset/${token}`),
+            });
+
+            res.json({ message: 'Email sent' })
         });
+    },
+
+    newPassword: async (req, res) => {
+        const newPassword = req.body.password;
+        const sentToken = req.body.token;
+
+        const user = await UserModel.findOne({ resetToken: sentToken, expireToken: { $gt: Date.now() } });
+
+        if (!user) {
+            res.status(422).json({
+                errorMessage: 'This link has expired, please request a new link.'
+            });
+
+            return;
+        };
+
+        const salt = await bcrypt.genSalt();
+        const passwordHash = await bcrypt.hash(newPassword, salt);
+
+        user.passwordHash = passwordHash;
+        user.resetToken = undefined;
+        user.expireToken = undefined;
+
+        await user.save();
+
+        res.send('Password updated successfully');
     },
 
     edit: async (req, res) => {

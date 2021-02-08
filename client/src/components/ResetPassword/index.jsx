@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { useStyles } from './styles.js';
 
@@ -13,6 +14,7 @@ export default function ResetPassword({ changeModal, openModal, closeModal }) {
     const classes = useStyles();
 
     const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         setEmail(e.target.value);
@@ -23,6 +25,8 @@ export default function ResetPassword({ changeModal, openModal, closeModal }) {
     };
 
     const handleSubmit = () => {
+        setLoading(true);
+
         const data = {
             email,
         };
@@ -35,6 +39,8 @@ export default function ResetPassword({ changeModal, openModal, closeModal }) {
             })
             .catch(err => {
                 closeModal();
+
+                setLoading(false);
 
                 Swal.fire(err.response.data.errorMessage)
                     .then(() => openModal())
@@ -62,14 +68,18 @@ export default function ResetPassword({ changeModal, openModal, closeModal }) {
                         onChange={handleChange}
                     />
                 </div>
-                <Button
-                    variant="contained"
-                    disabled={validateEmail()}
-                    className={classes.resetButton}
-                    onClick={handleSubmit}
-                >
-                    Send recovery email
-                </Button>
+                {loading ?
+                    <CircularProgress className={classes.loading} />
+                    :
+                    <Button
+                        variant="contained"
+                        disabled={validateEmail()}
+                        className={classes.resetButton}
+                        onClick={handleSubmit}
+                    >
+                        Send recovery email
+                    </Button>
+                }
             </div>
         </div>
     );

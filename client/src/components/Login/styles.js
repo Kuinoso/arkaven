@@ -86,4 +86,8 @@ export const useStyles = makeStyles((theme) => ({
             color: '#A52CEE',
         },
     },
+    loading: {
+        color: '#A52CEE',
+        marginTop: 20,
+    },
 }));

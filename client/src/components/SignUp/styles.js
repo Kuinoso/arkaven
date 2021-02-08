@@ -14,10 +14,10 @@ export const useStyles = makeStyles((theme) => ({
     rightDiv: {
         width: 350,
         position: 'relative',
-        backgroundColor: 'white',
+        backgroundColor: 'black',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
     },
     background: {
         position: 'absolute',
@@ -117,5 +117,17 @@ export const useStyles = makeStyles((theme) => ({
         '&:hover': {
             color: '#A52CEE',
         },
+    },
+    loading: {
+        color: '#A52CEE',
+        marginTop: 20,
+    },
+    textWrapper: {
+        zIndex: 10,
+        margin: '50px 0'
+    },
+    title: {
+        textAlign: 'center',
+        color: 'black'
     },
 }));

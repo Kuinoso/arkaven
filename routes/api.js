@@ -23,6 +23,8 @@ router.post('/login', UserControls.login);
 
 router.post('/resetPassword', UserControls.resetPassword);
 
+router.post('/newPassword', UserControls.newPassword);
+
 router.put('/editUser/:id', auth, UserControls.edit);
 
 router.delete('/deleteUser/:id', auth, UserControls.delete);

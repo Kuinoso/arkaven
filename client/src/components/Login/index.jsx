@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { logIn } from '../../redux/userReducer/actions';
 
@@ -109,14 +110,18 @@ export default function Login({ changeModal, openModal, closeModal }) {
                     >
                         Forgot your password?
                     </span>
-                    <Button
-                        variant="contained"
-                        disabled={!validateForm()}
-                        className={classes.login}
-                        onClick={handleClick}
-                    >
-                        Log In
+                    {loading ?
+                        <CircularProgress className={classes.loading} />
+                        :
+                        <Button
+                            variant="contained"
+                            disabled={!validateForm()}
+                            className={classes.login}
+                            onClick={handleClick}
+                        >
+                            Log In
                     </Button>
+                    }
                 </div>
             </div>
             <div className={classes.rightDiv}>

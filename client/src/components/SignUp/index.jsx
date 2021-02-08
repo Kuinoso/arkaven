@@ -9,10 +9,11 @@ import Swal from 'sweetalert2';
 import TextField from '@material-ui/core/TextField';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { logIn } from '../../redux/userReducer/actions';
 
-import background from '../../images/retro.jpg';
+import back from '../../videos/back.mp4';
 
 import { useStyles } from './styles.js';
 
@@ -126,8 +127,6 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                             Swal.fire('success!');
                         })
                         .catch(err => {
-                            console.log(err);
-
                             setLoading(false);
 
                             closeModal();
@@ -249,18 +248,30 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                             <span className={classes.error}>Passwords do not match</span>
                         }
                     </div>
-                    <Button
-                        variant="contained"
-                        disabled={!validateForm()}
-                        className={classes.login}
-                        onClick={handleSubmit}
-                    >
-                        Join
+                    {loading ?
+                        <CircularProgress className={classes.loading} />
+                        :
+                        <Button
+                            variant="contained"
+                            disabled={!validateForm()}
+                            className={classes.login}
+                            onClick={handleSubmit}
+                        >
+                            Join
                     </Button>
+                    }
                 </div>
             </div>
             <div className={classes.rightDiv}>
-                <img src={background} alt='background' className={classes.background} />
+                <video className={classes.background} autoPlay loop muted>
+                    <source src={back} type="video/mp4" />
+                </video>
+                <div className={classes.textWrapper}>
+                    <h1 className={classes.title}>PLAY THE CLASSICS</h1>
+                </div>
+                <div className={classes.textWrapper}>
+                    <h1 className={classes.title}>RULE THE ARCADE</h1>
+                </div>
             </div>
         </div>
     );

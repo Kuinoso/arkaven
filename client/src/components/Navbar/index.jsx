@@ -51,43 +51,45 @@ export default function Navbar() {
     };
 
     const userButtons = () => {
-        if (loggedIn) {
-            return (
-                <div className={classes.userButtons}>
-                    <Button
-                        color="inherit"
-                        className={classes.navButton}
-                        onClick={logout}
-                    >
-                        Log Out
+        if (!location.pathname.includes('reset')) {
+            if (loggedIn) {
+                return (
+                    <div className={classes.userButtons}>
+                        <Button
+                            color="inherit"
+                            className={classes.navButton}
+                            onClick={logout}
+                        >
+                            Log Out
                     </Button>
-                </div>
-            );
-        } else {
-            return (
-                <div className={classes.userButtons}>
-                    <Button
-                        color="inherit"
-                        className={classes.navButton}
-                        onClick={() => {
-                            setModal('login');
-                            handleOpen();
-                        }}
-                    >
-                        Log In
+                    </div>
+                );
+            } else {
+                return (
+                    <div className={classes.userButtons}>
+                        <Button
+                            color="inherit"
+                            className={classes.navButton}
+                            onClick={() => {
+                                setModal('login');
+                                handleOpen();
+                            }}
+                        >
+                            Log In
                     </Button>
-                    <Button
-                        color="inherit"
-                        className={classes.navButton}
-                        onClick={() => {
-                            setModal('join');
-                            handleOpen();
-                        }}
-                    >
-                        Join
+                        <Button
+                            color="inherit"
+                            className={classes.navButton}
+                            onClick={() => {
+                                setModal('join');
+                                handleOpen();
+                            }}
+                        >
+                            Join
                     </Button>
-                </div>
-            );
+                    </div>
+                );
+            };
         };
     };
 

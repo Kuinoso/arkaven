@@ -23,13 +23,6 @@ const resetTemplate = (link) => {
                             <td style="height:80px;">&nbsp;</td>
                         </tr>
                         <tr>
-                            <td style="text-align:center;">
-                              <a href="http://localhost:3000" title="logo" target="_blank">
-                                <img width="300" src="https://res.cloudinary.com/kuinoso/image/upload/v1612712988/logo_vlrvne.png" title="logo" alt="logo">
-                              </a>
-                            </td>
-                        </tr>
-                        <tr>
                             <td style="height:20px;">&nbsp;</td>
                         </tr>
                         <tr>

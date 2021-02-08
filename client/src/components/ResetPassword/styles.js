@@ -73,4 +73,8 @@ export const useStyles = makeStyles((theme) => ({
         fontSize: '0.8rem',
         margin: '10px 0px'
     },
+    loading: {
+        color: '#A52CEE',
+        marginTop: 20,
+    },
 }));
