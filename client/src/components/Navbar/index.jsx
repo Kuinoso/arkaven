@@ -11,7 +11,7 @@ import ResetPassword from '../ResetPassword';
 
 import logo from '../../images/logo.png';
 
-import { logOut } from '../../redux/userReducer/actions';
+import { logOut, getLoggedUser } from '../../redux/userReducer/actions';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -46,6 +46,7 @@ export default function Navbar() {
         axios.get('/api/logout')
             .then(() => {
                 dispatch(logOut());
+                dispatch(getLoggedUser(null));
             })
             .catch(err => console.log(err));
     };
@@ -137,7 +138,6 @@ export default function Navbar() {
 
     return (
         <div className={classes.root}>
-            {console.log(loggedIn)}
             <AppBar position="static">
                 <Toolbar className={classes.toolbar}>
                     <Link to='/'><img src={logo} alt='Logo' className={classes.logo} /></Link>

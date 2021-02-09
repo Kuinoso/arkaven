@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
 
@@ -11,7 +12,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { logIn } from '../../redux/userReducer/actions';
+import { logIn, getLoggedUser } from '../../redux/userReducer/actions';
 
 import back from '../../videos/back.mp4';
 
@@ -21,6 +22,7 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
     const classes = useStyles();
     const ref1 = useRef();
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const [loading, setLoading] = useState(false);
     const [passwordCheck, setPasswordCheck] = useState('');
@@ -41,6 +43,15 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
             ...form,
             [e.target.name]: e.target.value,
         });
+    };
+
+    const spacebar = (e) => {
+        if (location.pathname.includes('2048') && e.keyCode === 32) {
+            setForm({
+                ...form,
+                [e.target.name]: e.target.value + ' ',
+            });
+        };
     };
 
     const handleNewImage = (e) => {
@@ -124,6 +135,8 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
 
                             dispatch(logIn());
 
+                            dispatch(getLoggedUser(res.data));
+
                             Swal.fire('success!');
                         })
                         .catch(err => {
@@ -153,6 +166,8 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                     closeModal();
 
                     dispatch(logIn());
+
+                    dispatch(getLoggedUser(res.data));
 
                     Swal.fire('success!');
                 })
@@ -204,6 +219,7 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                             value={form.name}
                             className={classes.textField}
                             onChange={handleChange}
+                            onKeyDown={spacebar}
                         />
                         {!validateName() &&
                             <span className={classes.error}>Please enter a name</span>

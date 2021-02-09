@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { logIn } from '../../redux/userReducer/actions';
+import { logIn, getLoggedUser } from '../../redux/userReducer/actions';
 
 import back from '../../videos/back.mp4';
 
@@ -59,7 +59,9 @@ export default function Login({ changeModal, openModal, closeModal }) {
 
                 dispatch(logIn());
 
-                Swal.fire('success!');
+                dispatch(getLoggedUser(res.data));
+
+                Swal.fire('welcome');
             })
             .catch(err => {
                 setLoading(false);

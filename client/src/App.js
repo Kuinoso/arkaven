@@ -1,9 +1,10 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Route } from 'react-router-dom';
-
-
+import { useDispatch } from 'react-redux';
+import { getAllUsers } from './redux/userReducer/actions';
+import { getAllGames } from './redux/gameReducer/actions';
+import axios from 'axios';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './components/Home';
@@ -14,6 +15,22 @@ import TetrisGame from './components/tetrisGame/Main';
 import Game2048 from './components/2048Game/Main';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    axios.get('/api/allUsers')
+      .then(res => {
+        dispatch(getAllUsers(res.data));
+      })
+      .catch(err => console.log(err));
+
+    axios.get('/api/allGames')
+      .then(res => {
+        dispatch(getAllGames(res.data))
+      })
+      .catch(err => console.log(err));
+  }, []);
+
   return (
     <Router>
       <Route path="/" render={() => <Navbar />} />

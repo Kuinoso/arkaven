@@ -1,18 +1,31 @@
 import React, { useState, useEffect } from "react";
-
+import { useSelector } from 'react-redux';
 import cloneDeep from "lodash.clonedeep";
-
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { useEvent } from "../gameHelpers";
+import { useStyles } from './styles.js';
+import t2048 from '../../../images/2048T.png';
 import Block from '../Block';
 import Display from '../../Display';
-
-import t2048 from '../../../images/2048T.png';
-
-import { useEvent } from "../gameHelpers";
-
-import { useStyles } from './styles.js';
+import Highscores from '../../Highscores';
+import UserScores from '../../UserScores';
 
 export default function Main() {
     const classes = useStyles();
+
+    const loggedIn = useSelector(
+        (store) => store.UserReducer.loggedIn
+    );
+    const game = useSelector(
+        (store) => store.GameReducer.allGames.filter(item => item.name === '2048')[0]
+    );
+    const user = useSelector(
+        (store) => store.UserReducer.loggedUser
+    );
+    const users = useSelector(
+        (store) => store.UserReducer.allUsers
+    );
 
     const UP_ARROW = 38;
     const DOWN_ARROW = 40;
@@ -27,12 +40,44 @@ export default function Main() {
     ]);
     const [gameOver, setGameOver] = useState(false);
     const [score, setScore] = useState(0);
+    const [scores, setScores] = useState([]);
+    const [userScores, setUserScores] = useState([]);
 
     window.addEventListener("keydown", function (e) {
         if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
             e.preventDefault();
         }
     }, false);
+
+    const getScores = () => {
+        axios.get(`/api/highscores/${game._id}`)
+            .then(res => {
+                const highscores = res.data;
+                const list = []
+
+                for (let i = 0; i < highscores.length; i++) {
+                    const user = users.filter(user => user._id === highscores[i].user)[0];
+
+                    list.push({
+                        id: highscores[i].user,
+                        score: highscores[i].score,
+                        name: user.name,
+                        img: user.img,
+                    });
+                };
+                setScores(list);
+            })
+            .catch(err => console.log(err));
+    };
+
+    const getUserScores = () => {
+        axios.get(`/api/userScores/${game._id}/${user}`)
+            .then(res => {
+                setUserScores(res.data);
+                console.log(res.data)
+            })
+            .catch(err => console.log(err));
+    };
 
     const initialize = () => {
         let newGrid = cloneDeep(data);
@@ -359,52 +404,77 @@ export default function Main() {
         let gameOverr = checkIfGameOver();
 
         if (gameOverr) {
+            Swal.fire('Game Over');
+
             setGameOver(true);
+
+            if (loggedIn) {
+                const data = {
+                    score: score,
+                    user: user,
+                    game: game._id,
+                };
+                axios.post('/api/newScore', data)
+                    .then(() => {
+                        getScores();
+                        getUserScores();
+                    })
+                    .catch(err => console.log(err));
+            };
         };
     };
 
     useEffect(() => {
         initialize();
+        getScores();
+        
+        if (loggedIn) {
+            getUserScores();
+        };
     }, []);
 
     useEvent("keydown", handleKeyDown);
 
     return (
-        <div className={classes.container}>
-            <div className={classes.board}>
-                {data.map((row, oneIndex) => {
-                    return (
-                        <div style={{ display: "flex" }} key={oneIndex}>
-                            {row.map((digit, index) => {
-                                if (digit > score) {
-                                    setScore(digit);
-                                };
+        <div className={classes.wrapper}>
+            {scores && <Highscores scores={scores} />}
+            <div className={classes.container}>
+                <div className={classes.board}>
+                    {data.map((row, oneIndex) => {
+                        return (
+                            <div style={{ display: "flex" }} key={oneIndex}>
+                                {row.map((digit, index) => {
+                                    if (digit > score) {
+                                        setScore(digit);
+                                    };
 
-                                return <Block num={digit} key={index} />
-                            })}
-                        </div>
-                    );
-                })}
-            </div>
-            <div className={classes.leftDiv}>
-                <div className={classes.infoDiv}>
-                    <img src={t2048} alt='2048' className={classes.title} />
-                    <h3 className={classes.text}>
-                        Use your arrow keys to move the tiles.
-                        Tiles with the same number merge into one when they touch.
-                        Add them up to reach 2048!
-                    </h3>
+                                    return <Block num={digit} key={index} />
+                                })}
+                            </div>
+                        );
+                    })}
                 </div>
-                <Display text={`Score: ${score}`} />
-                {gameOver &&
-                    <div>
-                        <Display gameOver={gameOver} text='Game Over' />
+                <div className={classes.leftDiv}>
+                    <div className={classes.infoDiv}>
+                        <img src={t2048} alt='2048' className={classes.title} />
+                        <h3 className={classes.text}>
+                            Use your arrow keys to move the tiles.
+                            Tiles with the same number merge into one when they touch.
+                            Add them up to reach 2048!
+                    </h3>
                     </div>
-                }
-                <button className={classes.button} onClick={resetGame}>
-                    {gameOver ? 'Play Again' : 'Start Again'}
-                </button>
+                    <Display text={`Score: ${score}`} />
+                    {gameOver &&
+                        <div>
+                            <Display gameOver={gameOver} text='Game Over' />
+                        </div>
+                    }
+                    <button className={classes.button} onClick={resetGame}>
+                        {gameOver ? 'Play Again' : 'Start Again'}
+                    </button>
+                </div>
             </div>
+            <UserScores scores={userScores} loggedIn={loggedIn} />
         </div>
     );
 };
