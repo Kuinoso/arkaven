@@ -136,7 +136,7 @@ export default function Main() {
             <div className={classes.container}>
                 <Stage stage={stage} />
                 <div className={classes.leftDiv}>
-                    <div>
+                    <div className={classes.infoDiv}>
                         <img src={tTetris} alt='tetris' className={classes.title} />
                         <h3 className={classes.text}>
                             Make full horizontal lines with the different

@@ -12,9 +12,24 @@ export const useStyles = makeStyles((theme) => ({
     leftDiv: {
         width: '100%',
         maxWidth: 200,
-        display: 'block',
-        padding: '0 20px',
+        padding: '50px 20px',
         marginLeft: 70,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    infoDiv: {
+        boxSizing: 'border-box',
+        width: 250,
+        borderRadius: 20,
+        color: 'white',
+        background: 'black',
+        fontFamily: 'Pixel, Arial, Helvetica, sans-serif',
+        fontSize: '1.2rem',
+        outline: 'none',
+        border: '4px solid #333',
+        padding: '15px 10px 0 10px',
+        marginBottom: 20,
     },
     button: {
         boxSizing: 'border-box',
@@ -36,7 +51,6 @@ export const useStyles = makeStyles((theme) => ({
     },
     title: {
         width: 150,
-        marginTop: 50,
     },
     text: {
         fontFamily: 'Open Sans, sans-serif',

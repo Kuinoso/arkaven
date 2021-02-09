@@ -138,7 +138,7 @@ export default function Main() {
                 solved={solved}
             />
             <div className={classes.leftDiv}>
-                <div>
+                <div className={classes.infoDiv}>
                     <img src={tMemory} alt='memory' className={classes.title}/>
                     <h3 className={classes.text}>
                         Find all the house sigil pairs and become the ruler of Westeros!

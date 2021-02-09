@@ -387,7 +387,7 @@ export default function Main() {
                 })}
             </div>
             <div className={classes.leftDiv}>
-                <div>
+                <div className={classes.infoDiv}>
                     <img src={t2048} alt='2048' className={classes.title} />
                     <h3 className={classes.text}>
                         Use your arrow keys to move the tiles.

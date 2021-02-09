@@ -224,7 +224,7 @@ export default function Main() {
                 <Food dot={food} color={randomColor} />
             </div>
             <div className={classes.leftDiv}>
-                <div>
+                <div className={classes.infoDiv}>
                     <img src={tSnake} alt='snake' className={classes.title}/>
                     <h3 className={classes.text}>
                         Use the arrow keys to move the snake, when the snake eats food you earn points and the snake grows.
