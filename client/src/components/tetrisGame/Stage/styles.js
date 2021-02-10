@@ -5,7 +5,7 @@ export const useStyles = makeStyles((theme) => ({
         display: 'grid',
         gridGap: '1px',
         border: '2px solid #333',
-        width: '100%',
+        width: 900,
         maxWidth: '25vw',
         background: '#111',
     },

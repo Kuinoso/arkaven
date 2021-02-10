@@ -1,19 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-
-import Board from '../Board';
-import Display from '../../Display';
-
+import { useSelector } from 'react-redux';
 import initializeDeck from '../deck';
-
+import axios from 'axios';
 import Swal from 'sweetalert2';
-
 import { useStyles } from './styles.js';
-
 import throne from '../../../images/throne.jpeg';
 import matchSound from '../../../sounds/match.mp3';
 import gotTheme from '../../../sounds/got.mp3';
-
 import tMemory from '../../../images/memoryT.png';
+import Board from '../Board';
+import Display from '../../Display';
+import Highscores from '../../Highscores';
+import UserScores from '../../UserScores';
 
 export default function Main() {
     const classes = useStyles();
@@ -27,11 +25,80 @@ export default function Main() {
     const [disabled, setDisabled] = useState(false);
     const [gameOver, setFinished] = useState(false);
     const [clicks, setClicks] = useState(1);
+    const [scores, setScores] = useState([]);
+    const [userScores, setUserScores] = useState([]);
+
+    const loggedIn = useSelector(
+        (store) => store.UserReducer.loggedIn
+    );
+    const game = useSelector(
+        (store) => store.GameReducer.allGames.filter(item => item.name === 'memory')[0]
+    );
+    const user = useSelector(
+        (store) => store.UserReducer.loggedUser
+    );
+    const users = useSelector(
+        (store) => store.UserReducer.allUsers
+    );
+
+    const getScores = () => {
+        axios.get(`/api/highscores/${game._id}`)
+            .then(res => {
+                const highscores = res.data;
+                const list = [];
+
+                for (let i = 0; i < highscores.length; i++) {
+                    const user = users.filter(user => user._id === highscores[i].user)[0];
+
+                    list.push({
+                        id: highscores[i].user,
+                        score: highscores[i].score,
+                        name: user.name,
+                        img: user.img,
+                    });
+                };
+                list.sort(function (a, b) {
+                    const keyA = a.score;
+                    const keyB = b.score;
+                    // Compare the 2 dates
+                    if (keyA < keyB) return -1;
+                    if (keyA > keyB) return 1;
+                    return 0;
+                });
+                setScores(list);
+            })
+            .catch(err => console.log(err));
+    };
+
+    const getUserScores = () => {
+        axios.get(`/api/userScores/${user}`)
+            .then(res => {
+                const userScores = res.data.filter(item => item.game === game._id);
+
+                userScores.sort(function (a, b) {
+                    const keyA = a.score;
+                    const keyB = b.score;
+                    // Compare the 2 dates
+                    if (keyA < keyB) return -1;
+                    if (keyA > keyB) return 1;
+                    return 0;
+                });
+
+                const topUserScores = userScores.slice(0, 10);
+
+                setUserScores(topUserScores);
+            })
+            .catch(err => console.log(err));
+    };
 
     useEffect(() => {
         setCards(initializeDeck());
-
         preloadMedia();
+        getScores();
+
+        if (loggedIn) {
+            getUserScores();
+        };
     }, []);
 
     useEffect(() => {
@@ -92,6 +159,20 @@ export default function Main() {
                     myRef2.current.volume = 0.3;
                     myRef2.current.play();
 
+                    if (loggedIn) {
+                        const data = {
+                            score: clicks / 2,
+                            user: user,
+                            game: game._id,
+                        };
+                        axios.post('/api/newScore', data)
+                            .then(() => {
+                                getScores();
+                                getUserScores();
+                            })
+                            .catch(err => console.log(err));
+                    };
+
                     Swal.fire({
                         title: `You won with ${Math.floor(clicks / 2)} attempts`,
                         text: 'Now YOU are the rightful heir to the iron throne!',
@@ -129,42 +210,46 @@ export default function Main() {
     };
 
     return (
-        <div className={classes.container}>
-            <Board
-                cards={cards}
-                flipped={flipped}
-                handleClick={handleClick}
-                disabled={disabled}
-                solved={solved}
-            />
-            <div className={classes.leftDiv}>
-                <div className={classes.infoDiv}>
-                    <img src={tMemory} alt='memory' className={classes.title}/>
-                    <h3 className={classes.text}>
-                        Find all the house sigil pairs and become the ruler of Westeros!
-                        The best score is the lowest.
+        <div className={classes.wrapper}>
+            {scores && <Highscores scores={scores} />}
+            <div className={classes.container}>
+                <Board
+                    cards={cards}
+                    flipped={flipped}
+                    handleClick={handleClick}
+                    disabled={disabled}
+                    solved={solved}
+                />
+                <div className={classes.leftDiv}>
+                    <div className={classes.infoDiv}>
+                        <img src={tMemory} alt='memory' className={classes.title} />
+                        <h3 className={classes.text}>
+                            Find all the house sigil pairs and become the ruler of Westeros!
+                            The best score is the lowest.
                         </h3>
-                </div>
-                <Display text={`Score: ${Math.floor(clicks / 2)}`} />
-                {gameOver &&
-                    <div>
-                        <Display gameOver={gameOver} text='Game Over' />
                     </div>
-                }
-                <button className={classes.button} onClick={playAgain}>
-                    {gameOver ? 'Play Again' : 'Start Again'}
-                </button>
+                    <Display text={`Score: ${Math.floor(clicks / 2)}`} />
+                    {gameOver &&
+                        <div>
+                            <Display gameOver={gameOver} text='Game Over' />
+                        </div>
+                    }
+                    <button className={classes.button} onClick={playAgain}>
+                        {gameOver ? 'Play Again' : 'Start Again'}
+                    </button>
+                </div>
+                <audio
+                    ref={myRef1}
+                    src={matchSound}
+                    loop={false}
+                />
+                <audio
+                    ref={myRef2}
+                    src={gotTheme}
+                    loop={false}
+                />
             </div>
-            <audio
-                ref={myRef1}
-                src={matchSound}
-                loop={false}
-            />
-            <audio
-                ref={myRef2}
-                src={gotTheme}
-                loop={false}
-            />
+            <UserScores scores={userScores} loggedIn={loggedIn} />
         </div>
     );
 };

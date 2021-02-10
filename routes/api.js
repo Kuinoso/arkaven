@@ -31,7 +31,7 @@ router.delete('/deleteUser/:id', auth, UserControls.delete);
 
 
 //Score routes
-router.get('/userScores/:gameId/:userId', auth, ScoreControls.getUserScores);
+router.get('/userScores/:id', auth, ScoreControls.getUserScores);
 
 router.get('/gameScores/:id', ScoreControls.getGameScores);
 

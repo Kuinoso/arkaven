@@ -1,24 +1,23 @@
-import React, { useState, useRef } from 'react';
-
-import Stage from '../Stage';
-import Display from '../../Display';
-
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { createStage, checkCollision } from '../gameHelpers';
-
 import { useTetrisPlayer } from '../../../hooks/useTetrisPlayer';
 import { useTetrisStage } from '../../../hooks/useTetrisStage';
 import { useTetrisStatus } from '../../../hooks/useTetrisStatus';
 import { useInterval } from '../../../hooks/useInterval';
-
+import { useStyles } from './styles.js';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import overSound from '../../../sounds/over.mp3';
 import rotateSound from '../../../sounds/rotate.mp3';
 import collisionSound from '../../../sounds/collision.mp3';
 import clearedSound from '../../../sounds/cleared.mp3';
 import os from '../../../sounds/tetrisOs.mp3';
-
 import tTetris from '../../../images/tetrisT.png';
-
-import { useStyles } from './styles.js';
+import Stage from '../Stage';
+import Display from '../../Display';
+import Highscores from '../../Highscores';
+import UserScores from '../../UserScores';
 
 export default function Main() {
     const classes = useStyles();
@@ -28,18 +27,83 @@ export default function Main() {
     const ref3 = useRef();
     const ref4 = useRef();
 
+    const loggedIn = useSelector(
+        (store) => store.UserReducer.loggedIn
+    );
+    const game = useSelector(
+        (store) => store.GameReducer.allGames.filter(item => item.name === 'tetris')[0]
+    );
+    const user = useSelector(
+        (store) => store.UserReducer.loggedUser
+    );
+    const users = useSelector(
+        (store) => store.UserReducer.allUsers
+    );
+
     const [player, updatePlayerPos, resetPlayer, playerRotate] = useTetrisPlayer();
     const [stage, setStage, rowsCleared] = useTetrisStage(player, resetPlayer);
     const [score, setScore, rows, setRows, dropTime, setDropTime, ref5] = useTetrisStatus(rowsCleared);
 
     const [gameOver, setGameOver] = useState(false);
     const [started, setStarted] = useState(false);
+    const [scores, setScores] = useState([]);
+    const [userScores, setUserScores] = useState([]);
 
     window.addEventListener("keydown", function (e) {
         if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
             e.preventDefault();
         }
     }, false);
+
+    const getScores = () => {
+        axios.get(`/api/highscores/${game._id}`)
+            .then(res => {
+                const highscores = res.data;
+                const list = []
+
+                for (let i = 0; i < highscores.length; i++) {
+                    const user = users.filter(user => user._id === highscores[i].user)[0];
+
+                    list.push({
+                        id: highscores[i].user,
+                        score: highscores[i].score,
+                        name: user.name,
+                        img: user.img,
+                    });
+                };
+                setScores(list);
+            })
+            .catch(err => console.log(err));
+    };
+
+    const getUserScores = () => {
+        axios.get(`/api/userScores/${user}`)
+            .then(res => {
+                const userScores = res.data.filter(item => item.game === game._id);
+
+                userScores.sort(function (a, b) {
+                    const keyA = a.score;
+                    const keyB = b.score;
+                    // Compare the 2 dates
+                    if (keyA < keyB) return 1;
+                    if (keyA > keyB) return -1;
+                    return 0;
+                });
+
+                const topUserScores = userScores.slice(0, 10);
+
+                setUserScores(topUserScores);
+            })
+            .catch(err => console.log(err));
+    };
+
+    useEffect(() => {
+        getScores();
+
+        if (loggedIn) {
+            getUserScores();
+        };
+    }, []);
 
     const movePlayer = dir => {
         if (!checkCollision(player, stage, { x: dir, y: 0 })) {
@@ -80,6 +144,22 @@ export default function Main() {
                 setGameOver(true);
 
                 setDropTime(null);
+
+                if (loggedIn) {
+                    const data = {
+                        score: score,
+                        user: user,
+                        game: game._id,
+                    };
+                    axios.post('/api/newScore', data)
+                        .then(() => {
+                            getScores();
+                            getUserScores();
+                        })
+                        .catch(err => console.log(err));
+                };
+
+                Swal.fire('Game Over')
             };
 
             ref4.current.volume = 0.3;
@@ -133,6 +213,7 @@ export default function Main() {
             onKeyDown={e => move(e)}
             onKeyUp={keyUp}
         >
+            {scores && <Highscores scores={scores} />}
             <div className={classes.container}>
                 <Stage stage={stage} />
                 <div className={classes.leftDiv}>
@@ -185,6 +266,7 @@ export default function Main() {
                 src={clearedSound}
                 loop={false}
             />
+            <UserScores scores={userScores} loggedIn={loggedIn} />
         </div>
     );
 };

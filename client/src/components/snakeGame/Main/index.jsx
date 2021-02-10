@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-
+import { useSelector } from 'react-redux';
 import { useInterval } from '../../../hooks/useInterval';
-
-import Snake from '../Snake';
-import Food from '../Food';
-import Display from '../../Display';
-
+import axios from 'axios';
 import Swal from 'sweetalert2';
-
+import { useStyles } from './styles.js';
 import bite from '../../../sounds/bite.mp3';
 import lose from '../../../sounds/loose.mp3';
 import os from '../../../sounds/osSnake.mp3';
-
 import tSnake from '../../../images/snakeT.png';
-
-import { useStyles } from './styles.js';
+import Snake from '../Snake';
+import Food from '../Food';
+import Display from '../../Display';
+import Highscores from '../../Highscores';
+import UserScores from '../../UserScores';
 
 const getRandomCoordinates = () => {
     let min = 1;
@@ -34,6 +32,21 @@ export default function Main() {
     const myRef2 = useRef();
     const myRef3 = useRef();
 
+    const loggedIn = useSelector(
+        (store) => store.UserReducer.loggedIn
+    );
+    const game = useSelector(
+        (store) => store.GameReducer.allGames.filter(item => item.name === 'snake')[0]
+    );
+    const user = useSelector(
+        (store) => store.UserReducer.loggedUser
+    );
+    const users = useSelector(
+        (store) => store.UserReducer.allUsers
+    );
+
+    const [scores, setScores] = useState([]);
+    const [userScores, setUserScores] = useState([]);
     const [started, setStarted] = useState(false);
     const [gameOver, setGameOver] = useState(false);
     const [randomColor, setRandomColor] = useState('');
@@ -47,11 +60,53 @@ export default function Main() {
         [2, 0]
     ]);
 
-    window.addEventListener("keydown", function(e) {
-        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+    window.addEventListener("keydown", function (e) {
+        if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
             e.preventDefault();
         }
     }, false);
+
+    const getScores = () => {
+        axios.get(`/api/highscores/${game._id}`)
+            .then(res => {
+                const highscores = res.data;
+                const list = []
+
+                for (let i = 0; i < highscores.length; i++) {
+                    const user = users.filter(user => user._id === highscores[i].user)[0];
+
+                    list.push({
+                        id: highscores[i].user,
+                        score: highscores[i].score,
+                        name: user.name,
+                        img: user.img,
+                    });
+                };
+                setScores(list);
+            })
+            .catch(err => console.log(err));
+    };
+
+    const getUserScores = () => {
+        axios.get(`/api/userScores/${user}`)
+            .then(res => {
+                const userScores = res.data.filter(item => item.game === game._id);
+                
+                userScores.sort(function (a, b) {
+                    const keyA = a.score;
+                    const keyB = b.score;
+                    // Compare the 2 dates
+                    if (keyA < keyB) return 1;
+                    if (keyA > keyB) return -1;
+                    return 0;
+                });
+        
+                const topUserScores = userScores.slice(0, 10);
+
+                setUserScores(topUserScores);
+            })
+            .catch(err => console.log(err));
+    };
 
     const getRandomColor = () => {
         let color = colors[Math.floor(Math.random() * colors.length)];
@@ -69,6 +124,11 @@ export default function Main() {
         document.onkeydown = onKeyDown;
 
         getRandomColor();
+        getScores();
+
+        if (loggedIn) {
+            getUserScores();
+        };
     }, []);
 
     const onKeyDown = (e) => {
@@ -165,6 +225,20 @@ export default function Main() {
         myRef2.current.volume = 0.1;
         myRef2.current.play();
 
+        if (loggedIn) {
+            const data = {
+                score: snakeDots.length - 2,
+                user: user,
+                game: game._id,
+            };
+            axios.post('/api/newScore', data)
+                .then(() => {
+                    getScores();
+                    getUserScores();
+                })
+                .catch(err => console.log(err));
+        };
+
         Swal.fire(`Your score was ${snakeDots.length - 2}`);
     };
 
@@ -218,44 +292,48 @@ export default function Main() {
     }, [snakeDots]);
 
     return (
-        <div className={classes.container}>
-            <div className={classes.board}>
-                <Snake snakeDots={snakeDots} color={snakeColor} />
-                <Food dot={food} color={randomColor} />
-            </div>
-            <div className={classes.leftDiv}>
-                <div className={classes.infoDiv}>
-                    <img src={tSnake} alt='snake' className={classes.title}/>
-                    <h3 className={classes.text}>
-                        Use the arrow keys to move the snake, when the snake eats food you earn points and the snake grows.
-                        Dont hit the walls or the body of the snake. The snake can not go backwards.
-                    </h3>
+        <div className={classes.wrapper}>
+            {scores && <Highscores scores={scores} />}
+            <div className={classes.container}>
+                <div className={classes.board}>
+                    <Snake snakeDots={snakeDots} color={snakeColor} />
+                    <Food dot={food} color={randomColor} />
                 </div>
-                <Display text={`Score: ${snakeDots.length - 2}`} />
-                {gameOver &&
-                    <div>
-                        <Display gameOver={gameOver} text='Game Over' />
+                <div className={classes.leftDiv}>
+                    <div className={classes.infoDiv}>
+                        <img src={tSnake} alt='snake' className={classes.title} />
+                        <h3 className={classes.text}>
+                            Use the arrow keys to move the snake, when the snake eats food you earn points and the snake grows.
+                            Dont hit the walls or the body of the snake. The snake can not go backwards.
+                    </h3>
                     </div>
-                }
-                <button className={classes.button} onClick={startGame}>
-                    {gameOver ? 'Play Again' : started ? 'Start Again' : 'Start Game'}
-                </button>
+                    <Display text={`Score: ${snakeDots.length - 2}`} />
+                    {gameOver &&
+                        <div>
+                            <Display gameOver={gameOver} text='Game Over' />
+                        </div>
+                    }
+                    <button className={classes.button} onClick={startGame}>
+                        {gameOver ? 'Play Again' : started ? 'Start Again' : 'Start Game'}
+                    </button>
+                </div>
+                <audio
+                    ref={myRef1}
+                    src={bite}
+                    loop={false}
+                />
+                <audio
+                    ref={myRef2}
+                    src={lose}
+                    loop={false}
+                />
+                <audio
+                    ref={myRef3}
+                    src={os}
+                    loop={true}
+                />
             </div>
-            <audio
-                ref={myRef1}
-                src={bite}
-                loop={false}
-            />
-            <audio
-                ref={myRef2}
-                src={lose}
-                loop={false}
-            />
-            <audio
-                ref={myRef3}
-                src={os}
-                loop={true}
-            />
+            <UserScores scores={userScores} loggedIn={loggedIn} />
         </div>
     );
 };

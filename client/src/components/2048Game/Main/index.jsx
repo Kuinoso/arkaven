@@ -71,10 +71,22 @@ export default function Main() {
     };
 
     const getUserScores = () => {
-        axios.get(`/api/userScores/${game._id}/${user}`)
+        axios.get(`/api/userScores/${user}`)
             .then(res => {
-                setUserScores(res.data);
-                console.log(res.data)
+                const userScores = res.data.filter(item => item.game === game._id);
+                
+                userScores.sort(function (a, b) {
+                    const keyA = a.score;
+                    const keyB = b.score;
+                    // Compare the 2 dates
+                    if (keyA < keyB) return 1;
+                    if (keyA > keyB) return -1;
+                    return 0;
+                });
+        
+                const topUserScores = userScores.slice(0, 10);
+
+                setUserScores(topUserScores);
             })
             .catch(err => console.log(err));
     };
@@ -427,7 +439,7 @@ export default function Main() {
     useEffect(() => {
         initialize();
         getScores();
-        
+
         if (loggedIn) {
             getUserScores();
         };

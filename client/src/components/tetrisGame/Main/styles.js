@@ -1,6 +1,11 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
+    wrapper: {
+        display: 'flex',
+        minHeight: '90vh',
+        alignItems: 'center',
+    },
     container: {
         display: 'flex',
         alignItems: 'flex-start',

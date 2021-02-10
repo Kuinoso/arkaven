@@ -1,17 +1,22 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
+    wrapper: {
+        display: 'flex',
+        minHeight: '90vh',
+        alignItems: 'center',
+    },
     container: {
         display: 'flex',
         alignItems: 'center',
-        margin: '100px auto',
+        margin: '0px auto',
         width: 'min-content',
         height: 'min-content',
     },
     leftDiv: {
         width: '100%',
         maxWidth: 200,
-        padding: '50px 20px',
+        padding: '0px 20px',
         marginLeft: 70,
         display: 'flex',
         flexDirection: 'column',

@@ -13,12 +13,12 @@ export default function UserScores({ scores, loggedIn }) {
                 <List>
                     {scores.map((item, i) =>
                         <ListItem button key={i}>
-                            <p className={classes.score}>{item.score} -</p><p className={classes.name}>{item.name}</p>
+                            <p className={classes.score}>{i + 1} - </p><p className={classes.name}>{item.score}</p>
                         </ListItem>
                     )}
                 </List>
                 :
-                <h1>Not logged in</h1>
+                <h5 className={classes.text}>Please log in to see your scores</h5>
             }
         </div>
     );

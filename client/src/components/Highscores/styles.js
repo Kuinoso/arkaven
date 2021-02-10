@@ -14,11 +14,6 @@ export const useStyles = makeStyles((theme) => ({
         overflowX: 'hidden',
         overflow: 'scroll',
     },
-    list: {
-        display: 'flex',
-        flexDirection: 'column',
-        border: '0.5px solid cyan'
-    },
     score: {
         fontFamily: 'Pixel, Arial, Helvetica, sans-serif',
         fontSize: '0.8rem',
