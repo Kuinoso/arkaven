@@ -15,6 +15,8 @@ router.post('/newGame', GameControls.create);
 //User routes
 router.get('/allUsers', UserControls.all);
 
+router.get('/user/:id', UserControls.find);
+
 router.get('/logout', UserControls.logout);
 
 router.post('/newUser', UserControls.create);

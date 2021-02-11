@@ -11,7 +11,8 @@ export default function UserScores({ scores, loggedIn }) {
             <h3 className={classes.title}>My top Scores</h3>
             {loggedIn ?
                 <List>
-                    {scores.map((item, i) =>
+                    {scores.length === 0 && <h5 className={classes.text}>Play the game to earn scores</h5>}
+                    {scores.length > 0 && scores.map((item, i) =>
                         <ListItem button key={i}>
                             <p className={classes.score}>{i + 1} - </p><p className={classes.name}>{item.score}</p>
                         </ListItem>

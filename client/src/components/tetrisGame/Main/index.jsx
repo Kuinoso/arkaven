@@ -33,7 +33,7 @@ export default function Main() {
     const game = useSelector(
         (store) => store.GameReducer.allGames.filter(item => item.name === 'tetris')[0]
     );
-    if(loggedIn) {}
+    if (loggedIn) { }
     const user = useSelector(
         (store) => store.UserReducer.loggedUser
     );
@@ -63,14 +63,15 @@ export default function Main() {
                 const list = []
 
                 for (let i = 0; i < highscores.length; i++) {
-                    const user = users.filter(user => user._id === highscores[i].user)[0];
-
-                    list.push({
-                        id: highscores[i].user,
-                        score: highscores[i].score,
-                        name: user.name,
-                        img: user.img,
-                    });
+                    const usr = users.filter(us => us._id === highscores[i].user)[0];
+                    if (usr && highscores[i]) {
+                        list.push({
+                            id: highscores[i].user,
+                            score: highscores[i].score,
+                            name: usr.name,
+                            img: usr.img,
+                        });
+                    };
                 };
                 setScores(list);
             })
@@ -100,9 +101,7 @@ export default function Main() {
 
     useEffect(() => {
         getScores();
-    }, []);
 
-    useEffect(() => {
         if (user) {
             getUserScores();
         };

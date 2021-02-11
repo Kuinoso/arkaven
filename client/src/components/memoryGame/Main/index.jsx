@@ -48,14 +48,15 @@ export default function Main() {
                 const list = [];
 
                 for (let i = 0; i < highscores.length; i++) {
-                    const user = users.filter(user => user._id === highscores[i].user)[0];
-
-                    list.push({
-                        id: highscores[i].user,
-                        score: highscores[i].score,
-                        name: user.name,
-                        img: user.img,
-                    });
+                    const usr = users.filter(us => us._id === highscores[i].user)[0];
+                    if (usr && highscores[i]) {
+                        list.push({
+                            id: highscores[i].user,
+                            score: highscores[i].score,
+                            name: usr.name,
+                            img: usr.img,
+                        });
+                    };
                 };
                 list.sort(function (a, b) {
                     const keyA = a.score;
@@ -94,10 +95,11 @@ export default function Main() {
     useEffect(() => {
         setCards(initializeDeck());
         preloadMedia();
-        getScores();
     }, []);
 
     useEffect(() => {
+        getScores();
+
         if (user) {
             getUserScores();
         };

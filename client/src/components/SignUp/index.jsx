@@ -1,32 +1,22 @@
 import React, { useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
+import { logIn, getLoggedUser, getAllUsers } from '../../redux/userReducer/actions';
 import axios from 'axios';
-
 import Swal from 'sweetalert2';
-
 import TextField from '@material-ui/core/TextField';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-import { logIn, getLoggedUser } from '../../redux/userReducer/actions';
-
+import { useStyles } from './styles.js';
 import back from '../../videos/back.mp4';
 
-import { useStyles } from './styles.js';
 
 export default function SignUp({ changeModal, openModal, closeModal }) {
     const classes = useStyles();
     const ref1 = useRef();
     const dispatch = useDispatch();
     const location = useLocation();
-
-    const users = useSelector(
-        (store) => store.UserReducer.allUsers
-    );
 
     const [loading, setLoading] = useState(false);
     const [passwordCheck, setPasswordCheck] = useState('');
@@ -112,6 +102,14 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
         });
     };
 
+    const refreshUsers = () => {
+        axios.get('/api/allUsers')
+            .then(res => {
+                dispatch(getAllUsers(res.data));
+            })
+            .catch(err => console.log(err));
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -140,6 +138,8 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                             dispatch(logIn());
 
                             dispatch(getLoggedUser(res.data));
+
+                            refreshUsers();
 
                             Swal.fire('success!');
                         })
@@ -172,6 +172,8 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                     dispatch(logIn());
 
                     dispatch(getLoggedUser(res.data));
+
+                    refreshUsers();
 
                     Swal.fire('success!');
                 })

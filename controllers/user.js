@@ -26,6 +26,18 @@ const UserController = {
         res.json(allUsers);
     },
 
+    find: async (req, res) => {
+        const user = await UserModel.findById(req.params.id);
+
+        if (user) {
+            res.json(user);
+            
+            return;
+        };
+
+        res.status(404);
+    },
+
     create: async (req, res) => {
         const { name, email, password, img } = req.body;
 
