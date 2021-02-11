@@ -33,6 +33,7 @@ export default function Main() {
     const game = useSelector(
         (store) => store.GameReducer.allGames.filter(item => item.name === 'tetris')[0]
     );
+    if(loggedIn) {}
     const user = useSelector(
         (store) => store.UserReducer.loggedUser
     );
@@ -99,11 +100,13 @@ export default function Main() {
 
     useEffect(() => {
         getScores();
+    }, []);
 
-        if (loggedIn) {
+    useEffect(() => {
+        if (user) {
             getUserScores();
         };
-    }, []);
+    }, [user]);
 
     const movePlayer = dir => {
         if (!checkCollision(player, stage, { x: dir, y: 0 })) {

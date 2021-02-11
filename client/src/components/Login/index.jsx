@@ -1,24 +1,21 @@
 import React, { useState } from 'react';
-
-import { useDispatch } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { logIn, getLoggedUser } from '../../redux/userReducer/actions';
 import axios from 'axios';
-
 import Swal from 'sweetalert2';
-
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-import { logIn, getLoggedUser } from '../../redux/userReducer/actions';
-
-import back from '../../videos/back.mp4';
-
 import { useStyles } from './styles.js';
+import back from '../../videos/back.mp4';
 
 export default function Login({ changeModal, openModal, closeModal }) {
     const classes = useStyles();
     const dispatch = useDispatch();
+
+    const users = useSelector(
+        (store) => store.UserReducer.allUsers
+    );
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);

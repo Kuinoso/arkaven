@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
 
@@ -23,6 +23,10 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
     const ref1 = useRef();
     const dispatch = useDispatch();
     const location = useLocation();
+
+    const users = useSelector(
+        (store) => store.UserReducer.allUsers
+    );
 
     const [loading, setLoading] = useState(false);
     const [passwordCheck, setPasswordCheck] = useState('');

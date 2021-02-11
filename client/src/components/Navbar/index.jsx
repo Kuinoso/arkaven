@@ -1,24 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-
 import { useSelector, useDispatch } from 'react-redux';
-
-import axios from 'axios';
-
-import SignUp from '../SignUp';
-import Login from '../Login';
-import ResetPassword from '../ResetPassword';
-
-import logo from '../../images/logo.png';
-
 import { logOut, getLoggedUser } from '../../redux/userReducer/actions';
-
+import axios from 'axios';
+import logo from '../../images/logo.png';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
-
 import { useStyles } from './styles.js';
+import SignUp from '../SignUp';
+import Login from '../Login';
+import ResetPassword from '../ResetPassword';
 
 export default function Navbar() {
     const classes = useStyles();

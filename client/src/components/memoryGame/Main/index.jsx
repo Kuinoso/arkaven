@@ -95,11 +95,13 @@ export default function Main() {
         setCards(initializeDeck());
         preloadMedia();
         getScores();
+    }, []);
 
-        if (loggedIn) {
+    useEffect(() => {
+        if (user) {
             getUserScores();
         };
-    }, []);
+    }, [user]);
 
     useEffect(() => {
         preloadDeckImages();

@@ -10,6 +10,7 @@
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
     "http-proxy-middleware": "^1.0.6",
+    "js-cookie": "^2.2.1",
     "lodash.clonedeep": "^4.5.0",
     "react": "^17.0.1",
     "react-cookie": "^4.0.3",

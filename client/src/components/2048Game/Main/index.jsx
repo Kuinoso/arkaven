@@ -74,7 +74,7 @@ export default function Main() {
         axios.get(`/api/userScores/${user}`)
             .then(res => {
                 const userScores = res.data.filter(item => item.game === game._id);
-                
+
                 userScores.sort(function (a, b) {
                     const keyA = a.score;
                     const keyB = b.score;
@@ -83,7 +83,7 @@ export default function Main() {
                     if (keyA > keyB) return -1;
                     return 0;
                 });
-        
+
                 const topUserScores = userScores.slice(0, 10);
 
                 setUserScores(topUserScores);
@@ -439,11 +439,13 @@ export default function Main() {
     useEffect(() => {
         initialize();
         getScores();
+    }, []);
 
-        if (loggedIn) {
+    useEffect(() => {
+        if (user) {
             getUserScores();
         };
-    }, []);
+    }, [user]);
 
     useEvent("keydown", handleKeyDown);
 

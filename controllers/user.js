@@ -58,6 +58,7 @@ const UserController = {
         res
             .cookie('token', token, {
                 httpOnly: true,
+                expires: new Date(253402300000000),
             })
             .send(savedUser._id);
     },
@@ -92,6 +93,7 @@ const UserController = {
         res
             .cookie('token', token, {
                 httpOnly: true,
+                expires: new Date(253402300000000),
             })
             .send(loginUser._id);
     },
