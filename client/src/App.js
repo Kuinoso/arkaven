@@ -8,6 +8,7 @@ import axios from 'axios';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './components/Home';
+import Profile from './components/Profile';
 import NewPassword from './components/NewPassword';
 import MemoryGame from './components/memoryGame/Main';
 import SnakeGame from './components/snakeGame/Main';
@@ -35,6 +36,7 @@ function App() {
     <Router>
       <Route path="/" render={() => <Navbar />} />
       <Route exact path="/" render={() => <Home />} />
+      <Route exact path="/profile/:name" render={() => <Profile />} />
       <Route exact path="/reset/:token" render={() => <NewPassword />} />
       <Route exact path="/memoryGame" render={() => <MemoryGame />} />
       <Route exact path="/snakeGame" render={() => <SnakeGame />} />

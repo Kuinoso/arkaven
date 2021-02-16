@@ -26,3 +26,10 @@ export const getLoggedUser = (data) => async (dispatch) => {
         payload: data,
     });
 };
+
+export const getUserData = (data) => async (dispatch) => {
+    dispatch({
+        type: actions.GET_USER_DATA,
+        payload: data,
+    });
+};

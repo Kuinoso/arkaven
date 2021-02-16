@@ -25,6 +25,21 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         width: 200,
     },
+    logButtons: {
+        display: 'flex',
+        width: 'min-width',
+    },
+    user: {
+        color: 'white',
+        fontFamily: 'Pixel, Arial, Helvetica, sans-serif',
+        fontSize: '1rem',
+        textAlign: 'center',
+        alignSelf: 'center',
+        textDecoration: 'none',
+        '&:hover': {
+            color: '#A52CEE'
+        },
+    },
     gameButtons: {
         display: 'flex',
         width: 400,
@@ -38,9 +53,9 @@ export const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         margin: '0 5px',
         border: '4px solid black',
-        borderRadius: 10,
+        textDecoration: 'none',
         '&:hover': {
-            borderColor: '#A52CEE'
+            color: '#A52CEE'
         },
     },
     logo: {

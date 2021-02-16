@@ -4,6 +4,7 @@ const initialState = {
   loggedIn: false,
   allUsers: [],
   loggedUser: null,
+  userData: null,
 };
 
 export default function Reducer(state = initialState, action) {
@@ -23,10 +24,15 @@ export default function Reducer(state = initialState, action) {
         ...state,
         allUsers: action.payload,
       };
-      case actions.GET_LOGGED_USER:
+    case actions.GET_LOGGED_USER:
       return {
         ...state,
         loggedUser: action.payload,
+      };
+    case actions.GET_USER_DATA:
+      return {
+        ...state,
+        userData: action.payload,
       };
     default:
       return state;

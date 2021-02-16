@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { logIn, getLoggedUser, getAllUsers } from '../../redux/userReducer/actions';
+import { logIn, getLoggedUser, getAllUsers, getUserData } from '../../redux/userReducer/actions';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import TextField from '@material-ui/core/TextField';
@@ -40,11 +40,13 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
     };
 
     const spacebar = (e) => {
-        if (location.pathname.includes('2048') && e.keyCode === 32) {
-            setForm({
-                ...form,
-                [e.target.name]: e.target.value + ' ',
-            });
+        if (!location.pathname.includes('reset') || !location.pathname.includes('profile') || location.pathname.length > 1) {
+            if (e.keyCode === 32) {
+                setForm({
+                    ...form,
+                    [e.target.name]: e.target.value + ' ',
+                });
+            };
         };
     };
 
@@ -110,6 +112,14 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
             .catch(err => console.log(err));
     };
 
+    const getData = (user) => {
+        axios.get(`/api/user/${user}`)
+            .then(res => {
+                dispatch(getUserData(res.data));
+            })
+            .catch(err => console.log(err));
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -135,11 +145,13 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
 
                             closeModal();
 
-                            dispatch(logIn());
+                            refreshUsers();
 
                             dispatch(getLoggedUser(res.data));
 
-                            refreshUsers();
+                            getData(res.data);
+
+                            dispatch(logIn());
 
                             Swal.fire('success!');
                         })
@@ -169,11 +181,13 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
 
                     closeModal();
 
-                    dispatch(logIn());
+                    refreshUsers();
 
                     dispatch(getLoggedUser(res.data));
 
-                    refreshUsers();
+                    getData(res.data);
+
+                    dispatch(logIn());
 
                     Swal.fire('success!');
                 })

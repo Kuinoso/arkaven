@@ -22,6 +22,10 @@ export default function Navbar() {
         (store) => store.UserReducer.loggedIn
     );
 
+    const userData = useSelector(
+        (store) => store.UserReducer.userData
+    );
+
     const [open, setOpen] = useState(false);
     const [modal, setModal] = useState('');
 
@@ -48,13 +52,16 @@ export default function Navbar() {
         if (!location.pathname.includes('reset')) {
             if (loggedIn) {
                 return (
-                    <div className={classes.userButtons}>
+                    <div className={classes.logButtons}>
+                        <Link to={`/profile/${userData._id}`} className={classes.navButton}>
+                            {userData.name.split(' ')[0]}
+                        </Link>
                         <Button
                             className={classes.navButton}
                             onClick={logout}
                         >
                             Log Out
-                    </Button>
+                        </Button>
                     </div>
                 );
             } else {

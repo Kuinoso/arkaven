@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { logIn, getLoggedUser } from '../../redux/userReducer/actions';
+import { logIn, getLoggedUser, getUserData } from '../../redux/userReducer/actions';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import TextField from '@material-ui/core/TextField';
@@ -33,6 +33,14 @@ export default function Login({ changeModal, openModal, closeModal }) {
         return form.email.length > 0 && form.password.length > 0;
     };
 
+    const getData = (user) => {
+        axios.get(`/api/user/${user}`)
+            .then(res => {
+                dispatch(getUserData(res.data));
+            })
+            .catch(err => console.log(err));
+    };
+
     const handleClick = (e) => {
         e.preventDefault();
 
@@ -48,6 +56,8 @@ export default function Login({ changeModal, openModal, closeModal }) {
                 setLoading(false);
 
                 closeModal();
+
+                getData(res.data);
 
                 dispatch(logIn());
 
