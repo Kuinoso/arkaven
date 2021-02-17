@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
@@ -8,13 +9,23 @@ import UpdatePassword from '../UpdatePassword';
 
 export default function Profile() {
     const classes = useStyles();
+    const history = useHistory();
 
+    const loggedIn = useSelector(
+        (store) => store.UserReducer.loggedIn
+    );
     const userData = useSelector(
         (store) => store.UserReducer.userData
     );
 
     const [open, setOpen] = useState(false);
     const [modal, setModal] = useState('');
+
+    useEffect(() => {
+        if (!loggedIn) {
+            history.push('/');
+        };
+    }, [loggedIn]);
 
     const handleOpen = () => {
         setOpen(true);
@@ -42,6 +53,7 @@ export default function Profile() {
 
         if (type === 'password') {
             return <UpdatePassword
+                id={userData._id}
                 changeModal={setModal}
                 openModal={handleOpen}
                 closeModal={handleClose}
@@ -53,26 +65,22 @@ export default function Profile() {
         <div>
             {userData &&
                 <div className={classes.container}>
-                    <div className={classes.leftDiv}>
-                        <div className={classes.imageContainer}>
-                            {/* <img src={userData.img} alt='upload' className={classes.image} /> */}
-                        </div>
-                        <h1>{userData.name}</h1>
-                    </div>
-                    <div className={classes.rigthDiv}>
+                    <img src={userData.img} alt='upload' className={classes.image} />
+                    <h1 className={classes.name}>{userData.name}</h1>
+                    <div className={classes.buttons}>
                         <Button
                             variant="contained"
-                            className={classes.login}
+                            className={classes.modal}
                             onClick={() => handleModal('info')}
                         >
                             Update my info
                         </Button>
                         <Button
                             variant="contained"
-                            className={classes.login}
+                            className={classes.modal}
                             onClick={() => handleModal('password')}
                         >
-                            Reset password
+                            Change password
                         </Button>
                     </div>
                     <Modal

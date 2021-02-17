@@ -31,4 +31,7 @@ export const useStyles = makeStyles((theme) => ({
     title: {
         padding: '0 20px'
     },
+    pop: {
+        cursor: 'default',
+    },
 }));

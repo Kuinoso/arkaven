@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import logo from '../../images/logo.png';
 
@@ -14,12 +13,16 @@ import { useStyles } from './styles.js';
 export default function Footer() {
     const classes = useStyles();
 
+    const goHome = () => {
+        window.location.href = `/`;
+    };
+
     return (
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar className={classes.toolbar}>
                     <div className={classes.footerDiv}>
-                        <Link to='/'><img src={logo} alt='Logo' className={classes.logo} /></Link>
+                        <img src={logo} alt='Logo' className={classes.logo} onClick={goHome}/>
                         <p className={classes.text}>was developed by Leonardo Kuinoso Cifuentes</p>
                     </div>
                     <div className={classes.footerDiv}>

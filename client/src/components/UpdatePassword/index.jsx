@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import { useStyles } from './styles.js';
 
-export default function UpdatePassword({ changeModal }) {
+export default function UpdatePassword({ id, changeModal, openModal, closeModal }) {
     const classes = useStyles();
 
     const [loading, setLoading] = useState(false);
     const [validated, setValidated] = useState(false);
+    const [token, setToken] = useState(null);
     const [passwords, setPasswords] = useState({
         current: '',
         new: '',
@@ -41,11 +44,47 @@ export default function UpdatePassword({ changeModal }) {
     };
 
     const handleValidation = (e) => {
+        setLoading(true);
 
+        const data = {
+            password: passwords.current,
+        };
+
+        axios.post(`/api/updatePassword/${id}`, data)
+            .then(res => {
+                setLoading(false);
+                setValidated(true);
+                setToken(res.data.token);
+            })
+            .catch(err => {
+                setLoading(false);
+                closeModal();
+
+                Swal.fire(err.response.data.errorMessage)
+                    .then(() => openModal())
+                    .catch(err => console.log(err));
+            });
     };
 
     const handleSubmit = (e) => {
+        setLoading(true);
 
+        const data = {
+            password: passwords.new,
+            token: token,
+        };
+
+        axios.post('/api/newPassword', data)
+            .then(res => {
+                closeModal();
+
+                Swal.fire(res.data);
+            })
+            .catch(err => {
+                closeModal();
+
+                Swal.fire(err.response.data.errorMessage);
+            });
     };
 
     const formButtons = () => {
@@ -54,7 +93,7 @@ export default function UpdatePassword({ changeModal }) {
                 <Button
                     variant="contained"
                     disabled={!validateForm()}
-                    className={classes.login}
+                    className={classes.submit}
                     onClick={handleSubmit}
                 >
                     Change Password
@@ -65,7 +104,7 @@ export default function UpdatePassword({ changeModal }) {
                 <Button
                     variant="contained"
                     disabled={!validateCurrentPassword()}
-                    className={classes.login}
+                    className={classes.submit}
                     onClick={handleValidation}
                 >
                     Continue
@@ -78,10 +117,7 @@ export default function UpdatePassword({ changeModal }) {
         <div className={classes.container}>
             <div className={classes.headerContainer}>
                 <h2 className={classes.header}>Reset password</h2>
-                <p className={classes.subHeader}>
-                    Update my info
-                            <span className={classes.subLink} onClick={() => changeModal('password')}> Log In</span>
-                </p>
+                <p className={classes.subLink} onClick={() => changeModal('info')}>Update my info</p>
             </div>
             <div className={classes.fieldsContainer}>
                 {validated ?
@@ -106,6 +142,7 @@ export default function UpdatePassword({ changeModal }) {
                                 value={passwords.check}
                                 type='Password'
                                 className={classes.textField}
+                                onChange={handleChange}
                             />
                             {!comparePasswords() && passwords.check.length > 0 &&
                                 <span className={classes.error}>Passwords do not match</span>

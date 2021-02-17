@@ -24,7 +24,8 @@ export const useStyles = makeStyles((theme) => ({
     },
     logo: {
         width: 80,
-        marginRight: 8
+        marginRight: 8,
+        cursor: 'pointer',
     },
     text: {
         alignSelf: 'center',

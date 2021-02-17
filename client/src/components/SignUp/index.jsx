@@ -21,6 +21,7 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
     const [loading, setLoading] = useState(false);
     const [passwordCheck, setPasswordCheck] = useState('');
     const [image, setImage] = useState('');
+    const [loadMessage, setLoadMessage] = useState('Please wait');
     const [selectedPic, setSelectedPic] = useState({
         pic: 'https://res.cloudinary.com/kuinoso/image/upload/v1612556663/avatar_k6pn5r.png',
         loaded: false,
@@ -40,7 +41,7 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
     };
 
     const spacebar = (e) => {
-        if (!location.pathname.includes('reset') || !location.pathname.includes('profile') || location.pathname.length > 1) {
+        if (location.pathname.includes('tetris') || location.pathname.includes('snake') || location.pathname.includes('2048')) {
             if (e.keyCode === 32) {
                 setForm({
                     ...form,
@@ -102,6 +103,8 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
             password: '',
             img: '',
         });
+
+        setLoadMessage('Please wait');
     };
 
     const refreshUsers = () => {
@@ -120,10 +123,26 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
             .catch(err => console.log(err));
     };
 
+    const toTitleCase = (str) => {
+        return str.replace(/\w\S*/g, function (txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+    };
+
+    const displayMessage = () => {
+        setTimeout(function(){ setLoadMessage('Setting up the arcade...')}, 5000);
+        setTimeout(function(){ setLoadMessage('Please wait')}, 10000);
+        setTimeout(function(){ setLoadMessage('Uploading picture...')}, 15000);
+        setTimeout(function(){ setLoadMessage('Please wait')}, 20000);
+        setTimeout(function(){ setLoadMessage('Finishing final details...')}, 25000);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         setLoading(true);
+
+        displayMessage();
 
         if (selectedPic.loaded) {
             const data = new FormData();
@@ -135,7 +154,9 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
             axios.post('https://api.cloudinary.com/v1_1/kuinoso/image/upload', data)
                 .then(res => {
                     const user = {
-                        ...form,
+                        name: toTitleCase(form.name),
+                        email: form.email,
+                        password: form.password,
                         img: res.data.url,
                     };
 
@@ -157,6 +178,7 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                         })
                         .catch(err => {
                             setLoading(false);
+                            setLoadMessage('Please wait');
 
                             closeModal();
 
@@ -171,7 +193,9 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
 
         } else {
             const user = {
-                ...form,
+                name: toTitleCase(form.name),
+                email: form.email,
+                password: form.password,
                 img: selectedPic.pic,
             };
 
@@ -195,6 +219,7 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                     console.log(err);
 
                     setLoading(false);
+                    setLoadMessage('Please wait');
 
                     closeModal();
 
@@ -207,6 +232,17 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
 
     return (
         <div className={classes.container}>
+            <div className={classes.rightDiv}>
+                <video className={classes.background} autoPlay loop muted>
+                    <source src={back} type="video/mp4" />
+                </video>
+                <div className={classes.textWrapper}>
+                    <h1 className={classes.title}>PLAY THE CLASSICS</h1>
+                </div>
+                <div className={classes.textWrapper}>
+                    <h1 className={classes.title}>RULE THE ARCADE</h1>
+                </div>
+            </div>
             <div>
                 <div className={classes.headerContainer}>
                     <h2 className={classes.header}>Join Arkaven</h2>
@@ -285,7 +321,10 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                         }
                     </div>
                     {loading ?
-                        <CircularProgress className={classes.loading} />
+                        <div className={classes.load}>
+                            <CircularProgress className={classes.loading} />
+                            <p className={classes.message}>{loadMessage}</p>
+                        </div>
                         :
                         <Button
                             variant="contained"
@@ -296,17 +335,6 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                             Join
                     </Button>
                     }
-                </div>
-            </div>
-            <div className={classes.rightDiv}>
-                <video className={classes.background} autoPlay loop muted>
-                    <source src={back} type="video/mp4" />
-                </video>
-                <div className={classes.textWrapper}>
-                    <h1 className={classes.title}>PLAY THE CLASSICS</h1>
-                </div>
-                <div className={classes.textWrapper}>
-                    <h1 className={classes.title}>RULE THE ARCADE</h1>
                 </div>
             </div>
         </div>

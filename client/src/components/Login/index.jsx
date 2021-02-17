@@ -78,6 +78,17 @@ export default function Login({ changeModal, openModal, closeModal }) {
 
     return (
         <div className={classes.container}>
+            <div className={classes.rightDiv}>
+                <video className={classes.background} autoPlay loop muted>
+                    <source src={back} type="video/mp4" />
+                </video>
+                <div className={classes.textWrapper}>
+                    <h1 className={classes.title}>PLAY THE CLASSICS</h1>
+                </div>
+                <div className={classes.textWrapper}>
+                    <h1 className={classes.title}>RULE THE ARCADE</h1>
+                </div>
+            </div>
             <div>
                 <div className={classes.headerContainer}>
                     <h2 className={classes.header}>Log In to Arkaven</h2>
@@ -126,17 +137,6 @@ export default function Login({ changeModal, openModal, closeModal }) {
                             Log In
                     </Button>
                     }
-                </div>
-            </div>
-            <div className={classes.rightDiv}>
-                <video className={classes.background} autoPlay loop muted>
-                    <source src={back} type="video/mp4" />
-                </video>
-                <div className={classes.textWrapper}>
-                    <h1 className={classes.title}>PLAY THE CLASSICS</h1>
-                </div>
-                <div className={classes.textWrapper}>
-                    <h1 className={classes.title}>RULE THE ARCADE</h1>
                 </div>
             </div>
         </div>

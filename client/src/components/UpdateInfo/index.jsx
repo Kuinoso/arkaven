@@ -1,16 +1,22 @@
 import React, { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { getAllUsers, getUserData } from '../../redux/userReducer/actions';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import { useStyles } from './styles.js';
 
-export default function UpdateInfo({ userData, changeModal }) {
+export default function UpdateInfo({ userData, changeModal, openModal, closeModal }) {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const ref1 = useRef();
 
     const [image, setImage] = useState('');
     const [loading, setLoading] = useState(false);
+    const [loadMessage, setLoadMessage] = useState('Please wait');
     const [name, setName] = useState(userData.name);
     const [selectedPic, setSelectedPic] = useState({
         pic: userData.img,
@@ -34,8 +40,128 @@ export default function UpdateInfo({ userData, changeModal }) {
         return name.length > 0;
     };
 
-    const handleSubmit = (e) => {
+    const resetState = () => {
+        setLoading(false);
 
+        setImage('');
+
+        setSelectedPic({
+            ...selectedPic,
+            loaded: false,
+        });
+
+        setLoadMessage('Please wait');
+    };
+
+    const refreshUsers = () => {
+        axios.get('/api/allUsers')
+            .then(res => {
+                dispatch(getAllUsers(res.data));
+            })
+            .catch(err => console.log(err));
+    };
+
+    const getData = (user) => {
+        axios.get(`/api/user/${user}`)
+            .then(res => {
+                dispatch(getUserData(res.data));
+            })
+            .catch(err => console.log(err));
+    };
+
+    const toTitleCase = (str) => {
+        return str.replace(/\w\S*/g, function (txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+    };
+
+    const displayMessage = () => {
+        setTimeout(function(){ setLoadMessage('Setting up the arcade...')}, 5000);
+        setTimeout(function(){ setLoadMessage('Please wait')}, 10000);
+        setTimeout(function(){ setLoadMessage('Uploading picture...')}, 15000);
+        setTimeout(function(){ setLoadMessage('Please wait')}, 20000);
+        setTimeout(function(){ setLoadMessage('Finishing final details...')}, 25000);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        setLoading(true);
+
+        displayMessage();
+
+        if (selectedPic.loaded) {
+            const data = new FormData();
+
+            data.append('file', image);
+            data.append('upload_preset', 'arkaven');
+            data.append('cloud_name', 'kuinoso');
+
+            axios.post('https://api.cloudinary.com/v1_1/kuinoso/image/upload', data)
+                .then(res => {
+                    const user = {
+                        name: toTitleCase(name),
+                        img: res.data.url,
+                    };
+
+                    axios.put(`/api/editUser/${userData._id}`, user)
+                        .then((res) => {
+                            resetState();
+
+                            closeModal();
+
+                            refreshUsers();
+
+                            getData(res.data);
+
+                            Swal.fire('success!');
+                        })
+                        .catch(err => {
+                            setLoading(false);
+                            setLoadMessage('Please wait');
+
+                            closeModal();
+
+                            Swal.fire(err.response.data.errorMessage)
+                                .then(() => openModal())
+                                .catch(err => console.log(err));
+                        });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+
+        } else {
+            const user = {
+                name: toTitleCase(name),
+                img: selectedPic.pic,
+            };
+
+            axios.put(`/api/editUser/${userData._id}`, user)
+                .then((res) => {
+                    resetState();
+
+                    closeModal();
+
+                    refreshUsers();
+
+                    getData(res.data);
+
+                    Swal.fire('success!');
+                })
+                .catch(err => {
+                    console.log(err);
+
+                    setLoading(false);
+                    setLoadMessage('Please wait');
+
+                    closeModal();
+
+                    Swal.fire(err.response.data.errorMessage)
+                        .then(() => openModal())
+                        .catch(err => console.log(err));
+                });
+        };
     };
 
     return (
@@ -71,7 +197,10 @@ export default function UpdateInfo({ userData, changeModal }) {
                     />
                 </div>
                 {loading ?
-                    <CircularProgress className={classes.loading} />
+                    <div className={classes.load}>
+                        <CircularProgress className={classes.loading} />
+                        <p className={classes.message}>{loadMessage}</p>
+                    </div>
                     :
                     <Button
                         variant="contained"

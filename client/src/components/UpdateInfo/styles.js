@@ -5,7 +5,7 @@ export const useStyles = makeStyles((theme) => ({
         width: 400,
         height: 500,
         margin: 'auto',
-        marginTop: 100,
+        marginTop: 150,
         backgroundColor: 'white',
         color: 'black',
         boxShadow: theme.shadows[5],
@@ -82,6 +82,11 @@ export const useStyles = makeStyles((theme) => ({
             borderBottomColor: '#A52CEE',
         },
     },
+    load: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
     loading: {
         color: '#A52CEE',
         marginTop: 20,
@@ -94,5 +99,10 @@ export const useStyles = makeStyles((theme) => ({
         '&:hover': {
             backgroundColor: '#bb4efc'
         },
+    },
+    message: {
+        fontSize: '0.75rem',
+        color: '#A52CEE',
+        textAlign: 'center',
     },
 }));

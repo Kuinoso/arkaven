@@ -38,7 +38,7 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         width: 350,
-        height: 320,
+        height: 350,
         justifyContent: 'space-around',
         alignItems: 'center',
         marginTop: 50,
@@ -97,6 +97,6 @@ export const useStyles = makeStyles((theme) => ({
     title: {
         textAlign: 'center',
         color: 'black',
-        fontSize: '1.6rem',
+        fontSize: '1.8rem',
     },
 }));

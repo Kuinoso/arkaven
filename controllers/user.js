@@ -155,6 +155,45 @@ const UserController = {
         });
     },
 
+    updatePassword: (req, res) => {
+        crypto.randomBytes(32, async (err, buffer) => {
+            if (err) {
+                console.log(err);
+
+                return;
+            };
+
+            const token = buffer.toString('hex');
+
+            const user = await UserModel.findById(req.params.id);
+
+            if (!user) {
+                res.status(422).json({
+                    errorMessage: 'User not found'
+                });
+
+                return;
+            };
+
+            const correctPassword = await bcrypt.compare(req.body.password, user.passwordHash);
+
+            if (!correctPassword) {
+                res.status(401).json({
+                    errorMessage: 'Wrong password.'
+                });
+    
+                return;
+            };
+
+            user.resetToken = token;
+            user.expireToken = Date.now() + 3600000;
+
+            await user.save();
+
+            res.json({ token: token })
+        });
+    },
+
     newPassword: async (req, res) => {
         const newPassword = req.body.password;
         const sentToken = req.body.token;
@@ -182,15 +221,22 @@ const UserController = {
     },
 
     edit: async (req, res) => {
-        await UserModel.findByIdAndUpdate(req.params.id, req.body, function (err) {
-            if (!err) {
-                res.send('updated');
+        const user = await UserModel.findById(req.params.id);
 
-                return;
-            };
+        if (!user) {
+            res.status(404).json({
+                errorMessage: 'User not found.'
+            });
 
-            res.send(err);
-        });
+            return;
+        };
+
+        user.name = req.body.name;
+        user.img = req.body.img;
+
+        await user.save();
+
+        res.send(user._id);
     },
 
     delete: async (req, res) => {

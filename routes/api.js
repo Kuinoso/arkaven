@@ -25,6 +25,8 @@ router.post('/login', UserControls.login);
 
 router.post('/resetPassword', UserControls.resetPassword);
 
+router.post('/updatePassword/:id', auth, UserControls.updatePassword);
+
 router.post('/newPassword', UserControls.newPassword);
 
 router.put('/editUser/:id', auth, UserControls.edit);

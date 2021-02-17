@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logOut, getLoggedUser } from '../../redux/userReducer/actions';
 import axios from 'axios';
@@ -16,6 +16,7 @@ import ResetPassword from '../ResetPassword';
 export default function Navbar() {
     const classes = useStyles();
     const location = useLocation();
+    const history = useHistory();
     const dispatch = useDispatch();
 
     const loggedIn = useSelector(
@@ -48,14 +49,25 @@ export default function Navbar() {
             .catch(err => console.log(err));
     };
 
+    const goToProfile = () => {
+        window.location.href = `/profile/${userData._id}`;
+    };
+
+    const goHome = () => {
+        window.location.href = `/`;
+    };
+
     const userButtons = () => {
         if (!location.pathname.includes('reset')) {
             if (loggedIn) {
                 return (
                     <div className={classes.logButtons}>
-                        <Link to={`/profile/${userData._id}`} className={classes.navButton}>
+                        <Button
+                            className={classes.navButton}
+                            onClick={goToProfile}
+                        >
                             {userData.name.split(' ')[0]}
-                        </Link>
+                        </Button>
                         <Button
                             className={classes.navButton}
                             onClick={logout}
@@ -93,6 +105,18 @@ export default function Navbar() {
 
     const gameButtons = () => {
         const params = ['tetrisGame', 'memoryGame', 'snakeGame', '2048Game'];
+
+        if (location.pathname.includes('profile')) {
+            return (
+                <div className={classes.gameButtons}>
+                    {params.map((item, i) =>
+                        <Link to={`/${item}`} key={i}>
+                            <Button className={classes.navButton}>{item.split('G')[0]}</Button>
+                        </Link>
+                    )}
+                </div>
+            );
+        };
 
         for (let i = 0; i < params.length; i++) {
             if (location.pathname.includes(params[i])) {
@@ -140,7 +164,7 @@ export default function Navbar() {
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar className={classes.toolbar}>
-                    <Link to='/'><img src={logo} alt='Logo' className={classes.logo} /></Link>
+                    <img src={logo} alt='Logo' className={classes.logo} onClick={goHome}/>
                     {location.pathname === '/' ?
                         userButtons()
                         :

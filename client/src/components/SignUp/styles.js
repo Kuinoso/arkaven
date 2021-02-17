@@ -118,6 +118,11 @@ export const useStyles = makeStyles((theme) => ({
             color: '#A52CEE',
         },
     },
+    load: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
     loading: {
         color: '#A52CEE',
         marginTop: 20,
@@ -129,6 +134,11 @@ export const useStyles = makeStyles((theme) => ({
     title: {
         textAlign: 'center',
         color: 'black',
-        fontSize: '1.6rem',
+        fontSize: '1.8rem',
+    },
+    message: {
+        fontSize: '0.75rem',
+        color: '#A52CEE',
+        textAlign: 'center',
     },
 }));
