@@ -3,13 +3,17 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles((theme) => ({
     container: {
         width: 700,
-        height: 650,
+        height: 600,
         margin: 'auto',
         marginTop: 100,
         backgroundColor: 'white',
         color: 'black',
         boxShadow: theme.shadows[5],
         display: 'flex',
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
+            marginTop: 50,
+        },
     },
     rightDiv: {
         width: 350,
@@ -18,6 +22,9 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
+        [theme.breakpoints.down('xs')]: {
+            display: 'none'
+        },
     },
     background: {
         position: 'absolute',
@@ -42,6 +49,10 @@ export const useStyles = makeStyles((theme) => ({
         height: 350,
         justifyContent: 'space-around',
         alignItems: 'center',
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
+            height: 300
+        },
     },
     headerContainer: {
         display: 'flex',
@@ -49,6 +60,10 @@ export const useStyles = makeStyles((theme) => ({
         width: 280,
         padding: '35px 35px 0 35px',
         textAlign: 'center',
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
+            padding: '20px 0',
+        },
     },
     imageContainer: {
         display: 'flex',
@@ -58,6 +73,11 @@ export const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         position: 'relative',
         marginTop: 20,
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
+            padding: 0,
+            marginTop: 0,
+        },
     },
     textField: {
         '& label.Mui-focused': {
@@ -116,6 +136,11 @@ export const useStyles = makeStyles((theme) => ({
         right: 110,
         '&:hover': {
             color: '#A52CEE',
+        },
+        [theme.breakpoints.down('xs')]: {
+            right: 90,
+            width: 40,
+            height: 40,
         },
     },
     load: {

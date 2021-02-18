@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import initializeDeck from '../deck';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useStyles } from './styles.js';
 import throne from '../../../images/throne.jpeg';
 import matchSound from '../../../sounds/match.mp3';
@@ -12,10 +14,12 @@ import Board from '../Board';
 import Display from '../../Display';
 import Highscores from '../../Highscores';
 import UserScores from '../../UserScores';
+import MobileGames from '../../MobileGames';
 
 export default function Main() {
     const classes = useStyles();
-
+    const theme = useTheme();
+    const small = useMediaQuery(theme.breakpoints.down('md'));
     const myRef1 = useRef();
     const myRef2 = useRef();
 
@@ -214,46 +218,52 @@ export default function Main() {
     };
 
     return (
-        <div className={classes.wrapper}>
-            {scores && <Highscores scores={scores} />}
-            <div className={classes.container}>
-                <Board
-                    cards={cards}
-                    flipped={flipped}
-                    handleClick={handleClick}
-                    disabled={disabled}
-                    solved={solved}
-                />
-                <div className={classes.leftDiv}>
-                    <div className={classes.infoDiv}>
-                        <img src={tMemory} alt='memory' className={classes.title} />
-                        <h3 className={classes.text}>
-                            Find all the house sigil pairs and become the ruler of Westeros!
-                            The best score is the lowest.
+        <div>
+            {small ?
+                <MobileGames />
+                :
+                <div className={classes.wrapper}>
+                    {scores && <Highscores scores={scores} />}
+                    <div className={classes.container}>
+                        <Board
+                            cards={cards}
+                            flipped={flipped}
+                            handleClick={handleClick}
+                            disabled={disabled}
+                            solved={solved}
+                        />
+                        <div className={classes.leftDiv}>
+                            <div className={classes.infoDiv}>
+                                <img src={tMemory} alt='memory' className={classes.title} />
+                                <h3 className={classes.text}>
+                                    Find all the house sigil pairs and become the ruler of Westeros!
+                                    The best score is the lowest.
                         </h3>
-                    </div>
-                    <Display text={`Score: ${Math.floor(clicks / 2)}`} />
-                    {gameOver &&
-                        <div>
-                            <Display gameOver={gameOver} text='Game Over' />
+                            </div>
+                            <Display text={`Score: ${Math.floor(clicks / 2)}`} />
+                            {gameOver &&
+                                <div>
+                                    <Display gameOver={gameOver} text='Game Over' />
+                                </div>
+                            }
+                            <button className={classes.button} onClick={playAgain}>
+                                {gameOver ? 'Play Again' : 'Start Again'}
+                            </button>
                         </div>
-                    }
-                    <button className={classes.button} onClick={playAgain}>
-                        {gameOver ? 'Play Again' : 'Start Again'}
-                    </button>
+                        <audio
+                            ref={myRef1}
+                            src={matchSound}
+                            loop={false}
+                        />
+                        <audio
+                            ref={myRef2}
+                            src={gotTheme}
+                            loop={false}
+                        />
+                    </div>
+                    <UserScores scores={userScores} loggedIn={loggedIn} />
                 </div>
-                <audio
-                    ref={myRef1}
-                    src={matchSound}
-                    loop={false}
-                />
-                <audio
-                    ref={myRef2}
-                    src={gotTheme}
-                    loop={false}
-                />
-            </div>
-            <UserScores scores={userScores} loggedIn={loggedIn} />
+            }
         </div>
     );
 };

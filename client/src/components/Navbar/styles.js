@@ -24,10 +24,19 @@ export const useStyles = makeStyles((theme) => ({
     userButtons: {
         display: 'flex',
         width: 200,
+        [theme.breakpoints.down('xs')]: {
+            justifyContent: 'space-between',
+            margin: '0 0 0 70px',
+            whiteSpace: 'nowrap',
+        },
     },
     logButtons: {
         display: 'flex',
-        width: 'min-width',
+        [theme.breakpoints.down('xs')]: {
+            justifyContent: 'space-between',
+            margin: '0 0 0 20px',
+            whiteSpace: 'nowrap',
+        },
     },
     user: {
         color: 'white',
@@ -39,6 +48,7 @@ export const useStyles = makeStyles((theme) => ({
         '&:hover': {
             color: '#A52CEE'
         },
+        
     },
     gameButtons: {
         display: 'flex',
@@ -57,9 +67,15 @@ export const useStyles = makeStyles((theme) => ({
         '&:hover': {
             color: '#A52CEE'
         },
+        [theme.breakpoints.down('xs')]: {
+            fontSize: '0.8rem',
+        },
     },
     logo: {
         width: 250,
         cursor: 'pointer',
+        [theme.breakpoints.down('xs')]: {
+            width: 120,
+        },
     },
 }));

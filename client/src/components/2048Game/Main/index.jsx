@@ -4,15 +4,20 @@ import cloneDeep from "lodash.clonedeep";
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useEvent } from "../gameHelpers";
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useStyles } from './styles.js';
 import t2048 from '../../../images/2048T.png';
 import Block from '../Block';
 import Display from '../../Display';
 import Highscores from '../../Highscores';
 import UserScores from '../../UserScores';
+import MobileGames from '../../MobileGames';
 
 export default function Main() {
     const classes = useStyles();
+    const theme = useTheme();
+    const small = useMediaQuery(theme.breakpoints.down('md'));
 
     const loggedIn = useSelector(
         (store) => store.UserReducer.loggedIn
@@ -452,45 +457,51 @@ export default function Main() {
     useEvent("keydown", handleKeyDown);
 
     return (
-        <div className={classes.wrapper}>
-            {scores && <Highscores scores={scores} />}
-            <div className={classes.container}>
-                <div className={classes.board}>
-                    {data.map((row, oneIndex) => {
-                        return (
-                            <div style={{ display: "flex" }} key={oneIndex}>
-                                {row.map((digit, index) => {
-                                    if (digit > score) {
-                                        setScore(digit);
-                                    };
+        <div>
+            {small ?
+                <MobileGames />
+                :
+                <div className={classes.wrapper}>
+                    {scores && <Highscores scores={scores} />}
+                    <div className={classes.container}>
+                        <div className={classes.board}>
+                            {data.map((row, oneIndex) => {
+                                return (
+                                    <div style={{ display: "flex" }} key={oneIndex}>
+                                        {row.map((digit, index) => {
+                                            if (digit > score) {
+                                                setScore(digit);
+                                            };
 
-                                    return <Block num={digit} key={index} />
-                                })}
-                            </div>
-                        );
-                    })}
-                </div>
-                <div className={classes.leftDiv}>
-                    <div className={classes.infoDiv}>
-                        <img src={t2048} alt='2048' className={classes.title} />
-                        <h3 className={classes.text}>
-                            Use your arrow keys to move the tiles.
-                            Tiles with the same number merge into one when they touch.
-                            Add them up to reach 2048!
-                    </h3>
-                    </div>
-                    <Display text={`Score: ${score}`} />
-                    {gameOver &&
-                        <div>
-                            <Display gameOver={gameOver} text='Game Over' />
+                                            return <Block num={digit} key={index} />
+                                        })}
+                                    </div>
+                                );
+                            })}
                         </div>
-                    }
-                    <button className={classes.button} onClick={resetGame}>
-                        {gameOver ? 'Play Again' : 'Start Again'}
-                    </button>
+                        <div className={classes.leftDiv}>
+                            <div className={classes.infoDiv}>
+                                <img src={t2048} alt='2048' className={classes.title} />
+                                <h3 className={classes.text}>
+                                    Use your arrow keys to move the tiles.
+                                    Tiles with the same number merge into one when they touch.
+                                    Add them up to reach 2048!
+                    </h3>
+                            </div>
+                            <Display text={`Score: ${score}`} />
+                            {gameOver &&
+                                <div>
+                                    <Display gameOver={gameOver} text='Game Over' />
+                                </div>
+                            }
+                            <button className={classes.button} onClick={resetGame}>
+                                {gameOver ? 'Play Again' : 'Start Again'}
+                            </button>
+                        </div>
+                    </div>
+                    <UserScores scores={userScores} loggedIn={loggedIn} />
                 </div>
-            </div>
-            <UserScores scores={userScores} loggedIn={loggedIn} />
+            }
         </div>
     );
 };

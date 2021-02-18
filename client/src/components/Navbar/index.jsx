@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logOut, getLoggedUser } from '../../redux/userReducer/actions';
 import axios from 'axios';
@@ -8,6 +8,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useStyles } from './styles.js';
 import SignUp from '../SignUp';
 import Login from '../Login';
@@ -16,8 +18,9 @@ import ResetPassword from '../ResetPassword';
 export default function Navbar() {
     const classes = useStyles();
     const location = useLocation();
-    const history = useHistory();
     const dispatch = useDispatch();
+    const theme = useTheme();
+    const small = useMediaQuery(theme.breakpoints.down('md'));
 
     const loggedIn = useSelector(
         (store) => store.UserReducer.loggedIn
@@ -164,8 +167,8 @@ export default function Navbar() {
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar className={classes.toolbar}>
-                    <img src={logo} alt='Logo' className={classes.logo} onClick={goHome}/>
-                    {location.pathname === '/' ?
+                    <img src={logo} alt='Logo' className={classes.logo} onClick={goHome} />
+                    {location.pathname === '/' || small ?
                         userButtons()
                         :
                         <div className={classes.rigthNav}>

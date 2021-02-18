@@ -26,5 +26,4 @@ export const useStyles = makeStyles((theme) => ({
         fontFamily: 'Pixel, Arial, Helvetica, sans-serif',
         textAlign: 'center',
     },
-
 }));

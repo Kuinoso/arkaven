@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { useInterval } from '../../../hooks/useInterval';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useStyles } from './styles.js';
 import bite from '../../../sounds/bite.mp3';
 import lose from '../../../sounds/loose.mp3';
@@ -13,6 +15,7 @@ import Food from '../Food';
 import Display from '../../Display';
 import Highscores from '../../Highscores';
 import UserScores from '../../UserScores';
+import MobileGames from '../../MobileGames';
 
 const getRandomCoordinates = () => {
     let min = 1;
@@ -27,7 +30,8 @@ const colors = ['#FF00FF', '#FF0099', '#33FF00', '#00FFFF', '#FF6600', '#0062FF'
 
 export default function Main() {
     const classes = useStyles();
-
+    const theme = useTheme();
+    const small = useMediaQuery(theme.breakpoints.down('md'));
     const myRef1 = useRef();
     const myRef2 = useRef();
     const myRef3 = useRef();
@@ -296,48 +300,54 @@ export default function Main() {
     }, [snakeDots]);
 
     return (
-        <div className={classes.wrapper}>
-            {scores && <Highscores scores={scores} />}
-            <div className={classes.container}>
-                <div className={classes.board}>
-                    <Snake snakeDots={snakeDots} color={snakeColor} />
-                    <Food dot={food} color={randomColor} />
-                </div>
-                <div className={classes.leftDiv}>
-                    <div className={classes.infoDiv}>
-                        <img src={tSnake} alt='snake' className={classes.title} />
-                        <h3 className={classes.text}>
-                            Use the arrow keys to move the snake, when the snake eats food you earn points and the snake grows.
-                            Dont hit the walls or the body of the snake. The snake can not go backwards.
-                    </h3>
-                    </div>
-                    <Display text={`Score: ${snakeDots.length - 2}`} />
-                    {gameOver &&
-                        <div>
-                            <Display gameOver={gameOver} text='Game Over' />
+        <div>
+            {small ?
+                <MobileGames />
+                :
+                <div className={classes.wrapper}>
+                    {scores && <Highscores scores={scores} />}
+                    <div className={classes.container}>
+                        <div className={classes.board}>
+                            <Snake snakeDots={snakeDots} color={snakeColor} />
+                            <Food dot={food} color={randomColor} />
                         </div>
-                    }
-                    <button className={classes.button} onClick={startGame}>
-                        {gameOver ? 'Play Again' : started ? 'Start Again' : 'Start Game'}
-                    </button>
+                        <div className={classes.leftDiv}>
+                            <div className={classes.infoDiv}>
+                                <img src={tSnake} alt='snake' className={classes.title} />
+                                <h3 className={classes.text}>
+                                    Use the arrow keys to move the snake, when the snake eats food you earn points and the snake grows.
+                                    Dont hit the walls or the body of the snake. The snake can not go backwards.
+                    </h3>
+                            </div>
+                            <Display text={`Score: ${snakeDots.length - 2}`} />
+                            {gameOver &&
+                                <div>
+                                    <Display gameOver={gameOver} text='Game Over' />
+                                </div>
+                            }
+                            <button className={classes.button} onClick={startGame}>
+                                {gameOver ? 'Play Again' : started ? 'Start Again' : 'Start Game'}
+                            </button>
+                        </div>
+                        <audio
+                            ref={myRef1}
+                            src={bite}
+                            loop={false}
+                        />
+                        <audio
+                            ref={myRef2}
+                            src={lose}
+                            loop={false}
+                        />
+                        <audio
+                            ref={myRef3}
+                            src={os}
+                            loop={true}
+                        />
+                    </div>
+                    <UserScores scores={userScores} loggedIn={loggedIn} />
                 </div>
-                <audio
-                    ref={myRef1}
-                    src={bite}
-                    loop={false}
-                />
-                <audio
-                    ref={myRef2}
-                    src={lose}
-                    loop={false}
-                />
-                <audio
-                    ref={myRef3}
-                    src={os}
-                    loop={true}
-                />
-            </div>
-            <UserScores scores={userScores} loggedIn={loggedIn} />
+            }
         </div>
     );
 };

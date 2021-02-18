@@ -5,6 +5,8 @@ import { useTetrisPlayer } from '../../../hooks/useTetrisPlayer';
 import { useTetrisStage } from '../../../hooks/useTetrisStage';
 import { useTetrisStatus } from '../../../hooks/useTetrisStatus';
 import { useInterval } from '../../../hooks/useInterval';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useStyles } from './styles.js';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -18,10 +20,12 @@ import Stage from '../Stage';
 import Display from '../../Display';
 import Highscores from '../../Highscores';
 import UserScores from '../../UserScores';
+import MobileGames from '../../MobileGames';
 
 export default function Main() {
     const classes = useStyles();
-
+    const theme = useTheme();
+    const small = useMediaQuery(theme.breakpoints.down('md'));
     const ref1 = useRef();
     const ref2 = useRef();
     const ref3 = useRef();
@@ -208,67 +212,73 @@ export default function Main() {
     }, dropTime);
 
     return (
-        <div
-            className={classes.wrapper}
-            role='button'
-            tabIndex='0'
-            onKeyDown={e => move(e)}
-            onKeyUp={keyUp}
-        >
-            {scores && <Highscores scores={scores} />}
-            <div className={classes.container}>
-                <Stage stage={stage} />
-                <div className={classes.leftDiv}>
-                    <div className={classes.infoDiv}>
-                        <img src={tTetris} alt='tetris' className={classes.title} />
-                        <h3 className={classes.text}>
-                            Make full horizontal lines with the different
-                            tetrominos that fall into the game area.
-                            Full lines will then disappear and provide points.
-                            Use the left and right arrow keys to move the tetromino, use the
-                            down arrow key for the tetrimino to fall faster and the up arrow key to rotate the tetromino.
+        <div>
+            {small ?
+                <MobileGames />
+                :
+                <div
+                    className={classes.wrapper}
+                    role='button'
+                    tabIndex='0'
+                    onKeyDown={e => move(e)}
+                    onKeyUp={keyUp}
+                >
+                    {scores && <Highscores scores={scores} />}
+                    <div className={classes.container}>
+                        <Stage stage={stage} />
+                        <div className={classes.leftDiv}>
+                            <div className={classes.infoDiv}>
+                                <img src={tTetris} alt='tetris' className={classes.title} />
+                                <h3 className={classes.text}>
+                                    Make full horizontal lines with the different
+                                    tetrominos that fall into the game area.
+                                    Full lines will then disappear and provide points.
+                                    Use the left and right arrow keys to move the tetromino, use the
+                                    down arrow key for the tetrimino to fall faster and the up arrow key to rotate the tetromino.
                         </h3>
-                    </div>
-                    <div>
-                        <Display text={`Score: ${score}`} />
-                        <Display text={`Rows: ${rows}`} />
-                    </div>
-                    {gameOver &&
-                        <div>
-                            <Display gameOver={gameOver} text='Game Over' />
+                            </div>
+                            <div>
+                                <Display text={`Score: ${score}`} />
+                                <Display text={`Rows: ${rows}`} />
+                            </div>
+                            {gameOver &&
+                                <div>
+                                    <Display gameOver={gameOver} text='Game Over' />
+                                </div>
+                            }
+                            <button className={classes.button} onClick={startGame}>
+                                {gameOver ? 'Play Again' : started ? 'Start Again' : 'Start Game'}
+                            </button>
                         </div>
-                    }
-                    <button className={classes.button} onClick={startGame}>
-                        {gameOver ? 'Play Again' : started ? 'Start Again' : 'Start Game'}
-                    </button>
+                    </div>
+                    <audio
+                        ref={ref1}
+                        src={overSound}
+                        loop={false}
+                    />
+                    <audio
+                        ref={ref2}
+                        src={os}
+                        loop={true}
+                    />
+                    <audio
+                        ref={ref3}
+                        src={rotateSound}
+                        loop={false}
+                    />
+                    <audio
+                        ref={ref4}
+                        src={collisionSound}
+                        loop={false}
+                    />
+                    <audio
+                        ref={ref5}
+                        src={clearedSound}
+                        loop={false}
+                    />
+                    <UserScores scores={userScores} loggedIn={loggedIn} />
                 </div>
-            </div>
-            <audio
-                ref={ref1}
-                src={overSound}
-                loop={false}
-            />
-            <audio
-                ref={ref2}
-                src={os}
-                loop={true}
-            />
-            <audio
-                ref={ref3}
-                src={rotateSound}
-                loop={false}
-            />
-            <audio
-                ref={ref4}
-                src={collisionSound}
-                loop={false}
-            />
-            <audio
-                ref={ref5}
-                src={clearedSound}
-                loop={false}
-            />
-            <UserScores scores={userScores} loggedIn={loggedIn} />
+            }
         </div>
     );
 };

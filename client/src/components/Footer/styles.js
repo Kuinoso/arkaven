@@ -20,12 +20,18 @@ export const useStyles = makeStyles((theme) => ({
     footerDiv: {
         display: 'flex',
         alignItems: 'center',
-        marign: 'auto'
+        marign: 'auto',
+        [theme.breakpoints.down('xs')]: {
+            flexDirection: 'column',
+        },
     },
     logo: {
         width: 80,
         marginRight: 8,
         cursor: 'pointer',
+        [theme.breakpoints.down('xs')]: {
+            width: 70,
+        },
     },
     text: {
         alignSelf: 'center',
