@@ -1,13 +1,9 @@
 import React from 'react';
-
 import logo from '../../images/logo.png';
-
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Tooltip from '@material-ui/core/Tooltip';
-
 import { useStyles } from './styles.js';
 
 export default function Footer() {

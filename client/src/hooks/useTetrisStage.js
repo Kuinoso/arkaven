@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 import { createStage } from '../components/tetrisGame/gameHelpers';
 
 export const useTetrisStage = (player, resetPlayer) => {

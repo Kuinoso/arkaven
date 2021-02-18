@@ -1,7 +1,5 @@
 import React from 'react';
-
 import Card from '../Card';
-
 import { useStyles } from './styles';
 
 export default function Board({ cards, flipped, handleClick, disabled, solved }) {

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { useStyles } from './styles.js';
 
 export default function Snake({ snakeDots , color}) {

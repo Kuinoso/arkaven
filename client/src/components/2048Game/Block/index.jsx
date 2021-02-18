@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { getColors } from "../gameHelpers";
-
 import { useStyles } from './styles.js';
 
 export default function Block({ num }) {

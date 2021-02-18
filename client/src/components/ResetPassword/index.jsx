@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-
 import axios from 'axios';
-
 import Swal from 'sweetalert2';
-
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
 import { useStyles } from './styles.js';
 
 export default function ResetPassword({ changeModal, openModal, closeModal }) {
@@ -34,15 +30,20 @@ export default function ResetPassword({ changeModal, openModal, closeModal }) {
         axios.post('/api/resetPassword', data)
             .then(res => {
                 closeModal();
-
-                Swal.fire('Recovery link sent, please check your email.');
+                Swal.fire({
+                    icon: 'success',
+                    text: 'Recovery link sent, please check your email.',
+                });
             })
             .catch(err => {
                 closeModal();
 
                 setLoading(false);
 
-                Swal.fire(err.response.data.errorMessage)
+                Swal.fire({
+                    icon: 'error',
+                    text: err.response.data.errorMessage,
+                })
                     .then(() => openModal())
                     .catch(err => console.log(err));
             });

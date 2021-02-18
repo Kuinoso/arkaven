@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { TETROMINOS } from '../tetrominos';
-
 import { useStyles } from './styles.js';
 
 export default function Cell({ type }) {

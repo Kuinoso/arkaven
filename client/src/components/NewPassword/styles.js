@@ -12,6 +12,11 @@ export const useStyles = makeStyles((theme) => ({
         margin: 'auto',
         marginTop: 120,
         paddingBottom: 20,
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
+            height: 400,
+            marginTop: 50,
+        },
     },
     headerContainer: {
         display: 'flex',
@@ -19,6 +24,11 @@ export const useStyles = makeStyles((theme) => ({
         width: 500,
         padding: '35px 35px 0 35px',
         textAlign: 'center',
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
+            padding: 10,
+            fontSize: '0.9rem'
+        },
     },
     fieldsContainer: {
         display: 'flex',
@@ -28,12 +38,20 @@ export const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-around',
         alignItems: 'center',
         marginTop: 20,
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
+            marginTop: 0,
+        },
     },
     textDiv: {
         width: 400,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'left',
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
+            alignItems: 'center',
+        },
     },
     textField: {
         width: 350,
@@ -42,6 +60,9 @@ export const useStyles = makeStyles((theme) => ({
         },
         '& .MuiInput-underline:after': {
             borderBottomColor: '#A52CEE',
+        },
+        [theme.breakpoints.down('xs')]: {
+            width: 200,
         },
     },
     error: {

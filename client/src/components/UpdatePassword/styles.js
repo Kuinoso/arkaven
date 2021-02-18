@@ -9,6 +9,10 @@ export const useStyles = makeStyles((theme) => ({
         backgroundColor: 'white',
         color: 'black',
         boxShadow: theme.shadows[5],
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
+            height: 350
+        },
     },
     headerContainer: {
         display: 'flex',
@@ -36,6 +40,9 @@ export const useStyles = makeStyles((theme) => ({
         height: 250,
         justifyContent: 'space-around',
         alignItems: 'center',
+        [theme.breakpoints.down('xs')]: {
+            height: 200
+        },
     },
     textDiv: {
         width: 280,
@@ -70,6 +77,9 @@ export const useStyles = makeStyles((theme) => ({
         marginTop: 20,
         '&:hover': {
             backgroundColor: '#bb4efc'
+        },
+        [theme.breakpoints.down('xs')]: {
+            marginTop: 0
         },
     },
 }));

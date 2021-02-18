@@ -11,7 +11,7 @@ export const useTetrisStatus = rowsCleared => {
 
     const calcScore = useCallback(() => {
         if (rowsCleared > 0) {
-            ref5.current.volume = 0.3;
+            ref5.current.volume = 1;
             ref5.current.play();
 
             setScore(prev => prev + linePoints[rowsCleared - 1]);

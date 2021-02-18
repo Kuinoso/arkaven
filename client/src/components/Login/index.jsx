@@ -62,15 +62,16 @@ export default function Login({ changeModal, openModal, closeModal }) {
                 dispatch(logIn());
 
                 dispatch(getLoggedUser(res.data));
-
-                Swal.fire('welcome');
             })
             .catch(err => {
                 setLoading(false);
 
                 closeModal();
 
-                Swal.fire(err.response.data.errorMessage)
+                Swal.fire({
+                    icon: 'error',
+                    text: err.response.data.errorMessage,
+                })
                     .then(() => openModal())
                     .catch(err => console.log(err));
             });

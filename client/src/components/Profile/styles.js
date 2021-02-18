@@ -15,6 +15,11 @@ export const useStyles = makeStyles((theme) => ({
         background: 'black',
         outline: 'none',
         border: '2px solid #333',
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
+            height: 300,
+            marginTop: 80,
+        },
     },
     name: {
         width: '85%',
@@ -22,12 +27,19 @@ export const useStyles = makeStyles((theme) => ({
         fontFamily: 'Pixel, Arial, Helvetica, sans-serif',
         fontSize: '1.4rem',
         textAlign: 'center',
+        [theme.breakpoints.down('xs')]: {
+            fontSize: '1rem'
+        },
     },
     image: {
         width: 200,
         height: 200,
         objectFit: 'cover',
         borderRadius: '50%',
+        [theme.breakpoints.down('xs')]: {
+            width: 150,
+            height: 150,
+        },
     },
     buttons: {
         display: 'flex',
@@ -41,6 +53,9 @@ export const useStyles = makeStyles((theme) => ({
         fontWeight: 'bolder',
         '&:hover': {
             backgroundColor: '#bb4efc'
+        },
+        [theme.breakpoints.down('xs')]: {
+            fontSize: '0.6rem'
         },
     },
 }));

@@ -60,7 +60,10 @@ export default function UpdatePassword({ id, changeModal, openModal, closeModal 
                 setLoading(false);
                 closeModal();
 
-                Swal.fire(err.response.data.errorMessage)
+                Swal.fire({
+                    icon: 'error',
+                    text: err.response.data.errorMessage,
+                })
                     .then(() => openModal())
                     .catch(err => console.log(err));
             });
@@ -78,12 +81,18 @@ export default function UpdatePassword({ id, changeModal, openModal, closeModal 
             .then(res => {
                 closeModal();
 
-                Swal.fire(res.data);
+                Swal.fire({
+                    icon: 'success',
+                    text: 'Password has been updated!',
+                });
             })
             .catch(err => {
                 closeModal();
 
-                Swal.fire(err.response.data.errorMessage);
+                Swal.fire({
+                    icon: 'error',
+                    text: err.response.data.errorMessage,
+                });
             });
     };
 

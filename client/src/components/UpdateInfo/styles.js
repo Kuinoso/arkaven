@@ -9,6 +9,11 @@ export const useStyles = makeStyles((theme) => ({
         backgroundColor: 'white',
         color: 'black',
         boxShadow: theme.shadows[5],
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
+            height: 450,
+            marginTop: 100
+        },
     },
     headerContainer: {
         display: 'flex',
@@ -16,6 +21,9 @@ export const useStyles = makeStyles((theme) => ({
         width: '100%',
         padding: '35px 0',
         textAlign: 'center',
+        [theme.breakpoints.down('xs')]: {
+            padding: '15px 0'
+        },
     },
     fieldsContainer: {
         display: 'flex',
@@ -67,6 +75,11 @@ export const useStyles = makeStyles((theme) => ({
         '&:hover': {
             color: '#A52CEE',
         },
+        [theme.breakpoints.down('xs')]: {
+            width: 45,
+            height: 45,
+            right: 80,
+        },
     },
     textDiv: {
         width: 280,
@@ -98,6 +111,9 @@ export const useStyles = makeStyles((theme) => ({
         marginTop: 20,
         '&:hover': {
             backgroundColor: '#bb4efc'
+        },
+        [theme.breakpoints.down('xs')]: {
+            marginTop: 0
         },
     },
     message: {

@@ -1,7 +1,5 @@
 import React from 'react';
-
 import Cell from '../Cell';
-
 import { useStyles } from './styles.js';
 
 export default function Stage({ stage }) {

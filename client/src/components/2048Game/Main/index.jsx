@@ -8,6 +8,7 @@ import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useStyles } from './styles.js';
 import t2048 from '../../../images/2048T.png';
+import gO from '../../../images/go.png';
 import Block from '../Block';
 import Display from '../../Display';
 import Highscores from '../../Highscores';
@@ -422,7 +423,12 @@ export default function Main() {
         let gameOverr = checkIfGameOver();
 
         if (gameOverr) {
-            Swal.fire('Game Over');
+            Swal.fire({
+                text: `Your score was ${score}!`,
+                imageUrl: gO,
+                imageWidth: 400,
+                imageAlt: 'GameOver',
+            });
 
             setGameOver(true);
 

@@ -76,11 +76,11 @@ export default function UpdateInfo({ userData, changeModal, openModal, closeModa
     };
 
     const displayMessage = () => {
-        setTimeout(function(){ setLoadMessage('Setting up the arcade...')}, 5000);
-        setTimeout(function(){ setLoadMessage('Please wait')}, 10000);
-        setTimeout(function(){ setLoadMessage('Uploading picture...')}, 15000);
-        setTimeout(function(){ setLoadMessage('Please wait')}, 20000);
-        setTimeout(function(){ setLoadMessage('Finishing final details...')}, 25000);
+        setTimeout(function () { setLoadMessage('Setting up the arcade...') }, 5000);
+        setTimeout(function () { setLoadMessage('Please wait') }, 10000);
+        setTimeout(function () { setLoadMessage('Uploading picture...') }, 15000);
+        setTimeout(function () { setLoadMessage('Please wait') }, 20000);
+        setTimeout(function () { setLoadMessage('Finishing final details...') }, 25000);
     };
 
     const handleSubmit = (e) => {
@@ -114,7 +114,10 @@ export default function UpdateInfo({ userData, changeModal, openModal, closeModa
 
                             getData(res.data);
 
-                            Swal.fire('success!');
+                            Swal.fire({
+                                icon: 'success',
+                                text: 'Info has been updated!',
+                            });
                         })
                         .catch(err => {
                             setLoading(false);
@@ -122,7 +125,10 @@ export default function UpdateInfo({ userData, changeModal, openModal, closeModa
 
                             closeModal();
 
-                            Swal.fire(err.response.data.errorMessage)
+                            Swal.fire({
+                                icon: 'error',
+                                text: err.response.data.errorMessage,
+                            })
                                 .then(() => openModal())
                                 .catch(err => console.log(err));
                         });
@@ -147,7 +153,10 @@ export default function UpdateInfo({ userData, changeModal, openModal, closeModa
 
                     getData(res.data);
 
-                    Swal.fire('success!');
+                    Swal.fire({
+                        icon: 'success',
+                        text: 'Info has been updated!',
+                    });
                 })
                 .catch(err => {
                     console.log(err);
@@ -157,7 +166,10 @@ export default function UpdateInfo({ userData, changeModal, openModal, closeModa
 
                     closeModal();
 
-                    Swal.fire(err.response.data.errorMessage)
+                    Swal.fire({
+                        icon: 'error',
+                        text: err.response.data.errorMessage,
+                    })
                         .then(() => openModal())
                         .catch(err => console.log(err));
                 });

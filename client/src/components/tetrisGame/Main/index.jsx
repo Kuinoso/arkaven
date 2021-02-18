@@ -16,6 +16,7 @@ import collisionSound from '../../../sounds/collision.mp3';
 import clearedSound from '../../../sounds/cleared.mp3';
 import os from '../../../sounds/tetrisOs.mp3';
 import tTetris from '../../../images/tetrisT.png';
+import gO from '../../../images/go.png';
 import Stage from '../Stage';
 import Display from '../../Display';
 import Highscores from '../../Highscores';
@@ -118,7 +119,7 @@ export default function Main() {
     };
 
     const startGame = () => {
-        ref2.current.volume = 0.05;
+        ref2.current.volume = 0.2;
         ref2.current.play();
 
         setStarted(true);
@@ -144,7 +145,7 @@ export default function Main() {
                 ref2.current.currentTime = 0;
                 ref2.current.pause();
 
-                ref1.current.volume = 0.3;
+                ref1.current.volume = 1;
                 ref1.current.play();
 
                 setGameOver(true);
@@ -165,10 +166,15 @@ export default function Main() {
                         .catch(err => console.log(err));
                 };
 
-                Swal.fire('Game Over')
+                Swal.fire({
+                    text: `Your score was ${score}!`,
+                    imageUrl: gO,
+                    imageWidth: 400,
+                    imageAlt: 'GameOver',
+                });
             };
 
-            ref4.current.volume = 0.3;
+            ref4.current.volume = 1;
             ref4.current.play();
 
             updatePlayerPos({ x: 0, y: 0, collided: true });
@@ -198,7 +204,7 @@ export default function Main() {
             } else if (keyCode === 40) {
                 dropPlayer();
             } else if (keyCode === 38) {
-                ref3.current.volume = 0.3;
+                ref3.current.volume = 1;
                 ref3.current.currentTime = 0;
                 ref3.current.play();
 

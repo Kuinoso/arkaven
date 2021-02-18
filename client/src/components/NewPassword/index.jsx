@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-
 import axios from 'axios';
-
 import Swal from 'sweetalert2';
-
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
 import { useStyles } from './styles.js';
 
 export default function NewPassword() {
@@ -56,12 +52,18 @@ export default function NewPassword() {
 
         axios.post('/api/newPassword', data)
             .then(res => {
-                Swal.fire(res.data);
+                Swal.fire({
+                    icon: 'success',
+                    text: res.data,
+                });
 
                 history.push('/');
             })
             .catch(err => {
-                Swal.fire(err.response.data.errorMessage)
+                Swal.fire({
+                    icon: 'error',
+                    text: err.response.data.errorMessage,
+                })
                     .then(() => history.push('/'))
                     .catch(err => console.log(err));
             });

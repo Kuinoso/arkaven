@@ -12,6 +12,9 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
+        },
     },
     fieldsContainer: {
         display: 'flex',
@@ -37,6 +40,9 @@ export const useStyles = makeStyles((theme) => ({
         '& .MuiInput-underline:after': {
             borderBottomColor: '#A52CEE',
         },
+        [theme.breakpoints.down('xs')]: {
+            width: 230,
+        },
     },
     textDiv: {
         width: 280,
@@ -46,6 +52,9 @@ export const useStyles = makeStyles((theme) => ({
     },
     header: {
         margin: 0,
+        [theme.breakpoints.down('xs')]: {
+            fontSize: '1.3rem'
+        },
     },
     subHeader: {
         fontSize: '0.75rem',

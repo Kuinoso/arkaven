@@ -130,11 +130,11 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
     };
 
     const displayMessage = () => {
-        setTimeout(function(){ setLoadMessage('Setting up the arcade...')}, 5000);
-        setTimeout(function(){ setLoadMessage('Please wait')}, 10000);
-        setTimeout(function(){ setLoadMessage('Uploading picture...')}, 15000);
-        setTimeout(function(){ setLoadMessage('Please wait')}, 20000);
-        setTimeout(function(){ setLoadMessage('Finishing final details...')}, 25000);
+        setTimeout(function () { setLoadMessage('Setting up the arcade...') }, 5000);
+        setTimeout(function () { setLoadMessage('Please wait') }, 10000);
+        setTimeout(function () { setLoadMessage('Uploading picture...') }, 15000);
+        setTimeout(function () { setLoadMessage('Please wait') }, 20000);
+        setTimeout(function () { setLoadMessage('Finishing final details...') }, 25000);
     };
 
     const handleSubmit = (e) => {
@@ -174,7 +174,10 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
 
                             dispatch(logIn());
 
-                            Swal.fire('success!');
+                            Swal.fire({
+                                icon: 'success',
+                                text: 'Welcome to Arkaven!',
+                            });
                         })
                         .catch(err => {
                             setLoading(false);
@@ -182,7 +185,10 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
 
                             closeModal();
 
-                            Swal.fire(err.response.data.errorMessage)
+                            Swal.fire({
+                                icon: 'error',
+                                text: err.response.data.errorMessage,
+                            })
                                 .then(() => openModal())
                                 .catch(err => console.log(err));
                         });
@@ -213,7 +219,10 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
 
                     dispatch(logIn());
 
-                    Swal.fire('success!');
+                    Swal.fire({
+                        icon: 'success',
+                        text: 'Welcome to Arkaven!',
+                    });
                 })
                 .catch(err => {
                     console.log(err);
@@ -223,7 +232,10 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
 
                     closeModal();
 
-                    Swal.fire(err.response.data.errorMessage)
+                    Swal.fire({
+                        icon: 'error',
+                        text: err.response.data.errorMessage,
+                    })
                         .then(() => openModal())
                         .catch(err => console.log(err));
                 });

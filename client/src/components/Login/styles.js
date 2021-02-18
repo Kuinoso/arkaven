@@ -10,6 +10,11 @@ export const useStyles = makeStyles((theme) => ({
         color: 'black',
         boxShadow: theme.shadows[5],
         display: 'flex',
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
+            marginTop: 150,
+            height: 350,
+        },
     },
     rightDiv: {
         width: 350,
@@ -18,6 +23,9 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
+        [theme.breakpoints.down('xs')]: {
+            display: 'none'
+        },
     },
     background: {
         position: 'absolute',
@@ -42,6 +50,11 @@ export const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-around',
         alignItems: 'center',
         marginTop: 50,
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
+            height: 230,
+            marginTop: 0,
+        },
     },
     headerContainer: {
         display: 'flex',
@@ -49,6 +62,10 @@ export const useStyles = makeStyles((theme) => ({
         width: 280,
         padding: '90px 35px 0 35px',
         textAlign: 'center',
+        [theme.breakpoints.down('xs')]: {
+            width: 300,
+            padding: '20px 0',
+        },
     },
     textField: {
         width: 280,
@@ -56,7 +73,10 @@ export const useStyles = makeStyles((theme) => ({
             color: '#A52CEE',
         },
         '& .MuiInput-underline:after': {
-            borderBottomColor: '#A52CEE',
+            borderBottomColor: '#A52CEE',  
+        },
+        [theme.breakpoints.down('xs')]: {
+            width: 250
         },
     },
     textDiv: {

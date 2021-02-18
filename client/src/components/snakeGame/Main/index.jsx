@@ -10,6 +10,7 @@ import bite from '../../../sounds/bite.mp3';
 import lose from '../../../sounds/loose.mp3';
 import os from '../../../sounds/osSnake.mp3';
 import tSnake from '../../../images/snakeT.png';
+import gO from '../../../images/go.png';
 import Snake from '../Snake';
 import Food from '../Food';
 import Display from '../../Display';
@@ -202,7 +203,7 @@ export default function Main() {
         let foodItem = food;
 
         if (head[0] === foodItem[0] && head[1] === foodItem[1]) {
-            myRef1.current.volume = 0.1;
+            myRef1.current.volume = 0.5;
             myRef1.current.play();
 
             setSnakeColor(randomColor);
@@ -230,7 +231,7 @@ export default function Main() {
 
         myRef3.current.currentTime = 0;
         myRef3.current.pause();
-        myRef2.current.volume = 0.1;
+        myRef2.current.volume = 0.5;
         myRef2.current.play();
 
         if (loggedIn) {
@@ -247,7 +248,12 @@ export default function Main() {
                 .catch(err => console.log(err));
         };
 
-        Swal.fire(`Your score was ${snakeDots.length - 2}`);
+        Swal.fire({
+            text: `Your score was ${snakeDots.length - 2}!`,
+            imageUrl: gO,
+            imageWidth: 400,
+            imageAlt: 'GameOver',
+        });
     };
 
     const checkIfOutOfBorders = () => {
@@ -272,7 +278,7 @@ export default function Main() {
     };
 
     const startGame = () => {
-        myRef3.current.volume = 0.05;
+        myRef3.current.volume = 0.4;
         myRef3.current.play();
 
         setSpeed(150);

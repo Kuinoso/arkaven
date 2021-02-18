@@ -164,7 +164,7 @@ export default function Main() {
                 resetCards();
 
                 if (solved.length === 10) {
-                    myRef2.current.volume = 0.3;
+                    myRef2.current.volume = 1;
                     myRef2.current.play();
 
                     if (loggedIn) {
@@ -195,7 +195,7 @@ export default function Main() {
                         myRef2.current.currentTime = 0;
                     });
                 } else {
-                    myRef1.current.volume = 0.3;
+                    myRef1.current.volume = 1;
                     myRef1.current.pause();
                     myRef1.current.currentTime = 0;
                     myRef1.current.play();
