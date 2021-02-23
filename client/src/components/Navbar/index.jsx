@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation, HashRouter } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logOut, getLoggedUser } from '../../redux/userReducer/actions';
 import axios from 'axios';
@@ -113,11 +113,9 @@ export default function Navbar() {
             return (
                 <div className={classes.gameButtons}>
                     {params.map((item, i) =>
-                        <HashRouter basename="/game">
                             <Link to={`/${item}`} key={i}>
                                 <Button className={classes.navButton}>{item.split('G')[0]}</Button>
                             </Link>
-                        </HashRouter>
                     )}
                 </div>
             );

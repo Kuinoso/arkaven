@@ -19,7 +19,7 @@ export default function UserScores({ scores, loggedIn }) {
                     )}
                 </List>
                 :
-                <h5 className={classes.text}>Please log in to see your scores</h5>
+                <h5 className={classes.text}>Please log in to save and see your scores</h5>
             }
         </div>
     );
