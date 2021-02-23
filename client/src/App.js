@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { Route } from 'react-router-dom';
+import { Route, HashRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getAllUsers } from './redux/userReducer/actions';
 import { getAllGames } from './redux/gameReducer/actions';
@@ -33,7 +33,7 @@ function App() {
   }, []);
 
   return (
-    <Router>
+    <HashRouter basename='/' >
       <Route path="/" render={() => <Navbar />} />
       <Route exact path="/" render={() => <Home />} />
       <Route exact path="/profile/:name" render={() => <Profile />} />
@@ -43,7 +43,7 @@ function App() {
       <Route exact path="/tetrisGame" render={() => <TetrisGame />} />
       <Route exact path="/2048Game" render={() => <Game2048 />} />
       <Route path="/" render={() => <Footer />} />
-    </Router>
+    </HashRouter>
   );
 }
 
