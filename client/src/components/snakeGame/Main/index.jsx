@@ -59,6 +59,7 @@ export default function Main() {
     const [food, setFood] = useState(getRandomCoordinates());
     const [start] = useState(true);
     const [speed, setSpeed] = useState(150);
+    const [key, setKey] = useState(39);
     const [direction, setDirection] = useState('RIGHT');
     const [snakeDots, setSnakeDots] = useState([
         [0, 0],
@@ -167,16 +168,36 @@ export default function Main() {
             // eslint-disable-next-line default-case
             switch (direction) {
                 case 'RIGHT':
-                    head = [head[0] + 2, head[1]];
+                    if (key !== 37) {
+                        setKey(39);
+                        head = [head[0] + 2, head[1]];
+                    } else {
+                        head = [head[0] - 2, head[1]];
+                    };
                     break;
                 case 'LEFT':
-                    head = [head[0] - 2, head[1]];
+                    if (key !== 39) {
+                        setKey(37);
+                        head = [head[0] - 2, head[1]];
+                    } else {
+                        head = [head[0] + 2, head[1]];
+                    };
                     break;
                 case 'DOWN':
-                    head = [head[0], head[1] + 2];
+                    if (key !== 38) {
+                        setKey(40);
+                        head = [head[0], head[1] + 2];
+                    } else {
+                        head = [head[0], head[1] - 2];
+                    };
                     break;
                 case 'UP':
-                    head = [head[0], head[1] - 2];
+                    if (key !== 40) {
+                        setKey(38);
+                        head = [head[0], head[1] - 2];
+                    } else {
+                        head = [head[0], head[1] + 2];
+                    };
                     break;
             };
 
@@ -322,7 +343,7 @@ export default function Main() {
                                 <img src={tSnake} alt='snake' className={classes.title} />
                                 <h3 className={classes.text}>
                                     Use the arrow keys to move the snake, when the snake eats food you earn points and the snake grows.
-                                    Dont hit the walls or the body of the snake. The snake can not go backwards.
+                                    Dont hit the walls or the body of the snake.
                     </h3>
                             </div>
                             <Display text={`Score: ${snakeDots.length - 2}`} />
