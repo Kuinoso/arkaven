@@ -53,7 +53,7 @@ export default function Navbar() {
     };
 
     const goToProfile = () => {
-        window.location.href = `/profile/${userData._id}`;
+        window.location.href = `/#/profile/${userData._id}`;
     };
 
     const goHome = () => {

@@ -148,7 +148,7 @@ const UserController = {
                 to: user.email,
                 from: 'noreply.arkaven@gmail.com',
                 subject: 'Reset your password',
-                html: resetTemplate(`https://arkaven.herokuapp.com/reset/${token}`),
+                html: resetTemplate(`https://arkaven.herokuapp.com/#/reset/${token}`),
             });
 
             res.json({ message: 'Email sent' })
