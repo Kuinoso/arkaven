@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logIn, getLoggedUser, getAllUsers, getUserData } from '../../redux/userReducer/actions';
 import axios from 'axios';
@@ -17,6 +17,7 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
     const ref1 = useRef();
     const dispatch = useDispatch();
     const location = useLocation();
+    const history = useHistory();
 
     const [loading, setLoading] = useState(false);
     const [passwordCheck, setPasswordCheck] = useState('');
@@ -155,7 +156,7 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                 .then(res => {
                     const user = {
                         name: toTitleCase(form.name),
-                        email: form.email,
+                        email: form.email.toLowerCase(),
                         password: form.password,
                         img: res.data.url,
                     };
@@ -177,7 +178,7 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                             Swal.fire({
                                 icon: 'success',
                                 text: 'Welcome to Arkaven!',
-                            });
+                            }).then(() => history.go(0));
                         })
                         .catch(err => {
                             setLoading(false);
@@ -222,7 +223,7 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                     Swal.fire({
                         icon: 'success',
                         text: 'Welcome to Arkaven!',
-                    });
+                    }).then(() => history.go(0));
                 })
                 .catch(err => {
                     console.log(err);

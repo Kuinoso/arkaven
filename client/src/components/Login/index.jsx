@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn, getLoggedUser, getUserData } from '../../redux/userReducer/actions';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import TextField from '@material-ui/core/TextField';
@@ -12,6 +13,8 @@ import back from '../../videos/back.mp4';
 export default function Login({ changeModal, openModal, closeModal }) {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const history = useHistory();
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [form, setForm] = useState({
@@ -62,6 +65,11 @@ export default function Login({ changeModal, openModal, closeModal }) {
                 dispatch(logIn());
 
                 dispatch(getLoggedUser(res.data));
+
+                Swal.fire({
+                    icon: 'success',
+                    text: 'Welcome to Arkaven!',
+                }).then(() => history.go(0));
             })
             .catch(err => {
                 setLoading(false);
