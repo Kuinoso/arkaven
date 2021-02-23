@@ -96,9 +96,7 @@ export const useStyles = makeStyles((theme) => ({
     error: {
         color: 'red',
         fontSize: '0.7rem',
-        alignSelf: 'start',
-        marginLeft: 33,
-        marginTop: 3,
+        alignSelf: 'center',
     },
     header: {
         margin: 0,
