@@ -6,7 +6,7 @@ export default function MobileGames() {
 
     return (
         <div className={classes.container}>
-            <h2>Welcome</h2>
+            <h3>Welcome</h3>
             <p>We are currently working on the mobile version of the games, please enter from a computer to play.</p>
         </div>
     );

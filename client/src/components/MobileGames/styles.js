@@ -13,6 +13,8 @@ export const useStyles = makeStyles((theme) => ({
         outline: 'none',
         border: '4px solid #333',
         textAlign: 'center',
+        padding: 20,
+        fontWeight: 100,
         [theme.breakpoints.up('sm')]: {
             width: 500,
             marginTop: 350,
