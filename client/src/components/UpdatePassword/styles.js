@@ -51,6 +51,7 @@ export const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     textField: {
+        width: '100%',
         marginTop: 5,
         '& label.Mui-focused': {
             color: '#A52CEE',
@@ -62,9 +63,7 @@ export const useStyles = makeStyles((theme) => ({
     error: {
         color: 'red',
         fontSize: '0.7rem',
-        alignSelf: 'start',
-        marginLeft: 33,
-        marginTop: 3,
+        alignSelf: 'center',
     },
     loading: {
         color: '#A52CEE',

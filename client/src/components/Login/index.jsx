@@ -45,8 +45,6 @@ export default function Login({ changeModal, openModal, closeModal }) {
     };
 
     const handleClick = (e) => {
-        e.preventDefault();
-
         setLoading(true);
 
         const data = {
@@ -98,7 +96,13 @@ export default function Login({ changeModal, openModal, closeModal }) {
                     <h1 className={classes.title}>RULE THE ARCADE</h1>
                 </div>
             </div>
-            <div>
+            <div
+                onKeyDown={(e) => {
+                    if (e.keyCode === 13 && validateForm()) {
+                        handleClick();
+                    };
+                }}
+            >
                 <div className={classes.headerContainer}>
                     <h2 className={classes.header}>Log In to Arkaven</h2>
                     <p className={classes.subHeader}>

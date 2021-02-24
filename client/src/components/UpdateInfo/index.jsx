@@ -84,8 +84,6 @@ export default function UpdateInfo({ userData, changeModal, openModal, closeModa
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-
         setLoading(true);
 
         displayMessage();
@@ -177,7 +175,14 @@ export default function UpdateInfo({ userData, changeModal, openModal, closeModa
     };
 
     return (
-        <div className={classes.container}>
+        <div 
+        className={classes.container}
+        onKeyDown={(e) => {
+            if (e.keyCode === 13 && validateName()) {
+                handleSubmit();
+            };
+        }}
+        >
             <div className={classes.headerContainer}>
                 <h2 className={classes.header}>Update my info</h2>
                 <p className={classes.subLink} onClick={() => changeModal('password')}> Change Password</p>

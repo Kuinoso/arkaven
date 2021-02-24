@@ -130,7 +130,13 @@ export default function UpdatePassword({ id, changeModal, openModal, closeModal 
             </div>
             <div className={classes.fieldsContainer}>
                 {validated ?
-                    <div>
+                    <div
+                        onKeyDown={(e) => {
+                            if (e.keyCode === 13 && validateForm()) {
+                                handleSubmit();
+                            };
+                        }}
+                    >
                         <div className={classes.textDiv}>
                             <TextField
                                 label="Enter your new password"
@@ -159,7 +165,14 @@ export default function UpdatePassword({ id, changeModal, openModal, closeModal 
                         </div>
                     </div>
                     :
-                    <div className={classes.textDiv}>
+                    <div
+                        className={classes.textDiv}
+                        onKeyDown={(e) => {
+                            if (e.keyCode === 13 && validateCurrentPassword()) {
+                                handleValidation();
+                            };
+                        }}
+                    >
                         <TextField
                             label="Enter your current password"
                             name='current'

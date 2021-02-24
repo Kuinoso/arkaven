@@ -138,9 +138,7 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
         setTimeout(function () { setLoadMessage('Finishing final details...') }, 25000);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
+    const handleSubmit = () => {
         setLoading(true);
 
         displayMessage();
@@ -256,7 +254,13 @@ export default function SignUp({ changeModal, openModal, closeModal }) {
                     <h1 className={classes.title}>RULE THE ARCADE</h1>
                 </div>
             </div>
-            <div>
+            <div
+                onKeyDown={(e) => {
+                    if (e.keyCode === 13 && validateForm()) {
+                        handleSubmit();
+                    };
+                }}
+            >
                 <div className={classes.headerContainer}>
                     <h2 className={classes.header}>Join Arkaven</h2>
                     <p className={classes.subHeader}>
