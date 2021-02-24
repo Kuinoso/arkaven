@@ -2,10 +2,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
     container: {
+        marginTop: '5vh',
         width: 700,
         height: 600,
         margin: 'auto',
-        marginTop: 100,
         backgroundColor: 'white',
         color: 'black',
         boxShadow: theme.shadows[5],
@@ -73,7 +73,7 @@ export const useStyles = makeStyles((theme) => ({
             color: '#A52CEE',
         },
         '& .MuiInput-underline:after': {
-            borderBottomColor: '#A52CEE',  
+            borderBottomColor: '#A52CEE',
         },
         [theme.breakpoints.down('xs')]: {
             width: 250

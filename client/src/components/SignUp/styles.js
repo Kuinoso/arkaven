@@ -5,7 +5,7 @@ export const useStyles = makeStyles((theme) => ({
         width: 700,
         height: 640,
         margin: 'auto',
-        marginTop: 100,
+        marginTop: '5vh',
         backgroundColor: 'white',
         color: 'black',
         boxShadow: theme.shadows[5],
